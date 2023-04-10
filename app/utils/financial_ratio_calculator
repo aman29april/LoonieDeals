@@ -1,0 +1,31 @@
+class FinancialRatioCalculator
+  def initialize(balance_sheet, income_statement, cash_flow)
+    @balance_sheet = balance_sheet
+    @income_statement = income_statement
+    @cash_flow = cash_flow
+  end
+  
+  def current_ratio
+    @balance_sheet.total_current_assets / @balance_sheet.total_current_liabilities
+  end
+  
+  def quick_ratio
+    (@balance_sheet.total_current_assets - @balance_sheet.inventory) / @balance_sheet.total_current_liabilities
+  end
+  
+  def debt_to_equity_ratio
+    @balance_sheet.total_liabilities / @balance_sheet.total_equity
+  end
+  
+  def return_on_assets
+    @income_statement.net_income / @balance_sheet.total_assets
+  end
+  
+  def return_on_equity
+    @income_statement.net_income / @balance_sheet.total_equity
+  end
+  
+  def operating_cash_flow_ratio
+    @cash_flow.cash_from_operating_activities / @income_statement.total_revenue
+  end
+end

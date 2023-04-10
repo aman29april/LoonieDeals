@@ -1,6 +1,5 @@
-class ApplicationController < ActionController::Base
+# frozen_string_literal: true
 
-    def index
-        
-    end
+class ApplicationController < ActionController::Base
+  def index; end
 end

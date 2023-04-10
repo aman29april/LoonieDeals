@@ -1,0 +1,113 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+cash_flow_amzn_q1_2021:
+  company_id: <%= companies(:amzn).id %>
+  period_ending: '2021-03-31'
+  net_income: 8364000000
+  depreciation_and_amortization: 5860000000
+  deferred_income_tax: -650000000
+  stock_based_compensation: 2770000000
+  change_in_working_capital: -6471000000
+  accounts_receivable: 525000000
+  inventory: -314000000
+  accounts_payable: 1295000000
+  net_cash_from_operating_activities: 23193000000
+  capital_expenditures: -5439000000
+  investments: -44000000
+  other_cash_flows_from_investing_activities: -112000000
+  net_cash_from_investing_activities: -5551000000
+  dividends_paid: -0
+  sale_purchase_of_stock: 447000000
+  net_borrowings: -4165000000
+  other_cash_flows_from_financing_activities: 518000000
+  net_cash_from_financing_activities: -3540000000
+  effect_of_exchange_rate_changes: -53000000
+  net_change_in_cash: 14007000000
+  cash_at_beginning_of_period: 42192000000
+  cash_at_end_of_period: 56199000000
+
+cash_flow_amzn_q2_2021:
+  company_id: <%= companies(:amzn).id %>
+  period_ending: '2021-06-30'
+  net_income: 7776000000
+  depreciation_and_amortization: 6085000000
+  deferred_income_tax: -75000000
+  stock_based_compensation: 2999000000
+  change_in_working_capital: -3846000000
+  accounts_receivable: -579000000
+  inventory: 573000000
+  accounts_payable: -784000000
+  net_cash_from_operating_activities: 21415000000
+  capital_expenditures: -7270000000
+  investments: 639000000
+  other_cash_flows_from_investing_activities: -10000000
+  net_cash_from_investing_activities: -6664000000
+  dividends_paid: -0
+  sale_purchase_of_stock: 243000000
+  net_borrowings: 1148000000
+  other_cash_flows_from_financing_activities: -321000000
+  net_cash_from_financing_activities: 1272000000
+  effect_of_exchange_rate_changes: -139000000
+  net_change_in_cash: 15029000000
+  cash_at_beginning_of_period: 56199000000
+  cash_at_end_of_period: 71228000000
+
+one:
+  cash_from_operating_activities: 9.99
+  net_income: 9.99
+  depreciation_and_amortization: 9.99
+  deferred_income_taxes: 9.99
+  stock_based_compensation: 9.99
+  change_in_working_capital: 9.99
+  accounts_receivable: 9.99
+  inventory: 9.99
+  accounts_payable: 9.99
+  other_working_capital: 9.99
+  net_cash_from_operating_activities: 9.99
+  cash_from_investing_activities: 9.99
+  capital_expenditures: 9.99
+  acquisitions_and_disposals: 9.99
+  investment_purchases_and_sales: 9.99
+  net_cash_from_investing_activities: 9.99
+  cash_from_financing_activities: 9.99
+  net_change_in_debt: 9.99
+  issue_of_capital_stock: 9.99
+  repurchase_of_capital_stock: 9.99
+  dividend_payments: 9.99
+  other_financing_activities: 9.99
+  net_cash_from_financing_activities: 9.99
+  effect_of_exchange_rate_changes: 9.99
+  change_in_cash_and_cash_equivalents: 9.99
+  period_ending: 2023-04-10
+  report_type: MyString
+  company: one
+
+two:
+  cash_from_operating_activities: 9.99
+  net_income: 9.99
+  depreciation_and_amortization: 9.99
+  deferred_income_taxes: 9.99
+  stock_based_compensation: 9.99
+  change_in_working_capital: 9.99
+  accounts_receivable: 9.99
+  inventory: 9.99
+  accounts_payable: 9.99
+  other_working_capital: 9.99
+  net_cash_from_operating_activities: 9.99
+  cash_from_investing_activities: 9.99
+  capital_expenditures: 9.99
+  acquisitions_and_disposals: 9.99
+  investment_purchases_and_sales: 9.99
+  net_cash_from_investing_activities: 9.99
+  cash_from_financing_activities: 9.99
+  net_change_in_debt: 9.99
+  issue_of_capital_stock: 9.99
+  repurchase_of_capital_stock: 9.99
+  dividend_payments: 9.99
+  other_financing_activities: 9.99
+  net_cash_from_financing_activities: 9.99
+  effect_of_exchange_rate_changes: 9.99
+  change_in_cash_and_cash_equivalents: 9.99
+  period_ending: 2023-04-10
+  report_type: MyString
+  company: two

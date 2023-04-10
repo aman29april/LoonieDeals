@@ -1,0 +1,87 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+amazon_profit_and_loss_statement_2021:
+  company_id: <%= companies(:amazon).id %>
+  period_ending: 2021-12-31
+  revenue: 386064000000
+  cost_of_revenue: 238684000000
+  gross_profit: 147380000000
+  operating_expenses: 109134000000
+  research_and_development: 29536000000
+  sales_general_and_administration: 69698000000
+  operating_income: 38246000000
+  interest_expense: -1552000000
+  other_income_expense: -670000000
+  income_before_tax: 38214000000
+  income_tax_expense: 8692000000
+  net_income: 29522000000
+  earnings_per_share_basic: 59.79
+  earnings_per_share_diluted: 59.55
+  
+one:
+  company: one
+  date: 2023-04-10
+  fiscal_period: MyString
+  revenue: 1
+  cost_of_revenue: 1
+  gross_profit: 1
+  research_and_development: 1
+  selling_general_and_admin: 1
+  operating_expenses: 1
+  operating_income: 1
+  interest_expense: 1
+  other_income_expense: 1
+  income_before_tax: 1
+  income_tax_expense: 1
+  minority_interest: 1
+  net_income: 1
+  preferred_dividends: 1
+  earnings_available_for_common_stockholders: 1
+  basic_eps: 1.5
+  diluted_eps: 1.5
+  basic_shares_outstanding: 1
+  diluted_shares_outstanding: 1
+  dividends_per_share: 1.5
+  gross_dividends: 1
+  net_income_from_continuing_operations: 1
+  net_income_from_discontinued_operations: 1
+  net_income_from_total_operations: 1
+  normalized_income_before_taxes: 1
+  normalized_income_after_taxes: 1
+  normalized_income_avail_to_common: 1
+  basic_normalized_eps: 1.5
+  diluted_normalized_eps: 1.5
+
+two:
+  company: two
+  date: 2023-04-10
+  fiscal_period: MyString
+  revenue: 1
+  cost_of_revenue: 1
+  gross_profit: 1
+  research_and_development: 1
+  selling_general_and_admin: 1
+  operating_expenses: 1
+  operating_income: 1
+  interest_expense: 1
+  other_income_expense: 1
+  income_before_tax: 1
+  income_tax_expense: 1
+  minority_interest: 1
+  net_income: 1
+  preferred_dividends: 1
+  earnings_available_for_common_stockholders: 1
+  basic_eps: 1.5
+  diluted_eps: 1.5
+  basic_shares_outstanding: 1
+  diluted_shares_outstanding: 1
+  dividends_per_share: 1.5
+  gross_dividends: 1
+  net_income_from_continuing_operations: 1
+  net_income_from_discontinued_operations: 1
+  net_income_from_total_operations: 1
+  normalized_income_before_taxes: 1
+  normalized_income_after_taxes: 1
+  normalized_income_avail_to_common: 1
+  basic_normalized_eps: 1.5
+  diluted_normalized_eps: 1.5
