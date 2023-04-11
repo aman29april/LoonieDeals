@@ -9,27 +9,90 @@ if Rails.env.development?
 end
 
 # Seed data for Exchange model
-nasdaq = Exchange.create(name: 'NASDAQ')
-nyse = Exchange.create(name: 'NYSE')
+nasdaq = Exchange.create(name: 'NASDAQ', country: 'US', currency: 'USD')
+nyse = Exchange.create(name: 'NYSE', country: 'US', currency: 'USD')
+tse = Exchange.create(name: 'TSE', country: 'Canada', currency: 'CAD')
+nse = Exchange.create(name: 'NSE', country: 'India', currency: 'INR')
+bse = Exchange.create(name: 'BSE', country: 'India', currency: 'INR')
 
 # Create sectors
 tech = Sector.create(name: 'Technology')
 healthcare = Sector.create(name: 'Healthcare')
 finance = Sector.create(name: 'Finance')
+public_utilities = Sector.create(name: 'Public Utilities')
+consumer_services = Sector.create(name: 'Consumer Services')
+capital_goods = Sector.create(name: 'Capital Goods')
+consumer_durables = Sector.create(name: 'Consumer Durables')
+consumer_non_durables = Sector.create(name: 'Consumer Non-Durables')
+miscellaneous = Sector.create(name: 'Miscellaneous')
+energy = Sector.create(name: 'Energy')
+transportation = Sector.create(name: 'Transportation')
+basic = Sector.create(name: 'Basic Industries')
+
+# create Industries
+
+['EDP Services',
+  'Computer Manufacturing',
+ 'Computer Software: Prepackaged Software', 
+ 'Computer Software: Programming, Data Processing',
+ 'Computer Communications Equipment', 
+ 'Industrial Machinery/Components'].each do |name|
+  tech.industries.create(name:)
+end
+
+healthcare.industries.create(name: 'Medical Specialities')
+healthcare.industries.create(name: 'Medical/Dental Instruments')
+healthcare.industries.create(name: 'Major Pharmaceuticals')
+
+['Life Insurance',
+ 'Accident &Health Insurance',
+ 'Property-Casualty Insurers',
+ 'Major Banks',
+ 'Savings Institutions'].each do |name|
+  finance.industries.create(name:)
+end
+
+basic.industries.create(name: 'Textiles')
+
+['Business Services',
+ 'Industrial Machinery/Components',
+ 'Multi-Sector Companies'].each do |name|
+  miscellaneous.industries.create(name:)
+end
+
+energy.industries.create(name: 'Oil & Gas Production')
+energy.industries.create(name: 'Natural Gas Distribution')
+
+consumer_services.industries.create(name: 'Real Estate Investment Trusts')
+
+consumer_durables.industries.create(name: 'Automotive Aftermarket')
+
+['Homebuilding',
+ 'Auto Parts:O.E.M.',
+ 'Industrial Machinery/Components'].each do |name|
+  capital_goods.industries.create(name:)
+end
+
+transportation.industries.create(name: 'Marine Transportation')
 
 # Create quotes
 aapl = Company.create!(ticker: 'AAPL',
                        name: 'Apple Inc.',
                        exchange: nasdaq,
                        sector: tech,
+                       industry: tech.industries.find_by(name: 'Computer Manufacturing'),
                        beta: 1,
                        website: 'https://www.apple.com/',
                        employees: 164_000,
                        founded: Date.new(1976, 0o4, 1),
+                       market_cap: 816472488000,
+                       ipo_year: 1980,
                        ceo: 'Tim Cook',
                        description: "Apple Inc. is an American multinational technology company headquartered in Cupertino, California. Apple is the world's largest technology company by revenue, with US$394.3 billion in 2022 revenue. As of March 2023, Apple is the world's biggest company by market capitalization. As of June 2022, Apple is the fourth-largest personal computer vendor by unit sales and second-largest mobile phone manufacturer. It is one of the Big Five American information technology companies, alongside Alphabet Inc., Amazon, Meta Platforms, and Microsoft. Apple was founded as Apple Computer Company on April 1, 1976, by Steve Wozniak, Steve Jobs and Ronald Wayne to develop and sell Wozniak's Apple I personal computer. It was incorporated by Jobs and Wozniak as Apple Computer, Inc. in 1977. The company's second computer, the Apple II, became a best seller and one of the first mass-produced microcomputers. Apple went public in 1980 to instant financial success. The company developed computers featuring innovative graphical user interfaces, including the 1984 original Macintosh, announced that year in a critically acclaimed advertisement",
                        address: 'Cupertino, California, United States',
-                       dividend_yield: 0)
+                       dividend_yield: 0,
+                       exchange_url: 'https://www.nasdaq.com/symbol/aapl'
+                      )
 
 goog = Company.create(ticker: 'GOOG', name: 'Alphabet Inc.', exchange: nyse, sector: tech)
 msft = Company.create(ticker: 'MSFT', name: 'Microsoft Corporation', exchange: nasdaq, sector: tech)

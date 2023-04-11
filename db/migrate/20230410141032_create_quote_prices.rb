@@ -3,11 +3,12 @@
 class CreateQuotePrices < ActiveRecord::Migration[7.0]
   def change
     create_table :quote_prices do |t|
-      t.decimal :open
-      t.decimal :high
-      t.decimal :low
-      t.decimal :close
+      t.decimal :open_price
+      t.decimal :high_price
+      t.decimal :low_price
+      t.decimal :close_price
       t.float :price
+      t.float :adj_close_price
       t.integer :volume
       t.date :date
       t.references :quote, null: false, foreign_key: true

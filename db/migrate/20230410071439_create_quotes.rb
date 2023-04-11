@@ -9,6 +9,7 @@ class CreateQuotes < ActiveRecord::Migration[7.0]
       t.string :industry
       t.integer :market_cap
       t.integer :employees
+      t.integer :ipo_year
       t.text :description
       t.string :website
       t.string :phone
@@ -32,7 +33,7 @@ class CreateQuotes < ActiveRecord::Migration[7.0]
       t.references :exchange, null: false, foreign_key: true
       t.references :sector, null: false, foreign_key: true
       t.string :type
-
+      t.string :exchange_url
       t.timestamps
     end
   end

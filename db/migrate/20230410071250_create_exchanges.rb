@@ -6,6 +6,7 @@ class CreateExchanges < ActiveRecord::Migration[7.0]
       t.string :name
       t.string :symbol
       t.string :country
+      t.string :currency
 
       t.timestamps
     end
