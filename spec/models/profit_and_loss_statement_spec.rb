@@ -15,7 +15,6 @@
 #  diluted_shares_outstanding                 :integer
 #  dividends_per_share                        :float
 #  earnings_available_for_common_stockholders :integer
-#  fiscal_period                              :string
 #  fiscal_quarter                             :integer
 #  fiscal_year                                :integer
 #  gross_dividends                            :integer

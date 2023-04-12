@@ -43,14 +43,14 @@ RSpec.describe FinancialRatioCalculator do
     end
   end
 
-  describe '.price_to_earnings_ratio' do
+  describe '.pe_ratio' do
     it 'calculates the price-to-earnings ratio for a given company' do
       company = FactoryBot.create(:company)
       earnings_per_share = 5
       market_price_per_share = 50
 
-      expect(FinancialRatioCalculator.price_to_earnings_ratio(company, earnings_per_share,
-                                                              market_price_per_share)).to eq(10)
+      expect(FinancialRatioCalculator.pe_ratio(company, earnings_per_share,
+                                               market_price_per_share)).to eq(10)
     end
   end
 end

@@ -1,0 +1,21 @@
+%section.card.card-large
+  %h3
+    =heading
+  .table-responsive 
+    %table.table.table-hover
+      %thead.table-light
+        %tr
+          %th
+          - data.each do |balance_sheet|
+            %th
+              =balance_sheet.fiscal_period
+      %tbody
+      - financial_data_to_table(data, structure).each do |row|
+        %tr
+          -row.each_with_index do |hash, index|
+            -if index == 0
+              %th
+                =hash[:formatted_value]
+            -else
+              %td
+                =hash[:formatted_value]

@@ -25,16 +25,27 @@ class CreateQuotes < ActiveRecord::Migration[7.0]
       t.decimal :expense_ratio, default: 0
       t.decimal :beta
       t.decimal :dividend_yield, default: 0
-      t.decimal :price_to_earnings_ratio
+      t.decimal :pe_ratio
+      t.decimal :forward_pe_ratio
       t.decimal :earnings_per_share
       t.decimal :price_to_book_ratio
+      t.string :currency, default: 'USD', null: false
+      t.integer :open_price_cents, default: 0, null: false
+      t.integer :close_price_cents, default: 0, null: false
+      t.integer :price_cents, default: 0, null: false
+      t.integer :l52w_high_cents, default: 0, null: false
+      t.integer :l52w_low_cents, default: 0, null: false
+      t.decimal :roce
+
+      t.integer :volume
       t.float :net_assets
 
       t.references :exchange, null: false, foreign_key: true
       t.references :sector, null: false, foreign_key: true
       t.string :type
       t.string :exchange_url
-      t.timestamps
+      t.date :upcoming_earnings,
+             t.timestamps
     end
   end
 end

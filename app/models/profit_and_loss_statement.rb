@@ -15,7 +15,6 @@
 #  diluted_shares_outstanding                 :integer
 #  dividends_per_share                        :float
 #  earnings_available_for_common_stockholders :integer
-#  fiscal_period                              :string
 #  fiscal_quarter                             :integer
 #  fiscal_year                                :integer
 #  gross_dividends                            :integer
@@ -52,7 +51,7 @@
 #  quote_id  (quote_id => quotes.id)
 #
 class ProfitAndLossStatement < ApplicationRecord
-  validates :fiscal_period, presence: true
+  validates :fiscal_year, presence: true
   validates :total_revenue, presence: true, numericality: true
   validates :cost_of_revenue, presence: true, numericality: true
   validates :gross_profit, presence: true, numericality: true

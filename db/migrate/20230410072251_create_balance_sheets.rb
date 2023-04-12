@@ -5,46 +5,60 @@ class CreateBalanceSheets < ActiveRecord::Migration[7.0]
     create_table :balance_sheets do |t|
       t.references :quote, null: false, foreign_key: true
       t.date :date
-      t.integer :fiscal_year
-      t.integer :fiscal_quarter
-      t.string :fiscal_period
-      t.integer :cash_and_cash_equivalents
-      t.integer :short_term_investments
-      t.integer :net_receivables
-      t.integer :inventory
-      t.integer :other_current_assets
-      t.integer :total_current_assets
-      t.integer :property_plant_and_equipment
-      t.integer :long_term_investments
-      t.integer :goodwill
-      t.integer :intangible_assets
-      t.integer :accumulated_amortization
-      t.integer :other_assets
-      t.integer :total_assets
-      t.integer :accounts_payable
-      t.integer :short_term_debt
-      t.integer :taxes_payable
-      t.integer :accrued_liabilities
-      t.integer :accrued_expenses
-      t.integer :other_current_liabilities
-      t.integer :total_current_liabilities
-      t.integer :long_term_debt
-      t.integer :current_portion_of_long_term_debt
-      t.integer :deferred_revenue
-      t.integer :deferred_income_tax
-      t.integer :other_liabilities
-      t.integer :minority_interest
-      t.integer :total_liabilities
-      t.integer :preferred_equity
-      t.integer :total_liabilities_and_stockholders_equity
-      t.integer :common_stock
-      t.integer :retained_earnings
-      t.integer :accumulated_other_comprehensive_income
-      t.integer :treasury_stock
-      t.integer :total_stockholders_equity
-      t.integer :total_equity
-      t.integer :net_tangible_assets
+      t.datetime :filling_date
+      t.datetime :accepted_date
+      t.integer :calendar_year
+      # t.integer :fiscal_quarter
+      t.string :period
+      t.string :cik
+      t.string :currency, default: 'USD', null: false
 
+      t.integer :cash_and_cash_equivalents_cents
+      t.integer :short_term_investments_cents
+      t.integer :cash_and_short_term_investments_cents
+      t.integer :net_receivables_cents
+      t.integer :inventory_cents
+      t.integer :other_current_assets_cents
+      t.integer :total_current_assets_cents
+      t.integer :property_plant_equipment_net_cents
+      t.integer :goodwill_cents
+      t.integer :intangible_assets_cents
+      t.integer :goodwill_and_intangible_assets_cents
+      t.integer :long_term_investments_cents
+      t.integer :tax_assets_cents
+      t.integer :other_non_current_assets_cents
+      t.integer :total_non_current_assets_cents
+      t.integer :other_assets_cents
+      t.integer :total_assets_cents
+      t.integer :account_payables_cents
+      t.integer :short_term_debt_cents
+      t.integer :tax_payables_cents
+      t.integer :deferred_revenue_cents
+      t.integer :other_current_liabilities_cents
+      t.integer :total_current_liabilities_cents
+      t.integer :long_term_debt_cents
+      t.integer :deferred_revenue_non_current_cents
+      t.integer :deferred_tax_liabilities_non_current_cents
+      t.integer :other_non_current_liabilities_cents
+      t.integer :total_non_current_liabilities_cents
+      t.integer :other_liabilities_cents
+      t.integer :capital_lease_obligations_cents
+      t.integer :total_liabilities_cents
+      t.integer :preferred_stock_cents
+      t.integer :common_stock_cents
+      t.integer :retained_earnings_cents
+      t.integer :accumulated_other_comprehensive_income_loss_cents
+      t.integer :othertotal_stockholders_equity_cents
+      t.integer :total_stockholders_equity_cents
+      t.integer :total_equity_cents
+      t.integer :total_liabilities_and_stockholders_equity_cents
+      t.integer :minority_interest_cents
+      t.integer :total_liabilities_and_total_equity_cents
+      t.integer :total_investments_cents
+      t.integer :total_debt_cents
+      t.integer :net_debt_cents
+      t.string :link
+      t.string :final_link
       t.timestamps
     end
   end

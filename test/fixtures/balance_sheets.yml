@@ -2,50 +2,63 @@
 #
 # Table name: balance_sheets
 #
-#  id                                        :integer          not null, primary key
-#  accounts_payable                          :integer
-#  accrued_expenses                          :integer
-#  accrued_liabilities                       :integer
-#  accumulated_amortization                  :integer
-#  accumulated_other_comprehensive_income    :integer
-#  cash_and_cash_equivalents                 :integer
-#  common_stock                              :integer
-#  current_portion_of_long_term_debt         :integer
-#  date                                      :date
-#  deferred_income_tax                       :integer
-#  deferred_revenue                          :integer
-#  fiscal_period                             :string
-#  fiscal_quarter                            :integer
-#  fiscal_year                               :integer
-#  goodwill                                  :integer
-#  intangible_assets                         :integer
-#  inventory                                 :integer
-#  long_term_debt                            :integer
-#  long_term_investments                     :integer
-#  minority_interest                         :integer
-#  net_receivables                           :integer
-#  net_tangible_assets                       :integer
-#  other_assets                              :integer
-#  other_current_assets                      :integer
-#  other_current_liabilities                 :integer
-#  other_liabilities                         :integer
-#  preferred_equity                          :integer
-#  property_plant_and_equipment              :integer
-#  retained_earnings                         :integer
-#  short_term_debt                           :integer
-#  short_term_investments                    :integer
-#  taxes_payable                             :integer
-#  total_assets                              :integer
-#  total_current_assets                      :integer
-#  total_current_liabilities                 :integer
-#  total_equity                              :integer
-#  total_liabilities                         :integer
-#  total_liabilities_and_stockholders_equity :integer
-#  total_stockholders_equity                 :integer
-#  treasury_stock                            :integer
-#  created_at                                :datetime         not null
-#  updated_at                                :datetime         not null
-#  quote_id                                  :integer          not null
+#  id                                                :integer          not null, primary key
+#  accepted_date                                     :datetime
+#  account_payables_cents                            :integer
+#  accumulated_other_comprehensive_income_loss_cents :integer
+#  calendar_year                                     :integer
+#  capital_lease_obligations_cents                   :integer
+#  cash_and_cash_equivalents_cents                   :integer
+#  cash_and_short_term_investments_cents             :integer
+#  cik                                               :string
+#  common_stock_cents                                :integer
+#  currency                                          :string           default("USD"), not null
+#  date                                              :date
+#  deferred_revenue_cents                            :integer
+#  deferred_revenue_non_current_cents                :integer
+#  deferred_tax_liabilities_non_current_cents        :integer
+#  filling_date                                      :datetime
+#  final_link                                        :string
+#  goodwill_and_intangible_assets_cents              :integer
+#  goodwill_cents                                    :integer
+#  intangible_assets_cents                           :integer
+#  inventory_cents                                   :integer
+#  link                                              :string
+#  long_term_debt_cents                              :integer
+#  long_term_investments_cents                       :integer
+#  minority_interest_cents                           :integer
+#  net_debt_cents                                    :integer
+#  net_receivables_cents                             :integer
+#  other_assets_cents                                :integer
+#  other_current_assets_cents                        :integer
+#  other_current_liabilities_cents                   :integer
+#  other_liabilities_cents                           :integer
+#  other_non_current_assets_cents                    :integer
+#  other_non_current_liabilities_cents               :integer
+#  othertotal_stockholders_equity_cents              :integer
+#  period                                            :string
+#  preferred_stock_cents                             :integer
+#  property_plant_equipment_net_cents                :integer
+#  retained_earnings_cents                           :integer
+#  short_term_debt_cents                             :integer
+#  short_term_investments_cents                      :integer
+#  tax_assets_cents                                  :integer
+#  tax_payables_cents                                :integer
+#  total_assets_cents                                :integer
+#  total_current_assets_cents                        :integer
+#  total_current_liabilities_cents                   :integer
+#  total_debt_cents                                  :integer
+#  total_equity_cents                                :integer
+#  total_investments_cents                           :integer
+#  total_liabilities_and_stockholders_equity_cents   :integer
+#  total_liabilities_and_total_equity_cents          :integer
+#  total_liabilities_cents                           :integer
+#  total_non_current_assets_cents                    :integer
+#  total_non_current_liabilities_cents               :integer
+#  total_stockholders_equity_cents                   :integer
+#  created_at                                        :datetime         not null
+#  updated_at                                        :datetime         not null
+#  quote_id                                          :integer          not null
 #
 # Indexes
 #

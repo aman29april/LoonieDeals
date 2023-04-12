@@ -52,6 +52,7 @@ gem 'sassc-rails'
 
 gem 'activeadmin'
 gem 'devise'
+gem 'friendly_id', '~> 5.4.0'
 gem 'haml-rails', '~> 2.0'
 gem 'money-rails', '~> 1.12'
 
@@ -76,7 +77,10 @@ group :development do
 
   gem 'annotate'
   gem 'better_errors'
-  gem 'web-console'
+
+  gem 'csv'
+  gem 'httparty'
+  gem 'nokogiri'
 end
 
 group :test do

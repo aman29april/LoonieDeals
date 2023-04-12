@@ -7,7 +7,6 @@ class CreateProfitAndLossStatements < ActiveRecord::Migration[7.0]
       t.date :date
       t.integer :fiscal_year
       t.integer :fiscal_quarter
-      t.string :fiscal_period
       t.integer :revenue
       t.integer :total_revenue
       t.integer :cost_of_revenue
