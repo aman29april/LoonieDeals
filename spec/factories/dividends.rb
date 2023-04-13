@@ -5,9 +5,10 @@
 # Table name: dividends
 #
 #  id               :integer          not null, primary key
-#  amount           :float
-#  dividend_date    :date
-#  ex_dividend_date :date
+#  amount_cents     :integer
+#  currency         :string           default("USD"), not null
+#  date             :date
+#  declaration_date :date
 #  payment_date     :date
 #  record_date      :date
 #  created_at       :datetime         not null
@@ -25,7 +26,7 @@
 FactoryBot.define do
   factory :dividend do
     company { nil }
-    ex_dividend_date { '2023-04-10' }
+    # ex_dividend_date { '2023-04-10' }
     payment_date { '2023-04-10' }
     amount { 1.5 }
   end

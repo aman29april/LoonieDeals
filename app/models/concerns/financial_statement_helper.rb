@@ -4,7 +4,12 @@ module FinancialStatementHelper
   extend ActiveSupport::Concern
 
   included do
-    scope :by_year_n_quarter, -> { order(fiscal_year: :asc, fiscal_quarter: :asc) }
+    validates :calendar_year, uniqueness: { scope: %i[quote_id period] }
+
+    scope :by_year_n_quarter, -> { yearly.order(calendar_year: :desc).limit(20) }
+
+    scope :yearly, -> { where(period: 'FY') }
+    scope :quarterly, -> { where.not.call(period: 'FY') }
 
     def fiscal_period
       calendar_year

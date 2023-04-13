@@ -39,6 +39,7 @@
                 Market Cap: #{number_to_human @quote.market_cap}
 
 
+= render partial: 'chart'
 = render partial: 'balance_sheet', locals: {quote: @quote}
 = render partial: 'cash_flows', locals: {quote: @quote}
 = render partial: 'income_statement', locals: {quote: @quote}

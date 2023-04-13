@@ -64,7 +64,8 @@
 #
 # Indexes
 #
-#  index_balance_sheets_on_quote_id  (quote_id)
+#  index_balance_sheets_on_quote_id                               (quote_id)
+#  index_balance_sheets_on_quote_id_and_period_and_calendar_year  (quote_id,period,calendar_year) UNIQUE
 #
 # Foreign Keys
 #
@@ -75,13 +76,13 @@ class BalanceSheet < ApplicationRecord
   include FinancialStatementHelper
 
   MAP = {
-    date: { text: 'Date' },
+    # date: { text: 'Date' },
 
     # cik: { text: 'Cik' },
     # filling_date: { text: 'Filling Date' },
     # accepted_date: { text: 'Accepted Date' },
-    calendar_year: { text: 'Calendar Year' },
-    period: { text: 'Period', format: :as_it_is },
+    # calendar_year: { text: 'Calendar Year' },
+    # period: { text: 'Period', format: :as_it_is },
     cash_and_cash_equivalents: { text: 'Cash And Cash Equivalents' },
     short_term_investments: { text: 'Short Term Investments' },
     cash_and_short_term_investments: { text: 'Cash And Short Term Investments' },

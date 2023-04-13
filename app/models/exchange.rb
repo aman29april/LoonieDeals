@@ -7,6 +7,7 @@
 #  id         :integer          not null, primary key
 #  country    :string
 #  currency   :string
+#  full_name  :string
 #  name       :string
 #  symbol     :string
 #  created_at :datetime         not null

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class QuotesController < ApplicationController
-  before_action :set_quote, only: %i[show edit update destroy]
+  before_action :set_quote, only: %i[show edit update destroy historic]
 
   # GET /quotes or /quotes.json
   def index
@@ -9,52 +9,25 @@ class QuotesController < ApplicationController
   end
 
   # GET /quotes/1 or /quotes/1.json
-  def show; end
+  def show
+    @data = @quote.monthly_prices.map do |mp|
+      # {x: mp.date , y: mp.last_day_close_cents}
+      [mp.date, mp.last_day_close_cents]
+    end.to_json
 
-  # GET /quotes/new
-  def new
-    @quote = Quote.new
+    @data_keys = %w[
+      January
+      February
+      March
+      April
+      May
+      June
+    ]
+    @data_values = [0, 10, 5, 2, 20, 30, 45]
   end
 
-  # GET /quotes/1/edit
-  def edit; end
-
-  # POST /quotes or /quotes.json
-  def create
-    @quote = Quote.new(quote_params)
-
-    respond_to do |format|
-      if @quote.save
-        format.html { redirect_to quote_url(@quote), notice: 'Quote was successfully created.' }
-        format.json { render :show, status: :created, location: @quote }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @quote.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # PATCH/PUT /quotes/1 or /quotes/1.json
-  def update
-    respond_to do |format|
-      if @quote.update(quote_params)
-        format.html { redirect_to quote_url(@quote), notice: 'Quote was successfully updated.' }
-        format.json { render :show, status: :ok, location: @quote }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @quote.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # DELETE /quotes/1 or /quotes/1.json
-  def destroy
-    @quote.destroy
-
-    respond_to do |format|
-      format.html { redirect_to quotes_url, notice: 'Quote was successfully destroyed.' }
-      format.json { head :no_content }
-    end
+  def historic
+    params[:days]
   end
 
   private

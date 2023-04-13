@@ -2,16 +2,17 @@
 
 # == Schema Information
 #
-# Table name: quote_prices
+# Table name: daily_prices
 #
 #  id              :integer          not null, primary key
-#  adj_close_price :float
-#  close_price     :decimal(, )
+#  adj_close_cents :integer
+#  close_cents     :integer
+#  currency        :string           default("USD"), not null
 #  date            :date
-#  high_price      :decimal(, )
-#  low_price       :decimal(, )
-#  open_price      :decimal(, )
-#  price           :float
+#  high_cents      :integer
+#  low_cents       :integer
+#  open_cents      :integer
+#  price_cents     :integer
 #  volume          :integer
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
@@ -19,15 +20,20 @@
 #
 # Indexes
 #
-#  index_quote_prices_on_quote_id  (quote_id)
+#  index_daily_prices_on_quote_id  (quote_id)
 #
 # Foreign Keys
 #
 #  quote_id  (quote_id => quotes.id)
 #
-class QuotePrice < ApplicationRecord
+class DailyPrice < ApplicationRecord
   belongs_to :quote
 
   validates :date, presence: true
   validates :price, numericality: { greater_than_or_equal_to: 0 }
+
+  monetize :close_cents,
+           :open_cents, :high_cents,
+           :low_cents, :price_cents,
+           allow_nil: true, with_model_currency: :currency
 end

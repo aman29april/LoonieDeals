@@ -1,7 +1,161 @@
 @import 'bootstrap/scss/bootstrap';
 @import 'bootstrap-icons/font/bootstrap-icons';
 
-.cover-container {
-    max-width: 42em;
+/* Options and active */
+.options {
+  margin-bottom: 24px;
+  display: -ms-flexbox;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+  border: 1px solid var(--button-border);
+  border-radius: 3px;
+
+  background: var(--base);
 }
 
+.options a,
+.options button {
+  padding: 8px 12px;
+  border: 0;
+
+  border-radius: unset;
+  color: var(--ink-700);
+  font-size: 1.4rem;
+  letter-spacing: 0.088px;
+  font-weight: 500;
+  text-transform: none;
+}
+
+.options>*:first-child {
+  border-radius: 3px 0 0 3px;
+}
+
+.options>*:last-child {
+  border-radius: 0 3px 3px 0;
+}
+
+.options a:hover,
+.options button:hover {
+  color: var(--link-hover);
+}
+
+@media (min-width: 768px) {
+
+  .options a,
+  .options button {
+    padding: 8px 16px;
+  }
+}
+
+.options a.active,
+.options button.active {
+  color: var(--link);
+  background: var(--bg-light-blue);
+  border-color: var(--bg-light-blue-border);
+  outline: none;
+}
+
+.options.small a,
+.options.small button {
+  padding: 6px 12px;
+  font-size: 1.2rem;
+}
+
+/* Breadcrumb */
+.breadcrumb:empty {
+  display: none;
+}
+
+.breadcrumb ul {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  margin: 8px 0;
+  padding: 0;
+  font-size: 1.4rem;
+  font-weight: 500;
+  letter-spacing: 0.088px;
+  text-transform: none;
+  color: var(--ink-700);
+}
+
+.breadcrumb ul li {
+  padding: 0;
+  margin: 0;
+}
+
+.breadcrumb ul li+li::before {
+  content: "/";
+  color: var(--ink-600);
+  margin: 0 12px;
+}
+
+.no-select {
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.underline-link {
+  border-bottom: 1px dotted;
+  border-bottom-color: currentColor;
+}
+
+/* Hidden checkbox */
+/* Hide checkbox and reset styles */
+.chart-checkbox {
+  /* removes the square box */
+  -webkit-appearance: initial;
+  -moz-appearance: initial;
+  appearance: initial;
+  outline: 0;
+  width: 18px;
+  height: 18px;
+  z-index: 1;
+  margin-right: 8px;
+  border-radius: 3px;
+  color: var(--white);
+}
+
+.chart-checkbox~span {
+  color: var(--ink-700);
+}
+
+.chart-checkbox::after {
+  content: " ";
+  display: block;
+  font-size: 15px;
+  line-height: 16px;
+  text-indent: 1px;
+  background: var(--base);
+  border: 1px solid var(--ink-700);
+  border-radius: 3px;
+}
+
+.chart-checkbox:checked::after {
+  content: "✓";
+  background: transparent;
+  border-color: transparent;
+}
+
+
+
+// END OF CHART
+// 
+
+.sticky {
+  position: sticky;
+  overflow-wrap: break-word;
+  max-width: 230px;
+  font-size: .9em;
+}
+
+
+.truncate{
+  overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}

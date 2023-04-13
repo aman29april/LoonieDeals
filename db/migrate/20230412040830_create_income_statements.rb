@@ -43,7 +43,7 @@ class CreateIncomeStatements < ActiveRecord::Migration[7.0]
       t.string :link
       t.string :final_link
       t.references :quote, null: false, foreign_key: true
-
+      t.index %i[quote_id period calendar_year], unique: true
       t.timestamps
     end
   end

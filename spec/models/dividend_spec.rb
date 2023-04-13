@@ -5,9 +5,10 @@
 # Table name: dividends
 #
 #  id               :integer          not null, primary key
-#  amount           :float
-#  dividend_date    :date
-#  ex_dividend_date :date
+#  amount_cents     :integer
+#  currency         :string           default("USD"), not null
+#  date             :date
+#  declaration_date :date
 #  payment_date     :date
 #  record_date      :date
 #  created_at       :datetime         not null

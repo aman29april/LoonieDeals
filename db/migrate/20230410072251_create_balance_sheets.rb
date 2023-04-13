@@ -8,7 +8,6 @@ class CreateBalanceSheets < ActiveRecord::Migration[7.0]
       t.datetime :filling_date
       t.datetime :accepted_date
       t.integer :calendar_year
-      # t.integer :fiscal_quarter
       t.string :period
       t.string :cik
       t.string :currency, default: 'USD', null: false
@@ -59,6 +58,9 @@ class CreateBalanceSheets < ActiveRecord::Migration[7.0]
       t.integer :net_debt_cents
       t.string :link
       t.string :final_link
+
+      t.index %i[quote_id period calendar_year], unique: true
+
       t.timestamps
     end
   end

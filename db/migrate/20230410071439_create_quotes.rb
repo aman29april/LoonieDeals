@@ -6,10 +6,10 @@ class CreateQuotes < ActiveRecord::Migration[7.0]
       t.string :name
       t.string :ticker
       t.string :sector
-      t.string :industry
       t.integer :market_cap
-      t.integer :employees
+      t.integer :full_time_employees
       t.integer :ipo_year
+      t.date :ipo_date
       t.text :description
       t.string :website
       t.string :phone
@@ -19,6 +19,10 @@ class CreateQuotes < ActiveRecord::Migration[7.0]
       t.string :zip
       t.string :ceo
       t.date :founded
+
+      t.decimal :dcf_diff
+      t.decimal :dcf
+      t.string :image
 
       t.string :country
       t.string :fund_family
@@ -38,10 +42,18 @@ class CreateQuotes < ActiveRecord::Migration[7.0]
       t.decimal :roce
 
       t.integer :volume
+
+      t.float :last_div
       t.float :net_assets
+      t.boolean :is_etf
+      t.boolean :is_fund
+      t.string :cik
+      t.string :isin
+      t.string :cusip
 
       t.references :exchange, null: false, foreign_key: true
-      t.references :sector, null: false, foreign_key: true
+      t.references :sector, foreign_key: true
+      t.references :industry, foreign_key: true
       t.string :type
       t.string :exchange_url
       t.date :upcoming_earnings,

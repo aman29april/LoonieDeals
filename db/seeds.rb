@@ -86,7 +86,7 @@ aapl = Company.create!(ticker: 'AAPL',
                        industry: tech.industries.find_by(name: 'Computer Manufacturing'),
                        beta: 1.4,
                        website: 'https://www.apple.com/',
-                       employees: 164_000,
+                       full_time_employees: 164_000,
                        founded: Date.new(1976, 0o4, 1),
                        market_cap: 2_809_169_200_200,
                        ipo_year: 1980,
@@ -316,19 +316,19 @@ tsla = Company.create(ticker: 'TSLA', name: 'Tesla Inc', exchange: nasdaq,
 #   total_liabilities_and_stockholders_equity: 162_648_000_000
 # )
 
-dividend1 = aapl.dividends.create(
-  amount: 5.0,
-  payment_date: Date.today,
-  ex_dividend_date: Date.today - 1.month,
-  record_date: Date.today - 1.week
-)
+# dividend1 = aapl.dividends.create(
+#   amount: 5.0,
+#   payment_date: Date.today,
+#   # ex_dividend_date: Date.today - 1.month,
+#   record_date: Date.today - 1.week
+# )
 
-dividend2 = amzn.dividends.create(
-  amount: 2.5,
-  payment_date: Date.today + 1.month,
-  ex_dividend_date: Date.today + 1.week,
-  record_date: Date.today - 1.month
-)
+# dividend2 = amzn.dividends.create(
+#   amount: 2.5,
+#   payment_date: Date.today + 1.month,
+#   # ex_dividend_date: Date.today + 1.week,
+#   record_date: Date.today - 1.month
+# )
 
 # Seed events for a company
 
@@ -384,12 +384,12 @@ user2.bookmarks.create(quote: goog)
 # portfolio.portfolio_quotes.create(quote: jpm)
 
 # Create quote prices
-QuotePrice.create(quote: aapl, date: Date.today - 1, price: 125.50)
-QuotePrice.create(quote: aapl, date: Date.today - 2, price: 120.75)
-QuotePrice.create(quote: aapl, date: Date.today - 3, price: 118.00)
-QuotePrice.create(quote: jpm, date: Date.today - 1, price: 105.25)
-QuotePrice.create(quote: jpm, date: Date.today - 2, price: 102.50)
-QuotePrice.create(quote: jpm, date: Date.today - 3, price: 100.00)
+DailyPrice.create(quote: aapl, date: Date.today - 1, price: 125.50)
+DailyPrice.create(quote: aapl, date: Date.today - 2, price: 120.75)
+DailyPrice.create(quote: aapl, date: Date.today - 3, price: 118.00)
+DailyPrice.create(quote: jpm, date: Date.today - 1, price: 105.25)
+DailyPrice.create(quote: jpm, date: Date.today - 2, price: 102.50)
+DailyPrice.create(quote: jpm, date: Date.today - 3, price: 100.00)
 
 # Seed data for MutualFund model
 fund1 = MutualFund.create(name: 'Fidelity Contrafund', ticker: 'FCNTX', expense_ratio: 0.86, net_assets: 153.2)

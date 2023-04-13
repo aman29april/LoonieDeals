@@ -1,0 +1,77 @@
+%canvas#myChart{"data-data" => "#{@data_values}", "data-labels" => "#{@data_keys}", :height => "50px", :width => "200px"}
+
+#chart{"data-data": "#{@data}"}
+
+%section#chart.card.card-large{:style => "margin-bottom: 2.5rem"}
+  #chart-menu.flex.flex-space-between.flex-wrap{:style => "margin-bottom: 16px"}
+    #company-chart-days.options
+      %button{:name => "days", :onclick => "CompanyChart.setActive(event)", :type => "button", :value => "30"}
+        1m
+      %button{:name => "days", :onclick => "CompanyChart.setActive(event)", :type => "button", :value => "180"}
+        6m
+      %button.active{:name => "days", :onclick => "CompanyChart.setActive(event)", :type => "button", :value => "365"}
+        1Yr
+      %button{:name => "days", :onclick => "CompanyChart.setActive(event)", :type => "button", :value => "1095"}
+        3Yr
+      %button{:name => "days", :onclick => "CompanyChart.setActive(event)", :type => "button", :value => "1825"}
+        5Yr
+      %button{:name => "days", :onclick => "CompanyChart.setActive(event)", :type => "button", :value => "3652"}
+        10Yr
+      %button{:name => "days", :onclick => "CompanyChart.setActive(event)", :type => "button", :value => "10000"}
+        Max
+    .flex.margin-bottom-24
+      #company-chart-metrics.options.margin-right-8{:style => "margin-bottom: 0"}
+        %button.active{:name => "metrics", :onclick => "CompanyChart.setActive(event)", :type => "button", :value => "Price-DMA50-DMA200-Volume"}
+          Price
+        %button{:name => "metrics", :onclick => "CompanyChart.setActive(event)", :type => "button", :value => "Price to Earning-Median PE-EPS"}
+          PE Ratio
+        %button#company-chart-metrics-more-active.hidden{:name => "metrics", :onclick => "CompanyChart.setActive(event)", :type => "button", :value => ""}
+          Hidden
+        #metrics-dropdown.dropdown-menu{"data-has-escape-listener" => "true", "data-has-outside-click-listener" => "true"}
+          %button.button-plain{:onclick => "Utils.toggleDropdown(event)", :type => "button"}
+            More
+            %i.icon-down
+          %ul.dropdown-content{:style => "max-width: 160px; right: 0;"}
+            %li
+              %button.a.u-full-width{:name => "metrics", :onclick => "CompanyChart.setActive(event)", :style => "padding: 4px 12px;", :type => "button", :value => "GPM-OPM-NPM-Quarter Sales"}
+                Sales & Margin
+            %li
+              %button.a.u-full-width{:name => "metrics", :onclick => "CompanyChart.setActive(event)", :style => "padding: 4px 12px;", :type => "button", :value => "EV Multiple-Median EV Multiple-EBITDA"}
+                EV / EBITDA
+            %li
+              %button.a.u-full-width{:name => "metrics", :onclick => "CompanyChart.setActive(event)", :style => "padding: 4px 12px;", :type => "button", :value => "Price to book value-Median PBV-Book value"}
+                Price to Book
+            %li
+              %button.a.u-full-width{:name => "metrics", :onclick => "CompanyChart.setActive(event)", :style => "padding: 4px 12px;", :type => "button", :value => "Market Cap to Sales-Median Market Cap to Sales-Sales"}
+                Market Cap / Sales
+      %button.button-small.button-secondary.flex.flex-align-center{"aria-label" => "Add alerts for company", "data-title" => "Alerts for Pix Transmission Ltd", "data-url" => "/alerts/stock-6598014/", :onclick => "Modal.openInModal(event)", :style => "border-color: var(--button-border); border-radius: 3px;", :type => "button"}
+        %i.icon-bell
+  .flex.no-select
+    .hide-on-mobile.chart-label
+      #chart-label-left Volume
+    #chart-area{:style => "flex-grow: 1;"}
+      #chart-info.invisible
+        #chart-crosshair{:style => "top: 10.2px; height: 336.4px; left: 806.345px;"}
+        #chart-tooltip.font-size-14{:style => "top: 322px; left: 738.845px;"}
+          #chart-tooltip-meta.ink-700.font-size-12 02 Dec 22
+          #chart-tooltip-title.font-weight-500.font-size-15 ₹ 903.35
+          #chart-tooltip-info
+            Vol: 886
+            %span.ink-700 D: 69%
+      #canvas-chart-holder{:style => "height: 375px;"}
+        %canvas{:height => "750", :style => "display: block; box-sizing: border-box; height: 375px; width: 1284.5px;", :width => "2569"}
+    .hide-on-mobile.chart-label
+      #chart-label-right Price on BSE
+  #chart-legend.flex{:style => "justify-content: center; margin-top: 2rem;"}
+    %label{:style => "box-sizing: border-box; padding: 6px 8px; margin-right: 16px; font-size: 14px; font-weight: 500; cursor: pointer;"}
+      %input.chart-checkbox{:style => "background: rgb(100, 93, 249);", :type => "checkbox"}/
+      %span Price on BSE
+    %label{:style => "box-sizing: border-box; padding: 6px 8px; margin-right: 16px; font-size: 14px; font-weight: 500; cursor: pointer;"}
+      %input.chart-checkbox{:style => "background: rgb(242, 186, 90);", :type => "checkbox"}/
+      %span 50 DMA
+    %label{:style => "box-sizing: border-box; padding: 6px 8px; margin-right: 16px; font-size: 14px; font-weight: 500; cursor: pointer;"}
+      %input.chart-checkbox{:style => "background: rgb(112, 129, 143);", :type => "checkbox"}/
+      %span 200 DMA
+    %label{:style => "box-sizing: border-box; padding: 6px 8px; margin-right: 16px; font-size: 14px; font-weight: 500; cursor: pointer;"}
+      %input.chart-checkbox{:style => "background: rgb(190, 211, 253);", :type => "checkbox"}/
+      %span Volume

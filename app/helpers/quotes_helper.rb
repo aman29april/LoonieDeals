@@ -36,11 +36,13 @@ module QuotesHelper
 
   # Shows number in million
   # also shows negative numbers in paranthesis.
-  def format_number(value)
-    return '--' if value.blank?
+  def format_number(value, zero_as_blank: true, precision: 0)
+    return '--' if zero_as_blank && value.to_f.zero?
 
     in_million = to_million(value)
-    money = humanized_money to_million(value), percision: 2
+    money = humanized_money(to_million(value))
+    money = money.split('.').first if precision.zero?
+
     money.include?('-') ? "(#{money.gsub('-', '')})" : money
   end
 

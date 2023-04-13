@@ -44,7 +44,8 @@
 #
 # Indexes
 #
-#  index_profit_and_loss_statements_on_quote_id  (quote_id)
+#  index_profit_and_loss_statements_on_quote_id           (quote_id)
+#  index_profit_and_loss_statements_on_quote_period_year  ("quote_id", "period", "calendar_year") UNIQUE
 #
 # Foreign Keys
 #

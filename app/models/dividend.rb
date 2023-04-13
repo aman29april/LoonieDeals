@@ -5,9 +5,10 @@
 # Table name: dividends
 #
 #  id               :integer          not null, primary key
-#  amount           :float
-#  dividend_date    :date
-#  ex_dividend_date :date
+#  amount_cents     :integer
+#  currency         :string           default("USD"), not null
+#  date             :date
+#  declaration_date :date
 #  payment_date     :date
 #  record_date      :date
 #  created_at       :datetime         not null
@@ -27,5 +28,7 @@ class Dividend < ApplicationRecord
 
   validates :record_date, presence: true
   validates :payment_date, presence: true
-  validates :amount, presence: true, numericality: { greater_than_or_equal_to: 0 }
+  validates :amount_cents, presence: true, numericality: { greater_than_or_equal_to: 0 }
+
+  monetize :amount_cents, with_model_currency: :currency
 end

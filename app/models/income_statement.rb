@@ -48,7 +48,8 @@
 #
 # Indexes
 #
-#  index_income_statements_on_quote_id  (quote_id)
+#  index_income_statements_on_quote_id                               (quote_id)
+#  index_income_statements_on_quote_id_and_period_and_calendar_year  (quote_id,period,calendar_year) UNIQUE
 #
 # Foreign Keys
 #
