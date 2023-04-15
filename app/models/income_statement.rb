@@ -63,33 +63,38 @@ class IncomeStatement < ApplicationRecord
   belongs_to :quote
 
   MAP = {
-    cost_of_revenue: { text: 'Cost Of Revenue' },
-    gross_profit: { text: 'Gross Profit' },
-    gross_profit_ratio: { text: 'Gross Profit Ratio' },
-    research_and_development_expenses: { text: 'Research And Development Expenses' },
-    general_and_administrative_expenses: { text: 'General And Administrative Expenses' },
-    selling_and_marketing_expenses: { text: 'Selling And Marketing Expenses' },
-    selling_general_and_administrative_expenses: { text: 'Selling General And Administrative Expenses' },
-    other_expenses: { text: 'Other Expenses' },
+    revenue: { text: 'Revenue', bold: true, highlight: true },
+    cost_of_revenue: { text: 'COGS' },
+    gross_profit: { text: 'Gross Profit', bold: true },
+    gross_profit_ratio: { text: 'Gross Profit Ratio', format: :percentage },
     operating_expenses: { text: 'Operating Expenses' },
-    cost_and_expenses: { text: 'Cost And Expenses' },
+
+    research_and_development_expenses: { text: 'R&D Expenses' },
+
+    selling_general_and_administrative_expenses: { text: 'Selling, G&A Expenses',
+                                                   tooltip: 'Selling General And Administrative Expenses' },
+    general_and_administrative_expenses: { text: 'General & Admin. Expenses' },
+    selling_and_marketing_expenses: { text: 'Selling & Marketing Exp.' },
+    other_expenses: { text: 'Other Expenses' },
+    cost_and_expenses: { text: 'COGS And Expenses' },
     interest_income: { text: 'Interest Income' },
     interest_expense: { text: 'Interest Expense' },
     depreciation_and_amortization: { text: 'Depreciation And Amortization' },
-    ebitda: { text: 'Ebitda' },
-    ebitdaratio: { text: 'Ebitdaratio' },
-    operating_income: { text: 'Operating Income' },
-    operating_income_ratio: { text: 'Operating Income Ratio' },
-    total_other_income_expenses_net: { text: 'Total Other Income Expenses Net' },
+    ebitda: { text: 'EBITDA', bold: true },
+    ebitdaratio: { text: 'EBITDA Ratio', format: :percentage },
+    # Income
+    operating_income: { text: 'Operating Income', bold: true, highlight: true },
+    operating_income_ratio: { text: 'Operating Income Ratio', format: :percentage },
+    total_other_income_expenses_net: { text: 'Total Other Income Exp (Gains)' },
     income_before_tax: { text: 'Income Before Tax' },
-    income_before_tax_ratio: { text: 'Income Before Tax Ratio' },
-    income_tax_expense: { text: 'Income Tax Expense' },
-    net_income: { text: 'Net Income' },
-    net_income_ratio: { text: 'Net Income Ratio' },
-    eps: { text: 'Eps' },
-    epsdiluted: { text: 'Epsdiluted' },
-    weighted_average_shs_out: { text: 'Weighted Average Shs Out' },
-    weighted_average_shs_out_dil: { text: 'Weighted Average Shs Out Dil' }
+    income_before_tax_ratio: { text: 'Income Before Tax Ratio', format: :percentage, bold: true },
+    income_tax_expense: { text: 'Income Tax Expense(Gain)' },
+    net_income: { text: 'Net Income', bold: true, highlight: true },
+    net_income_ratio: { text: 'Net Income Ratio', format: :percentage },
+    eps: { text: 'EPS', format: :number },
+    epsdiluted: { text: 'EPS Diluted', format: :number },
+    weighted_average_shs_out: { text: 'Weighted Avg Shares Outs.' },
+    weighted_average_shs_out_dil: { text: 'Weighted Avg Shares Out Dil.', bold: true }
   }.freeze
 
   monetize :revenue_cents, :cost_of_revenue_cents,
@@ -118,5 +123,9 @@ class IncomeStatement < ApplicationRecord
 
   def map
     MAP
+  end
+
+  def revenue
+    cost_of_revenue + gross_profit
   end
 end

@@ -1,6 +1,6 @@
 import Chart from "chart.js/auto";
 import { Tooltip } from "chart.js/auto";
-
+import currency from "currency.js";
 
 (function () {
 
@@ -53,15 +53,15 @@ import { Tooltip } from "chart.js/auto";
     var text;
     switch (metric) {
       case "Price":
-        text = "₹ " + point.y;
+        text = currency(point.y, { fromCents: false, precision: 2 }).format();
         break;
 
       case "Volume":
         text = "Vol: " + volumeInK(point.y);
-        if (point.meta.delivery) {
-          text +=
-            '<span class="ink-700"> D: ' + point.meta.delivery + "%</span>";
-        }
+        // if (point.meta.delivery) {
+        //   text +=
+        //     '<span class="ink-700"> D: ' + point.meta.delivery + "%</span>";
+        // }
         break;
 
       case "Quarter Sales":
@@ -816,19 +816,10 @@ import { Tooltip } from "chart.js/auto";
   function getRawDatasetsFromDom() {
     var element = document.getElementById("chart");
     var data = JSON.parse(element.dataset.data);
-    return [{
-        metric: "Price",
-        label: "Price on BSE",
-      values: data,
-        meta: {
-          "exchange": "bse",
-          "unit": "month"
-          }
-    }];
+    return data['datasets'];
   }
 
   async function setUpEverything() {
-    alert('ok')
     // set and load data for last 365 days
     var state = {
       days: 30,
@@ -842,7 +833,7 @@ import { Tooltip } from "chart.js/auto";
     // render first chart
     var target = document.getElementById("canvas-chart-holder");
     var chart = drawChart(target, state);
-    updateMetricsIndicator(state.metrics);
+    // updateMetricsIndicator(state.metrics);
     updatePeriodIndicator(state.days);
 
     window.CompanyChart = {
@@ -850,6 +841,7 @@ import { Tooltip } from "chart.js/auto";
         setActive(chart, state, event);
       },
     };
+
   }
 
   setUpEverything();

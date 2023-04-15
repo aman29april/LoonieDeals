@@ -6,7 +6,7 @@ module FinancialStatementHelper
   included do
     validates :calendar_year, uniqueness: { scope: %i[quote_id period] }
 
-    scope :by_year_n_quarter, -> { yearly.order(calendar_year: :desc).limit(20) }
+    scope :by_year_n_quarter, -> { yearly.order(calendar_year: :asc) }
 
     scope :yearly, -> { where(period: 'FY') }
     scope :quarterly, -> { where.not.call(period: 'FY') }

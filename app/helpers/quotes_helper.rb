@@ -1,19 +1,54 @@
 # frozen_string_literal: true
 
 module QuotesHelper
-  def financial_data_to_table(data, structure)
+  def financial_data_to_table(data, structure, options = {})
+    data = transpose_data(data, structure)
+
+   return convert_to_percentage(data) if options[:view] == 'growth'
+
+    data
+  end
+
+  def convert_to_percentage(data)
+    table = data.dup
+    table.each do |rows|
+      rows.each_with_index do |map, index|
+        if index.zero?
+          map[:percentage] = '' 
+          next
+        end
+        next if map[:value].blank? || map[:value].zero?
+
+        prev_index = index - 1
+        current_value = map[:value]
+        prev_value = rows[prev_index][:value]
+        percentage = percentage_change(prev_value, current_value)
+        map.merge!(
+          percentage:,
+          tooltip: map[:formatted_value],
+          formatted_value: format_percentage(percentage, 0),
+          class: fs_data_class(percentage)
+        )
+      end
+    end
+    table
+  end
+
+  def transpose_data(data, structure)
     cols = []
     table = []
 
     structure.each { |_k, v| cols << { formatted_value: v[:text] } }
     table.insert(0, cols)
 
-    data.each do |balance_sheet|
-      hash = balance_sheet.to_row
+    data.each do |record|
+      row_hash = record.to_row
       row = []
-      hash.each do |_field, map|
+      row_hash.each do |field, map|
+        map[:key] = field
         map[:formatted_value] = format_value(map[:value], map)
-        row << map.slice(:formatted_value, :value)
+        # row << map.slice(:formatted_value, :value, :tooltip, :key, :class)
+        row << map.dup
       end
       table << row
     end
@@ -21,34 +56,22 @@ module QuotesHelper
     table.transpose
   end
 
-  def format_value(value, options = {})
-    format = options[:format]
-
-    case format
-    when :as_it_is
-      value
-    when :number
-      value
-    else
-      format_number(value)
+  def table_row_class(row)
+    klass = []
+    klass << 'font-weight-bold' if row[:bold] == true
+    if row[:highlight] == true
+      klass << 'table-warning'
+      klass << 'font-weight-bold' 
     end
+    klass.uniq.join(' ')
   end
 
-  # Shows number in million
-  # also shows negative numbers in paranthesis.
-  def format_number(value, zero_as_blank: true, precision: 0)
-    return '--' if zero_as_blank && value.to_f.zero?
 
-    in_million = to_million(value)
-    money = humanized_money(to_million(value))
-    money = money.split('.').first if precision.zero?
+  def fs_data_class(value)
+    value = value.to_s
+    return 'negative' if value.starts_with?('-')
+    return '' if value == '0%'
 
-    money.include?('-') ? "(#{money.gsub('-', '')})" : money
-  end
-
-  def to_million(value)
-    return if value.blank?
-
-    value / (10**6)
+    'positive'
   end
 end

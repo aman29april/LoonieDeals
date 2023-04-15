@@ -1,1 +1,2 @@
-=render partial: 'table', locals: {heading: 'Cash Flows', data: quote.cash_flows.by_year_n_quarter, structure: CashFlow::MAP}
+%h1
+=render partial: 'table', locals: {heading: 'Cash Flows', data: quote.cash_flows.by_year_n_quarter, structure: CashFlow::MAP, options: options}

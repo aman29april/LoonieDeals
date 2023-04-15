@@ -1,4 +1,6 @@
 import { Application } from "@hotwired/stimulus"
+import { definitionsFromContext } from "@hotwired/stimulus/webpack-helpers";
+
 
 const application = Application.start()
 
@@ -9,6 +11,9 @@ window.Stimulus   = application
 export { application }
 
 import Chart from "chart.js/auto";
+
+const context = require.context("../controllers", true, /\.js$/);
+application.load(definitionsFromContext(context));
 
 document.addEventListener("turbolinks:load", () => {
   console.log("ok");

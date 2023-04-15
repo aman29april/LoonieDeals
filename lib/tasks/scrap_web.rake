@@ -224,7 +224,7 @@ namespace :scrap_web do
     quote.save!
 
     puts '-----Quote Created/updated------'
-    puts 'Name: #{quote.name}'
+    puts "Name: #{quote.name}"
     quote
   end
 

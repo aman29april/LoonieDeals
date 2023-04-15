@@ -1,5 +1,168 @@
 @import 'bootstrap/scss/bootstrap';
 @import 'bootstrap-icons/font/bootstrap-icons';
+@import 'structure.scss';
+@import 'custom.scss';
+
+
+.font-weight-bold{
+  td{
+    font-weight: bold;
+  }
+}
+.negative{
+  color: var(--down)
+}
+
+.positive{
+  color: var(--up)
+}
+
+.has-tooltip {
+  position: relative;
+}
+.flex {
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.has-tooltip:hover .tooltip {
+  display: block;
+  pointer-events: initial;
+}
+
+.tooltip {
+  display: none;
+  pointer-events: none;
+
+  background-color: var(--ink-900);
+  border-radius: 6px;
+  padding: 12px;
+  box-shadow: 0px 4px 64px rgba(0, 0, 0, 0.32);
+  transition: all 0.15s ease;
+
+  font-weight: normal;
+  font-size: 0.9em;
+  text-align: center;
+  color: var(--base);
+
+  /* Position */
+  bottom: 100%;
+  left: 50%;
+  position: absolute;
+  transform: translate(-50%, -8px);
+
+  z-index: 1;
+}
+.invisible {
+  visibility: hidden;
+}
+
+chart-label {
+  color: #8c8c8c;
+  font-size: 1.3rem;
+  letter-spacing: var(--letter-spacing-13);
+  line-height: 1;
+  width: 14px;
+  word-wrap: normal;
+  white-space: nowrap;
+  overflow: hidden;
+  position: relative;
+  pointer-events: none;
+}
+
+/* Chart Area */
+
+#chart-area {
+  position: relative;
+  top: 0;
+  left: 0;
+}
+
+#chart-crosshair {
+  position: absolute;
+  width: 1px;
+  height: 315px;
+  background: var(--ink-900);
+  opacity: 0.2;
+  pointer-events: none;
+}
+
+#chart-tooltip {
+  position: absolute;
+  background-color: var(--base);
+  padding: 8px 14px;
+  top: 10px;
+  left: 45px;
+  pointer-events: none;
+
+  border: 1.5px solid var(--border-color);
+  box-shadow: 0 7px 5px -8px rgba(0, 0, 0, 0.24);
+  border-radius: 8px;
+}
+
+.chart-label {
+  color: #8c8c8c;
+  font-size: 1.3rem;
+  letter-spacing: var(--letter-spacing-13);
+  line-height: 1;
+  width: 14px;
+  word-wrap: normal;
+  white-space: nowrap;
+  overflow: hidden;
+  position: relative;
+  pointer-events: none;
+}
+
+#chart-label-left {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%) rotate(-90deg);
+}
+
+#chart-label-right {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%) rotate(90deg);
+}
+
+#chart-legend {
+  text-align: center;
+}
+
+#chart-legend button {
+  font-size: 1.4rem;
+  letter-spacing: var(--letter-spacing-14);
+  margin-right: 1em;
+}
+
+#chart-legend button.inactive {
+  text-decoration: line-through;
+}
+
+.chart-legend-indicator {
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 8px;
+  margin-bottom: 3px;
+}
+
+.chart-legend-indicator.bar {
+  border-radius: 1px;
+  height: 14px;
+  width: 7px;
+}
+
+.chart-legend-indicator.line {
+  width: 25px;
+  height: 0;
+  border: 1px solid;
+}
+
+.chart-legend-indicator.line.dashed {
+  border-style: dashed;
+}
 
 /* Options and active */
 .options {

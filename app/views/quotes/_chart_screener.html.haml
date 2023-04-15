@@ -1,9 +1,8 @@
-%canvas#myChart{"data-data" => "#{@data_values}", "data-labels" => "#{@data_keys}", :height => "50px", :width => "200px"}
 
 #chart{"data-data": "#{@data}"}
 
-%section#chart.card.card-large{:style => "margin-bottom: 2.5rem"}
-  #chart-menu.flex.flex-space-between.flex-wrap{:style => "margin-bottom: 16px"}
+%section#chart.card.card-large
+  #chart-menu.flex.flex-space-between.flex-wrap.d-none
     #company-chart-days.options
       %button{:name => "days", :onclick => "CompanyChart.setActive(event)", :type => "button", :value => "30"}
         1m
@@ -49,29 +48,27 @@
   .flex.no-select
     .hide-on-mobile.chart-label
       #chart-label-left Volume
-    #chart-area{:style => "flex-grow: 1;"}
+    #chart-area
       #chart-info.invisible
-        #chart-crosshair{:style => "top: 10.2px; height: 336.4px; left: 806.345px;"}
-        #chart-tooltip.font-size-14{:style => "top: 322px; left: 738.845px;"}
-          #chart-tooltip-meta.ink-700.font-size-12 02 Dec 22
-          #chart-tooltip-title.font-weight-500.font-size-15 ₹ 903.35
+        #chart-crosshair
+        #chart-tooltip.font-size-14
+          #chart-tooltip-meta.ink-700.font-size-12
+          #chart-tooltip-title.font-weight-500.font-size-15
           #chart-tooltip-info
-            Vol: 886
-            %span.ink-700 D: 69%
+            %span.ink-700
       #canvas-chart-holder{:style => "height: 375px;"}
-        %canvas{:height => "750", :style => "display: block; box-sizing: border-box; height: 375px; width: 1284.5px;", :width => "2569"}
+        %canvas{style: "height: 0px; width: 1284.5px;"}
     .hide-on-mobile.chart-label
       #chart-label-right Price on BSE
-  #chart-legend.flex{:style => "justify-content: center; margin-top: 2rem;"}
-    %label{:style => "box-sizing: border-box; padding: 6px 8px; margin-right: 16px; font-size: 14px; font-weight: 500; cursor: pointer;"}
+  #chart-legend.flex
+    %label
       %input.chart-checkbox{:style => "background: rgb(100, 93, 249);", :type => "checkbox"}/
       %span Price on BSE
-    %label{:style => "box-sizing: border-box; padding: 6px 8px; margin-right: 16px; font-size: 14px; font-weight: 500; cursor: pointer;"}
+    %label
       %input.chart-checkbox{:style => "background: rgb(242, 186, 90);", :type => "checkbox"}/
       %span 50 DMA
-    %label{:style => "box-sizing: border-box; padding: 6px 8px; margin-right: 16px; font-size: 14px; font-weight: 500; cursor: pointer;"}
-      %input.chart-checkbox{:style => "background: rgb(112, 129, 143);", :type => "checkbox"}/
-      %span 200 DMA
-    %label{:style => "box-sizing: border-box; padding: 6px 8px; margin-right: 16px; font-size: 14px; font-weight: 500; cursor: pointer;"}
+    %label
+      %input.chart-checkbox
+    %label
       %input.chart-checkbox{:style => "background: rgb(190, 211, 253);", :type => "checkbox"}/
       %span Volume

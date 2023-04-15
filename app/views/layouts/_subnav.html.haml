@@ -1,0 +1,19 @@
+.sub-nav-holder
+  .sub-nav
+    %a.active{:href => "#top"}
+      %span.shrink-text.show-from-tablet-landscape
+        Rossell India
+      %span.hide-from-tablet-landscape
+        Summary
+    %a{:href => "#chart"} Chart
+    %a{:href => "#analysis"} Analysis
+    %a{:href => "#profit-loss"} Profit & Loss
+    %a{:href => "#balance-sheet"} Balance Sheet
+    %a{:href => "#cash-flow"} Cash Flow
+    %a{:href => "#ratios"} Ratios
+
+    .flex-grow.flex.show-from-tablet-landscape
+      .flex-grow
+      %button.a{"data-is-right-modal" => "true", "data-title" => "Rossell India Ltd", "data-url" => "/notebook/2783/", :onclick => "Modal.openInModal(event)", :type => "button"}
+        %i.icon-book-open
+        Notebook

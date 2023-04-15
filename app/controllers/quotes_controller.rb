@@ -10,20 +10,34 @@ class QuotesController < ApplicationController
 
   # GET /quotes/1 or /quotes/1.json
   def show
-    @data = @quote.monthly_prices.map do |mp|
-      # {x: mp.date , y: mp.last_day_close_cents}
-      [mp.date, mp.last_day_close_cents]
-    end.to_json
+    prices =  []
+    volumes = []
+    values = @quote.monthly_prices.map do |mp|
+      prices << [mp.date, mp.last_day_close_cents]
+      volumes << [mp.date, mp.volume]
+    end
 
-    @data_keys = %w[
-      January
-      February
-      March
-      April
-      May
-      June
-    ]
-    @data_values = [0, 10, 5, 2, 20, 30, 45]
+    @data = {
+      datasets: [
+        {
+          metric: 'Price',
+          label: 'Price',
+          values: prices,
+          meta: {
+            unit: 'month',
+            exchange: ''
+          }
+        },
+        {
+          metric: 'Volume',
+          label: 'Volume',
+          values: volumes,
+          meta: {}
+        }
+      ]
+    }.to_json
+
+    @options = { view: params[:view] }
   end
 
   def historic

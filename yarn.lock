@@ -1932,6 +1932,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"add@npm:^2.0.6":
+  version: 2.0.6
+  resolution: "add@npm:2.0.6"
+  checksum: e2d23d40494565dfed4acd65e478570c444db5ac6c053551ed429c39ea0f2c99d83df63e7befec936df601827d2254d06a2fb6f7dcfd2022e810b25eab818b8c
+  languageName: node
+  linkType: hard
+
 "agent-base@npm:6, agent-base@npm:^6.0.2":
   version: 6.0.2
   resolution: "agent-base@npm:6.0.2"
@@ -2114,6 +2121,7 @@ __metadata:
     "@hotwired/turbo-rails": ^7.3.0
     "@popperjs/core": ^2.11.7
     "@rails/webpacker": ^5.4.4
+    add: ^2.0.6
     apexcharts: ^3.37.3
     babel-loader: 8
     bootstrap: ^5.2.3
@@ -2122,6 +2130,7 @@ __metadata:
     chart.js: ^4.2.1
     chartjs-adapter-date-fns: ^3.0.0
     compression-webpack-plugin: 9
+    currency.js: ^2.0.4
     date-fns: ^2.29.3
     esbuild: ^0.17.16
     sass: ^1.62.0
@@ -2130,6 +2139,7 @@ __metadata:
     webpack-assets-manifest: 5
     webpack-cli: 4
     webpack-merge: 5
+    yarn: ^1.22.19
   languageName: unknown
   linkType: soft
 
@@ -3538,6 +3548,13 @@ __metadata:
   dependencies:
     css-tree: ^1.1.2
   checksum: 380ba9663da3bcea58dee358a0d8c4468bb6539be3c439dc266ac41c047217f52fd698fb7e4b6b6ccdfb8cf53ef4ceed8cc8ceccb8dfca2aa628319826b5b998
+  languageName: node
+  linkType: hard
+
+"currency.js@npm:^2.0.4":
+  version: 2.0.4
+  resolution: "currency.js@npm:2.0.4"
+  checksum: 327b0f5c329df8fba3071ab76ef301cd6ddf967304f52f69934c4e2aee07fcf30130a8cd136d3a8803f5932b1fdc195a2dcc68b16630ad0f10f86c0608920446
   languageName: node
   linkType: hard
 
@@ -9545,6 +9562,16 @@ __metadata:
     y18n: ^4.0.0
     yargs-parser: ^13.1.2
   checksum: 75c13e837eb2bb25717957ba58d277e864efc0cca7f945c98bdf6477e6ec2f9be6afa9ed8a876b251a21423500c148d7b91e88dee7adea6029bdec97af1ef3e8
+  languageName: node
+  linkType: hard
+
+"yarn@npm:^1.22.19":
+  version: 1.22.19
+  resolution: "yarn@npm:1.22.19"
+  bin:
+    yarn: bin/yarn.js
+    yarnpkg: bin/yarn.js
+  checksum: b43d2cc5fee7e933beb12a8aee7dfceca9e9ef2dd17c5d04d15a12ab7bec5f5744ea34a07b86e013da7f291a18c4e1ad8f70e150f5ed2f4666e6723c7f0a8452
   languageName: node
   linkType: hard
 
