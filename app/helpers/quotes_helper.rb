@@ -4,7 +4,7 @@ module QuotesHelper
   def financial_data_to_table(data, structure, options = {})
     data = transpose_data(data, structure)
 
-   return convert_to_percentage(data) if options[:view] == 'growth'
+    return convert_to_percentage(data) if options[:view] == 'growth'
 
     data
   end
@@ -14,7 +14,7 @@ module QuotesHelper
     table.each do |rows|
       rows.each_with_index do |map, index|
         if index.zero?
-          map[:percentage] = '' 
+          map[:percentage] = ''
           next
         end
         next if map[:value].blank? || map[:value].zero?
@@ -61,11 +61,10 @@ module QuotesHelper
     klass << 'font-weight-bold' if row[:bold] == true
     if row[:highlight] == true
       klass << 'table-warning'
-      klass << 'font-weight-bold' 
+      klass << 'font-weight-bold'
     end
     klass.uniq.join(' ')
   end
-
 
   def fs_data_class(value)
     value = value.to_s

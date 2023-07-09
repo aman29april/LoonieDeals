@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 module NumberHelper
-
   # Shows number in million
   # also shows negative numbers in paranthesis.
   def format_number(value, zero_as_blank: true, precision: 0)
@@ -31,7 +30,6 @@ module NumberHelper
     end
   end
 
-
   def to_million(value)
     return if value.blank?
 
@@ -49,5 +47,4 @@ module NumberHelper
     change = (new_value - old_value).to_f
     (change / old_value.abs) * 100
   end
-
 end

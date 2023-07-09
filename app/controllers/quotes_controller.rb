@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class QuotesController < ApplicationController
-  before_action :set_quote, only: %i[show edit update destroy historic]
+  before_action :set_quote, only: %i[show historic]
 
   # GET /quotes or /quotes.json
   def index

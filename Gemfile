@@ -5,8 +5,10 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '3.2.2'
 
+gem 'faraday', '~> 2.7.10'
+
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
-gem 'rails', '~> 7.0.4', '>= 7.0.4.3'
+gem 'rails', '~> 7.0.6'
 
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem 'sprockets-rails'
@@ -56,6 +58,10 @@ gem 'friendly_id', '~> 5.4.0'
 gem 'haml-rails', '~> 2.0'
 gem 'money-rails', '~> 1.12'
 
+gem 'instagram'
+gem 'koala'
+gem 'rest-client'
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem 'debug', platforms: %i[mri mingw x64_mingw]
@@ -96,4 +102,4 @@ gem 'jsbundling-rails', '~> 1.1'
 
 gem 'shakapacker', '= 6.6'
 
-gem 'react-rails', '= 2.6'
+gem 'react-rails'

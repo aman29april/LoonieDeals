@@ -1,4 +1,22 @@
-%h1 Cover your page.
-%p.lead Cover is a one-page template for building simple and beautiful home pages. Download, edit the text, and add your own fullscreen background photo to make it your own.
-%p.lead
-%a.btn.btn-lg.btn-secondary.fw-bold.border-white.bg-white{:href => "#"} Learn more
+.flex.flex-column{:style => "max-width: 650px; margin: 96px auto; min-height: 60vh; text-align: center; justify-content: center; padding: 16px;"}
+  %h1{:style => "margin-bottom: 0"}
+    %img.u-max-full-width.logo{:alt => "Screener logo", :src => "https://cdn-static.screener.in/img/logo-black.f44abb4998d1.svg"}/
+  %p.bigger
+    Stock analysis and screening tool for investors in India.
+  %div{:style => "margin-top: 3%"}
+    .home-search{:style => "margin-bottom:1.5rem"}
+      = react_component("SearchQuote", { greeting: "Hello from react-rails." })
+
+      
+    %p.suggestions
+      Or analyse:
+      -# %a.button{:href => "/company/504918/"} Sandur Manganese
+      -# %a.button{:href => "/company/531201/"} Shilchar Tech
+      -# %a.button{:href => "/company/KOVAI/"} Kovai Medical
+      -# %a.button{:href => "/company/524774/"} NGL Fine Chem
+      -# %a.button{:href => "/company/PERMAGNET/"} Permanent Magnet
+      -# %a.button{:href => "/company/500333/consolidated/"} Pix Transmission
+      -# %a.button{:href => "/company/520073/"} RACL Geartech
+      -# %a.button{:href => "/company/ROSSELLIND/"} Rossell India
+      %a.button{:href => "/company/513097/"} Shivalik Bimetal
+      %a.button{:href => "/company/MIRZAINT/"} Mirza Intl

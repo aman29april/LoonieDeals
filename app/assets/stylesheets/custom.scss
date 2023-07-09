@@ -34,6 +34,8 @@ table {
         max-width: 250px;
       }
    }
-   
-  
-}    
+}
+
+.selected-row>td {
+  background-color: yellow;
+}

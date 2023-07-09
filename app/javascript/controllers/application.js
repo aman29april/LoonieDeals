@@ -11,6 +11,7 @@ window.Stimulus   = application
 export { application }
 
 import Chart from "chart.js/auto";
+import "./components";
 
 const context = require.context("../controllers", true, /\.js$/);
 application.load(definitionsFromContext(context));

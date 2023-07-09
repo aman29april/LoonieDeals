@@ -4,6 +4,13 @@ Rails.application.routes.draw do
   resources :quotes do
     get :historic, format: :json
   end
+
+  # resource :sharks, only: [:index]
+
+  # get 'sharks', controller: 'sharks', action: 'index', as: 'sharks'
+
+  resources :sharks, only: %i[index show]
+
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
   devise_for :users

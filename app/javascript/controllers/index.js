@@ -20,6 +20,11 @@ import './chart_custom.js'
 import "./popper_controller.js";
 import "./tooltip_controller.js";
 
+
+window.onload = (event) => {
+  // tableRowBackgroundHandler()
+};
+
 var element = document.getElementById("chart");
 var data = JSON.parse(element.dataset.data);
 
@@ -210,7 +215,6 @@ var data = JSON.parse(element.dataset.data);
 //     var tooltipElements = getTooltipElements();
 // var options = getChartOptions();
     
-// debugger
 // // var ctx = canvas.getContext("2d");
 //     var ctx = document.getElementById("my-canvas").getContext("2d");
 //     var chart = new Chart(ctx, {
