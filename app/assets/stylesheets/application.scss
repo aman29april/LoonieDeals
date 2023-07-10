@@ -3,23 +3,36 @@
 @import 'structure.scss';
 @import 'custom.scss';
 
+@import "./partials/variables.scss";
+@import "./partials/mixins.scss";
+@import './partials/miscellaneous.scss';
+@import "./partials/notice.scss";
 
-.font-weight-bold{
-  td{
+@import './modules/alert_message.scss';
+@import 'modules/tags.scss';
+
+
+
+// @import 'dropzone/dist/min/dropzone.min.css';
+
+.font-weight-bold {
+  td {
     font-weight: bold;
   }
 }
-.negative{
+
+.negative {
   color: var(--down)
 }
 
-.positive{
+.positive {
   color: var(--up)
 }
 
 .has-tooltip {
   position: relative;
 }
+
 .flex {
   display: -ms-flexbox;
   display: flex;
@@ -53,6 +66,7 @@
 
   z-index: 1;
 }
+
 .invisible {
   visibility: hidden;
 }
@@ -317,8 +331,8 @@ chart-label {
 }
 
 
-.truncate{
+.truncate {
   overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }

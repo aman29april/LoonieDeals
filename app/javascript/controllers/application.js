@@ -1,5 +1,9 @@
 import { Application } from "@hotwired/stimulus"
 import { definitionsFromContext } from "@hotwired/stimulus/webpack-helpers";
+import "dropzone/dist/min/dropzone.min.js";
+import * as ActiveStorage from "@rails/activestorage";
+ActiveStorage.start();
+
 
 
 const application = Application.start()
@@ -10,7 +14,6 @@ window.Stimulus   = application
 
 export { application }
 
-import Chart from "chart.js/auto";
 import "./components";
 
 const context = require.context("../controllers", true, /\.js$/);

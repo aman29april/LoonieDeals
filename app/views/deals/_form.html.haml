@@ -1,0 +1,38 @@
+= form_for @deal do |form|
+  - if @deal.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@deal.errors.count, "error")} prohibited this deal from being saved:"
+      %ul
+        - @deal.errors.full_messages.each do |message|
+          %li= message
+
+  .mb-3
+    = form.label :title, class: "form-label"
+    = form.text_field :title, class: "form-control"
+  .mb-3
+    = form.label :description, class: "form-label"
+    = form.text_area :description, class: "form-control"
+  .mb-3
+    = form.label :price, class: "form-label"
+    = form.number_field :price, class: "form-control"
+  .mb-3
+    = form.label :discount, class: "form-label"
+    = form.number_field :discount, class: "form-control"
+  .mb-3
+    = form.label :expiration_date, class: "form-label"
+    = form.date_field :expiration_date, class: "form-control"
+  .mb-3
+    = form.label :url, class: "form-label"
+    = form.url_field :url, class: "form-control"
+  .mb-6
+    = form.label :image, class: "label"
+    = dropzone_controller_div do
+      = form.file_field :image, direct_upload: true, data: { target: 'dropzone.input' }
+      .dropzone-msg.dz-message.needsclick.text-gray-600
+        %h3.dropzone-msg-title Drag here to upload or click here to browse
+        %span.dropzone-msg-desc.text-sm 2 MB file size maximum. Allowed file types png, jpg.
+  .text-center
+    = form.submit "Create Deal", class: "btn btn-primary"
+
+  .actions
+    = form.submit 'Save'

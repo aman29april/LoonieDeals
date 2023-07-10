@@ -1,0 +1,58 @@
+.info,
+.success,
+.warning,
+.error {
+  margin: 8px 0px;
+  padding: 10px;
+  font-size: 1em;
+}
+
+.success:before {
+  padding-right: 5px;
+}
+
+.error:before {
+  padding-right: 5px;
+}
+
+.success {
+  color: #4F8A10;
+  background-color: #DFF2BF;
+}
+
+.error {
+  color: #D8000C;
+  background-color: #FFBABA;
+}
+
+#error_explanation {
+  margin: 10px 0px;
+  padding: 12px;
+  color: #D8000C;
+  background-color: #f7c8c8c9;
+  border-radius: 6px;
+  padding-bottom: 5px;
+  padding-left: 0px;
+}
+
+#error_explanation h2 {
+  display: none;
+}
+
+#error_explanation p {
+  color: #333;
+  margin-bottom: 0;
+  padding: 5px;
+}
+
+#error_explanation ul li {
+  font-size: 1.1em;
+  list-style: none;
+  color: black;
+}
+
+.posts {
+  .field_with_errors {
+    width: 100%;
+  }
+}

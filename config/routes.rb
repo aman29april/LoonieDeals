@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  resources :quotes do
-    get :historic, format: :json
+  resources :deals do
   end
 
   # resource :sharks, only: [:index]
