@@ -21,8 +21,8 @@
 FactoryBot.define do
   factory :coupon do
     store { nil }
-    code { "MyString" }
-    discount { "9.99" }
-    expiration_date { "2023-07-09" }
+    code { 'MyString' }
+    discount { '9.99' }
+    expiration_date { '2023-07-09' }
   end
 end

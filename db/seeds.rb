@@ -8,9 +8,7 @@ if Rails.env.development?
                     password_confirmation: 'password')
 end
 
-
-categories = %w(
-  Autos
+categories = %(Autos
   Babies & Kids
   Bags & Luggage
   Books & Magzines
@@ -37,8 +35,13 @@ categories = %w(
   Tech & Electronics
   Travel & Vacations
   TV
-  Video Games
-)
+  Video Games).split("\n")
+
 categories.each do |name|
-  Category.create!(name: name)
+  Category.create!(name:)
+end
+
+stores = %(Amazon).split("\n")
+stores.each do |name|
+  Store.create!(name:)
 end

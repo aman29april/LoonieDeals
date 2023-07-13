@@ -10,6 +10,8 @@
     -# = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
     = javascript_include_tag "application", "data-turbo-track": "reload", defer: true 
     = javascript_include_tag "activestorage"
+    = javascript_importmap_tags
+    = stylesheet_link_tag "actiontext", "data-turbo-track": "reload"
 
     
     %link{:href => "https://unpkg.com/dropzone@5/dist/min/dropzone.min.css", :rel => "stylesheet", :type => "text/css"}/

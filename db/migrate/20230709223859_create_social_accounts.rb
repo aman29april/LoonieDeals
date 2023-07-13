@@ -1,7 +1,6 @@
 class CreateSocialAccounts < ActiveRecord::Migration[7.0]
   def change
     create_table :social_accounts do |t|
-
       t.bigint 'user_id', null: false
       t.integer 'account_type', null: false
       t.string 'url', null: false

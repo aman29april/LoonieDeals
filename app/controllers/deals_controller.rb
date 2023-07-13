@@ -1,6 +1,6 @@
 class DealsController < ApplicationController
   # before_action :authenticate_user!, except: [:show, :index]
-  before_action :set_deal, only: [:show, :edit, :update, :destroy]
+  before_action :set_deal, only: %i[show edit update destroy]
 
   def index
     @deals = Deal.all
@@ -12,6 +12,8 @@ class DealsController < ApplicationController
 
   def new
     @deal = Deal.new
+    @stores = Store.all
+    @categories = Category.all
   end
 
   def create
@@ -24,8 +26,7 @@ class DealsController < ApplicationController
     end
   end
 
-  def edit
-  end
+  def edit; end
 
   def update
     if @deal.update(deal_params)
@@ -47,6 +48,6 @@ class DealsController < ApplicationController
   end
 
   def deal_params
-    params.require(:deal).permit(:title, :description, :price, :discount, :expiration_date, :url, :image)
+    params.require(:deal).permit(:title, :description, :price, :retail_price, :discount, :expiration_date, :url, :pinned, :image, :store_id, :category_id, :meta_keywords, :meta_description )
   end
 end

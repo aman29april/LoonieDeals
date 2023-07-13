@@ -26,10 +26,10 @@
 FactoryBot.define do
   factory :deal do
     store { nil }
-    title { "MyString" }
-    description { "MyText" }
-    price { "9.99" }
-    discount { "9.99" }
-    expiration_date { "2023-07-09" }
+    title { 'MyString' }
+    description { 'MyText' }
+    price { '9.99' }
+    discount { '9.99' }
+    expiration_date { '2023-07-09' }
   end
 end

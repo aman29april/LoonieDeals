@@ -10,7 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_10_022215) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_10_071846) do
+  create_table "action_text_rich_texts", force: :cascade do |t|
+    t.string "name", null: false
+    t.text "body"
+    t.string "record_type", null: false
+    t.bigint "record_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["record_type", "record_id", "name"], name: "index_action_text_rich_texts_uniqueness", unique: true
+  end
+
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -67,6 +77,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_10_022215) do
 
   create_table "categories", force: :cascade do |t|
     t.string "name"
+    t.integer "deals_count", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -94,17 +105,28 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_10_022215) do
   end
 
   create_table "deals", force: :cascade do |t|
-    t.integer "store_id", null: false
-    t.string "title"
-    t.text "description"
+    t.string "title", null: false
+    t.text "body"
     t.decimal "price"
+    t.decimal "retail_price"
     t.decimal "discount"
     t.string "url"
-    t.boolean "pinned"
+    t.boolean "pinned", default: false
+    t.datetime "published_at", precision: nil
+    t.boolean "featured", default: false
+    t.string "slug"
+    t.string "short_slug"
+    t.string "meta_keywords"
+    t.string "meta_description"
     t.date "expiration_date"
     t.integer "view_count", default: 0
+    t.integer "upvotes", default: 0
+    t.integer "downvotes", default: 0
+    t.integer "store_id", null: false
+    t.integer "category_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["category_id"], name: "index_deals_on_category_id"
     t.index ["store_id"], name: "index_deals_on_store_id"
   end
 
@@ -178,7 +200,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_10_022215) do
     t.text "description"
     t.string "website"
     t.string "affiliate_id"
-    t.string "image"
+    t.boolean "featured", default: false
+    t.string "slug"
+    t.string "meta_keywords"
+    t.string "meta_description"
+    t.integer "deals_count", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -228,5 +254,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_10_022215) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "coupons", "stores"
+  add_foreign_key "deals", "categories"
   add_foreign_key "deals", "stores"
 end

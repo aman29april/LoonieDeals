@@ -42,6 +42,14 @@ Rails.application.configure do
   # Store uploaded files on the local file system (see config/storage.yml for options).
   config.active_storage.service = :local
 
+  config.active_storage.variant_processors += [:mini_magick]
+
+  config.active_storage.variant_sizes = {
+    small: '300x200>',
+    medium: '600x400>',
+    large: '900x600>'
+  }
+
   # Mount Action Cable outside main process or domain.
   # config.action_cable.mount_path = nil
   # config.action_cable.url = "wss://example.com/cable"

@@ -26,7 +26,6 @@
 #  index_posts_on_user_id  (user_id)
 #
 class Post < ApplicationRecord
-
   # validates :user_id, presence: true
   validates :title, presence: true,
                     length: { minimum: 5 }, allow_blank: false
@@ -46,7 +45,7 @@ class Post < ApplicationRecord
   scope :published, -> { where.not(published_at: nil) }
   scope :drafts, -> { where(published_at: nil) }
   scope :featured, -> { where(featured: true) }
-  scope :by_user, ->(user) { where(user: user) }
+  scope :by_user, ->(user) { where(user:) }
   delegate :username, to: :user
   delegate :full_name, to: :user, prefix: :user
 
@@ -72,7 +71,7 @@ class Post < ApplicationRecord
   end
 
   def self.tagged_with(name)
-    Tag.find_by!(name: name).posts
+    Tag.find_by!(name:).posts
   end
 
   def body_text
@@ -103,7 +102,7 @@ class Post < ApplicationRecord
   end
 
   def related_posts(size: 3)
-    Post.joins(:taggings).where.not(id: id).where(taggings: { tag_id: tag_ids }).distinct
+    Post.joins(:taggings).where.not(id:).where(taggings: { tag_id: tag_ids }).distinct
         .published.limit(size).includes(:user)
   end
 
@@ -112,9 +111,7 @@ class Post < ApplicationRecord
   end
 
   def generate_lead!
-    if published?
-      body_doc = Nokogiri::HTML::DocumentFragment.parse(body_html)
-    end
+    body_doc = Nokogiri::HTML::DocumentFragment.parse(body_html) if published?
 
     add_css_class_to_pre_tags(body_doc)
     body.body = body_doc.to_html
@@ -122,7 +119,7 @@ class Post < ApplicationRecord
 
   def meta_info
     {
-      title: title,
+      title:,
       description: meta_description.present? ? meta_description : title,
       keywords: meta_keywords.present? ? meta_keywords : all_tags
     }

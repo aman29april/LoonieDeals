@@ -1,0 +1,12 @@
+.social-share-wrapper
+  .social-share
+    %a.ico.fb{:onclick => "javascript:window.open('http://www.facebook.com/sharer.php?u=#{post_url(post)}', '_blank', 'width=800, height=500, top=200, left=300');void(0)"}
+      %i.fab.fa-facebook
+    %a.ico.tw{:onclick => "javascript:window.open('http://twitter.com/share?text=#{post.title} by #{post.username} - =#{post_url(post)}', '_blank', 'width=800, height=500, top=200, left=300');void(0)"}
+      %i.fab.fa-twitter
+    %a.ico.gp{:onclick => "javascript:window.open('https://www.linkedin.com/shareArticle?url=#{post_url(post)}=#{post.title}', '_blank', 'width=800, height=500, top=200, left=300');void(0)"}
+      %i.fab.fa-linkedin
+    %span.text
+      %em SHARE
+    %span.ico-share
+      %i.fa.fa-share-alt

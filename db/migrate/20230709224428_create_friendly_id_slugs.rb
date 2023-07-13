@@ -9,7 +9,7 @@ class CreateFriendlyIdSlugs < ActiveRecord::Migration[7.0]
                                              unique: true
       t.index %w[slug sluggable_type], name: 'index_friendly_id_slugs_on_slug_and_sluggable_type'
       t.index %w[sluggable_type sluggable_id], name: 'index_friendly_id_slugs_on_sluggable_type_and_sluggable_id'
-      
+
       t.timestamps
     end
   end

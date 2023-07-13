@@ -1,26 +1,33 @@
-= form_for @deal do |form|
-  - if @deal.errors.any?
-    #error_explanation
-      %h2= "#{pluralize(@deal.errors.count, "error")} prohibited this deal from being saved:"
-      %ul
-        - @deal.errors.full_messages.each do |message|
-          %li= message
+= render :partial => 'shared/resource_error', locals: {resource: @deal}
 
+= form_for @deal, html: { multipart: true, class: "editor-form row gt-3 dropzone" , data: { page: 'main-editor' }, autocomplete: "off" } do |form|
   .mb-3
     = form.label :title, class: "form-label"
     = form.text_field :title, class: "form-control"
   .mb-3
-    = form.label :description, class: "form-label"
-    = form.text_area :description, class: "form-control"
-  .mb-3
-    = form.label :price, class: "form-label"
-    = form.number_field :price, class: "form-control"
-  .mb-3
-    = form.label :discount, class: "form-label"
-    = form.number_field :discount, class: "form-control"
-  .mb-3
-    = form.label :expiration_date, class: "form-label"
-    = form.date_field :expiration_date, class: "form-control"
+    = form.label :body, class: "form-label"
+    = form.rich_text_area :body, class: "form-control medium-editable  mt-2"
+  .row
+    .col-md-3
+      = form.label :deal_price, class: "form-label"
+      = form.number_field :price, class: "form-control"
+    .col-md-3
+      = form.label :retail_price, class: "form-label"
+      = form.number_field :retail_price, class: "form-control"
+    .col-md-3
+      = form.label :discount, class: "form-label"
+      = form.number_field :discount, class: "form-control"
+    .col-md-3
+      = form.label :expiration_date, class: "form-label"
+      = form.date_field :expiration_date, class: "form-control"
+  .row
+    .col-md-6
+      = form.label :store, class: "form-label"
+      = form.select :store_id, Store.all.collect { |p| [ p.name, p.id ] }, { prompt: "Select a store" }, class: "form-select"
+    .col-md-6
+      = form.label :category, class: "form-label"
+      = form.select :category_id, Category.all.collect { |p| [ p.name, p.id ] }, { prompt: "Select a store" }, class: "form-select"
+
   .mb-3
     = form.label :url, class: "form-label"
     = form.url_field :url, class: "form-control"
@@ -31,8 +38,19 @@
       .dropzone-msg.dz-message.needsclick.text-gray-600
         %h3.dropzone-msg-title Drag here to upload or click here to browse
         %span.dropzone-msg-desc.text-sm 2 MB file size maximum. Allowed file types png, jpg.
-  .text-center
-    = form.submit "Create Deal", class: "btn btn-primary"
 
-  .actions
-    = form.submit 'Save'
+  .col-12.mt-4
+    = form.label :tags, class: 'form-label'
+    = form.text_field :all_tags, class: 'form-control tagsinput', 'data-role': 'tagsinput', value: tag_from_param(@deal)
+
+  = render 'meta_fields', f: form
+
+  .col-12.mt-4
+    .actions
+      = form.submit 'Save'
+
+
+:javascript
+  $(document).ready( function() {
+    $(".tagsinput").tagsinput('items');
+  });

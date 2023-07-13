@@ -17,11 +17,15 @@ class Store < ApplicationRecord
   validates :name, presence: true
 
   has_one_attached :image
+  has_rich_text :description
 
-  validates :name, :description, :website, presence: true
+  validates :name, presence: true
   validate :validate_image_presence
 
+  extend FriendlyId
+  friendly_id :name, use: %i[slugged finders]
+
   def validate_image_presence
-    errors.add(:image, 'must be attached') unless image.attached?
+    # errors.add(:image, 'must be attached') unless image.attached?
   end
 end

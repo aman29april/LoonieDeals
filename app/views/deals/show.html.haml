@@ -1,5 +1,22 @@
 %p#notice= notice
 
+.container
+  .row
+    .col-lg-8
+      %h1= @deal.title
+      %img.img-fluid.mb-4{alt: "#{@deal.title}", src: "#{@deal.image}"}/
+      %p= @deal.body
+    .col-lg-4
+      .card
+        .card-body
+          %h5.card-title Deal Details
+          %p.card-text
+            Price: $#{@deal.price}
+          %p.card-text
+            Retail Price: $#{@deal.retail_price}
+          %p.card-text
+            Discount: #{@deal.discount_percentage}%
+          %a.btn.btn-primary{href: "#{@deal.store.website}"} Visit Store
 
 = link_to 'Edit', edit_deal_path(@deal)
 \|

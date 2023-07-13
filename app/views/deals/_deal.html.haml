@@ -1,0 +1,6 @@
+.card.mb-4
+  %img.card-img-top{alt: "#{deal.title}", src: "#{deal.image}"}/
+  .card-body
+    %h5.card-title= deal.title
+    %p.card-text= deal.body
+    %a.btn.btn-primary{href: "#{deal_path(deal)}"} View Deal
