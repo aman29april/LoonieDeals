@@ -6,3 +6,4 @@
 //= link_directory ../../javascript/controllers .js
 //= link_directory ../../javascript/packs .js
 //= link actiontext.css
+//= link linktree.css

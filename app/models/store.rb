@@ -2,14 +2,18 @@
 #
 # Table name: stores
 #
-#  id           :integer          not null, primary key
-#  description  :text
-#  image        :string
-#  name         :string
-#  website      :string
-#  created_at   :datetime         not null
-#  updated_at   :datetime         not null
-#  affiliate_id :string
+#  id               :integer          not null, primary key
+#  name             :string
+#  description      :text
+#  website          :string
+#  affiliate_id     :string
+#  featured         :boolean          default(FALSE)
+#  slug             :string
+#  meta_keywords    :string
+#  meta_description :string
+#  deals_count      :integer          default(0)
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
 #
 class Store < ApplicationRecord
   has_many :deals
@@ -24,6 +28,8 @@ class Store < ApplicationRecord
 
   extend FriendlyId
   friendly_id :name, use: %i[slugged finders]
+
+  scope :by_deals, -> { order(deals_count: :desc) }
 
   def validate_image_presence
     # errors.add(:image, 'must be attached') unless image.attached?

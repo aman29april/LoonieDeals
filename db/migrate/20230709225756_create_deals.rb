@@ -18,7 +18,7 @@ class CreateDeals < ActiveRecord::Migration[7.0]
       t.string :meta_keywords
       t.string :meta_description
 
-      t.date :expiration_date
+      t.datetime :expiration_date
       t.integer :view_count, default: 0
       t.integer :upvotes, default: 0
       t.integer :downvotes, default: 0

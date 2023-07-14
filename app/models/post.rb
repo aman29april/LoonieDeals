@@ -3,27 +3,22 @@
 # Table name: posts
 #
 #  id               :integer          not null, primary key
-#  body             :text
-#  featured         :boolean          default(FALSE)
-#  language         :string
-#  lead             :text
-#  likes_count      :integer          default(0)
-#  meta_description :string
-#  meta_keywords    :string
-#  picture          :string
-#  published_at     :datetime
-#  responses_count  :integer          default(0), not null
-#  slug             :string
 #  title            :string
+#  body             :text
+#  likes_count      :integer          default(0)
+#  published_at     :datetime
+#  featured         :boolean          default(FALSE)
+#  picture          :string
+#  user_id          :bigint
+#  slug             :string
+#  responses_count  :integer          default(0), not null
+#  lead             :text
+#  meta_keywords    :string
+#  meta_description :string
+#  language         :string
 #  view_count       :integer          default(0)
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
-#  user_id          :bigint
-#
-# Indexes
-#
-#  index_posts_on_slug     (slug) UNIQUE
-#  index_posts_on_user_id  (user_id)
 #
 class Post < ApplicationRecord
   # validates :user_id, presence: true
@@ -56,7 +51,7 @@ class Post < ApplicationRecord
 
   has_rich_text :body
 
-  mount_uploader :picture, PostImageUploader
+  # mount_uploader :picture, PostImageUploader
 
   # has_rich_text :content
 

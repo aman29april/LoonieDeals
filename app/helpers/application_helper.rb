@@ -25,4 +25,23 @@ module ApplicationHelper
 
     content_tag(:div, class: 'dropzone dropzone-default dz-clickable', data:, &block)
   end
+
+  def resource_image(image, options = {})
+     if image.attached?
+        image_tag(url_for(image.representation(resize: '300x200', quality: 90)), options)
+
+        image_tag url_for(image.representation(resize_to_limit: [300, 300]).processed), options
+     end
+  end
+
+  def format_number(number, zero_as_blank: false, precision: 2)
+    return '' if zero_as_blank && number.to_f.zero?
+    number_with_precision(number.to_f, precision: precision)
+  end
+
+  def display_money(amount, zero_as_blank: true, currency: '$')
+    formatted_amount = number_to_currency(amount, unit: currency, precision: 2)
+    value_with_zero_trimmed = formatted_amount.sub(/\.?0+$/, '').html_safe
+    content_tag(:span, value_with_zero_trimmed, class: 'money')
+  end
 end

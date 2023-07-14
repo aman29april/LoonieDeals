@@ -27,7 +27,7 @@ Rails.application.configure do
 
     config.cache_store = :memory_store
     config.public_file_server.headers = {
-      'Cache-Control' => "public, max-age=#{2.days.to_i}"
+      'Cache-Control' => "public, max-age=#{1.days.to_i}"
     }
   else
     config.action_controller.perform_caching = false
@@ -37,6 +37,14 @@ Rails.application.configure do
 
   # Store uploaded files on the local file system (see config/storage.yml for options).
   config.active_storage.service = :local
+
+  # config.active_storage.variant_processors += [:mini_magick]
+
+  # config.active_storage.variant_sizes = {
+  #   small: '300x200>',
+  #   medium: '600x400>',
+  #   large: '900x600>'
+  # }
 
   # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = false
@@ -60,6 +68,8 @@ Rails.application.configure do
 
   # Suppress logger output for asset requests.
   config.assets.quiet = true
+  config.assets.debug = false
+
 
   # Raises error for missing translations.
   # config.i18n.raise_on_missing_translations = true

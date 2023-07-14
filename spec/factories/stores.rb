@@ -2,14 +2,18 @@
 #
 # Table name: stores
 #
-#  id           :integer          not null, primary key
-#  description  :text
-#  image        :string
-#  name         :string
-#  website      :string
-#  created_at   :datetime         not null
-#  updated_at   :datetime         not null
-#  affiliate_id :string
+#  id               :integer          not null, primary key
+#  name             :string
+#  description      :text
+#  website          :string
+#  affiliate_id     :string
+#  featured         :boolean          default(FALSE)
+#  slug             :string
+#  meta_keywords    :string
+#  meta_description :string
+#  deals_count      :integer          default(0)
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
 #
 FactoryBot.define do
   factory :store do

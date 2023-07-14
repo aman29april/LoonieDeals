@@ -1,0 +1,9 @@
+%nav.navbar.navbar-expand-lg.custom-nav
+  .container{bis_skin_checked: "1", style: "max-width: 680px"}
+    %button.navbar-toggler.ms-auto{"aria-controls" => "navbarNav", "aria-expanded" => "false", "aria-label" => "Toggle navigation", "data-bs-target" => "#navbarNav", type: "button"}
+      %li.nav-item.form-check.form-switch
+        %input#flexSwitchCheckDefault.nav-link.form-check-input{onchange: "toggle()", type: "checkbox"}/
+    #navbarNav.collapse.navbar-collapse{bis_skin_checked: "1"}
+      %ul#main_nav.navbar-nav.ms-auto
+        %li.nav-item.form-check.form-switch
+          %input#flexSwitchCheckDefault.nav-link.form-check-input{onchange: "toggle()", type: "checkbox"}/

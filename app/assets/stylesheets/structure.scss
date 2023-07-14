@@ -1,6 +1,6 @@
 // html is set to 62.5% so that all the REM measurements throughout Skeleton are based on 10px sizing. So basically 1.5rem=15px :) 
  html {
-  font-size: 62.5%;
+  // font-size: 62.5%;
   font-family: "Inter", sans-serif;
 }
 
@@ -23,11 +23,11 @@ body {
   --ink-700: hsl(207, 12%, 43%);
   --ink-600: hsla(207, 12%, 43%, 0.8);
 
-  --link: hsl(243, 93%, 67%);
-  --link-hover: hsl(243, 96%, 67%);
-  --link-icons: hsl(243, 97%, 68%);
+  --link: hsl(0, 0%, 0%);
+  --link-hover: hsla(0, 0%, 0%, 0.625);
+  --link-icons: hsla(0, 0%, 0%, 0.625);
   --link-mute: hsla(243, 97%, 68%, 0.5);
-  --link-visited: hsl(243, 85%, 37%);
+  --link-visited: hsl(0, 0%, 0%);
 
   --button-border: hsla(0, 0%, 59%, 0.5);
   --button-background: var(--base);
@@ -68,6 +68,8 @@ body {
   --chart-volume: hsl(220, 95%, 87%);
 
   --row-bg: #fff3cd;
+
+  --originalPriceColor: #4a4a4a;
 }
 
 body.dark {
@@ -206,7 +208,7 @@ html {
 /* body */
 
 body {
-  font-size: 1.6rem;
+  font-size: 1.2rem;
   letter-spacing: -0.011em;
   /* currently ems cause chrome bug misinterpreting rems on body element */
   line-height: 1.56;
@@ -218,6 +220,7 @@ body {
   background-image: var(--page-base-gradient);
   min-height: 100vh;
   scroll-behavior: smooth;
+  padding-top: 6rem;
 }
 
 h1,
@@ -250,7 +253,7 @@ h3,
 
 h1,
 .h1 {
-  font-size: 2.8rem;
+  font-size: 2.2rem;
   line-height: 1.214;
   letter-spacing: -0.019em;
 }
@@ -258,14 +261,14 @@ h1,
 h2,
 .h2,
 article h1 {
-  font-size: 2.2rem;
+  font-size: 2.0rem;
   line-height: 1.1818;
   letter-spacing: -0.018em;
 }
 
 h3,
 .h3 {
-  font-size: 1.9rem;
+  font-size: 1.6rem;
   line-height: 1.2105;
   letter-spacing: -0.016em;
 }
@@ -275,14 +278,14 @@ h3,
 
   h1,
   .h1 {
-    font-size: 4rem;
+    font-size: 2.5rem;
     line-height: 1.225;
     letter-spacing: -0.022em;
   }
 
   h2,
   .h2 {
-    font-size: 2.8rem;
+    font-size: 2.2rem;
     line-height: 1.214;
     letter-spacing: -0.019em;
   }
@@ -314,25 +317,7 @@ p {
   flex-shrink: 2;
 }
 
-/* Containers */
-html {
-  --container-width: 100%;
-  --container-padding: 20px;
-}
 
-.container {
-  box-sizing: border-box;
-
-  margin-left: auto;
-  margin-right: auto;
-  width: 100%;
-  width: var(--container-width);
-
-  padding-left: 24px;
-  padding-right: 24px;
-  padding-left: var(--container-padding);
-  padding-right: var(--container-padding);
-}
 
 @media (min-width: 768px) {
   html {
@@ -358,23 +343,23 @@ html {
   }
 }
 
-/* Cards */
-.card {
-  background: white;
-  background: var(--base);
-  box-shadow: 0 16px 20px -24px hsla(219, 37%, 18%, 0.24);
+// /* Cards */
+// .card {
+//   background: white;
+//   background: var(--base);
+//   box-shadow: 0 16px 20px -24px hsla(219, 37%, 18%, 0.24);
 
-  margin-bottom: 24px;
-  margin-bottom: var(--margin-medium);
+//   margin-bottom: 24px;
+//   margin-bottom: var(--margin-medium);
 
-  /* cards are like container, but with an outside island */
-  --card-margin: calc(-1 * var(--container-padding));
-  --card-padding: var(--container-padding);
-  margin-left: var(--card-margin);
-  margin-right: var(--card-margin);
-  padding: 20px;
-  padding: var(--card-padding);
-}
+//   /* cards are like container, but with an outside island */
+//   --card-margin: calc(-1 * var(--container-padding));
+//   --card-padding: var(--container-padding);
+//   margin-left: var(--card-margin);
+//   margin-right: var(--card-margin);
+//   padding: 20px;
+//   padding: var(--card-padding);
+// }
 
 .no-card-margin {
   --card-margin: 0;
@@ -947,4 +932,23 @@ hr {
   .no-print {
     display: none !important;
   }
+}
+
+.deal-image{
+  max-height: 240px;
+}
+
+.deal-price, .original-price{
+  display: inline-block;
+}
+
+.original-price{
+  align-self: baseline;
+  padding-left: 8px;
+  color: var(--originalPriceColor);
+  font-size: 13px;
+  font-weight: 400;
+  grid-area: originalPrice;
+  line-height: 18px;
+  text-decoration: line-through
 }

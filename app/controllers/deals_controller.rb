@@ -1,8 +1,10 @@
 class DealsController < ApplicationController
+  include ActiveStorage::SetCurrent
   # before_action :authenticate_user!, except: [:show, :index]
   before_action :set_deal, only: %i[show edit update destroy]
 
   def index
+    
     @deals = Deal.all
   end
 

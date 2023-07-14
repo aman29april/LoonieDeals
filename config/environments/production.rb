@@ -42,13 +42,13 @@ Rails.application.configure do
   # Store uploaded files on the local file system (see config/storage.yml for options).
   config.active_storage.service = :local
 
-  config.active_storage.variant_processors += [:mini_magick]
+  # config.active_storage.variant_processors += [:mini_magick]
 
-  config.active_storage.variant_sizes = {
-    small: '300x200>',
-    medium: '600x400>',
-    large: '900x600>'
-  }
+  # config.active_storage.variant_sizes = {
+  #   small: '300x200>',
+  #   medium: '600x400>',
+  #   large: '900x600>'
+  # }
 
   # Mount Action Cable outside main process or domain.
   # config.action_cable.mount_path = nil
@@ -70,7 +70,7 @@ Rails.application.configure do
 
   # Use a real queuing backend for Active Job (and separate queues per environment).
   # config.active_job.queue_adapter     = :resque
-  # config.active_job.queue_name_prefix = "screener_production"
+  # config.active_job.queue_name_prefix = "loonie_deals_production"
 
   config.action_mailer.perform_caching = false
 

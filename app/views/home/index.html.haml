@@ -1,0 +1,14 @@
+%div
+  %h1 Listing deals
+
+  .container
+    .row
+      - @deals.each do |deal|
+        .col-md-3
+          = render partial: 'deals/deal', locals: { deal: deal }
+        .col-md-3
+          = render partial: 'deals/deal', locals: { deal: deal }
+        .col-md-3
+          = render partial: 'deals/deal', locals: { deal: deal }
+        .col-md-3
+          = render partial: 'deals/deal', locals: { deal: deal }

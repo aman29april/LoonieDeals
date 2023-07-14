@@ -1,10 +1,11 @@
 %h1 Listing deals
 
 .container
-  .row
+  .row.row-cols-1.row-cols-md-3.g-6
     - @deals.each do |deal|
-      .col-md-4
-        = render partial: 'deal', locals: { deal: deal }
+      = render partial: 'deal', locals: { deal: deal }
+      = render partial: 'deal', locals: { deal: deal }
+      = render partial: 'deal', locals: { deal: deal }
 %br
 
 = link_to 'New Deal', new_deal_path

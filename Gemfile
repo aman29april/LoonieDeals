@@ -52,6 +52,7 @@ gem 'sassc-rails'
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 gem 'image_processing', '~> 1.2'
 gem 'rmagick'
+gem 'mini_magick'
 
 
 gem 'activeadmin'
@@ -63,6 +64,8 @@ gem 'money-rails', '~> 1.12'
 gem 'instagram'
 gem 'koala'
 gem 'rest-client'
+gem 'acts_as_list'
+
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem

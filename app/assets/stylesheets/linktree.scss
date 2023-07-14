@@ -1,0 +1,13 @@
+@import 'bootstrap/scss/bootstrap';
+@import 'bootstrap-icons/font/bootstrap-icons';
+
+
+ @import "linktree/dark";
+ @import "linktree/light";
+ @import "linktree/style";
+ @import "linktree/font-1";
+
+
+ @tailwind base;
+ @tailwind components;
+ @tailwind utilities;

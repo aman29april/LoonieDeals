@@ -1,0 +1,29 @@
+!!!
+%html
+  %head
+    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+    %title Loonie Deals
+    %meta{:content => "width=device-width,initial-scale=1", :name => "viewport"}/
+    = csrf_meta_tags
+    = csp_meta_tag
+    = stylesheet_link_tag 'linktree', media: 'all', 'data-turbolinks-track': 'reload'
+    -# = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
+    = javascript_include_tag "application", "data-turbo-track": "reload", defer: true 
+    = javascript_include_tag "activestorage"
+    = javascript_importmap_tags
+    = stylesheet_link_tag "actiontext", "data-turbo-track": "reload"
+
+    
+ 
+    =yield :head_link
+  %body.d-flex.flex-column.h-100
+
+
+
+    =render partial: 'layouts/alert_messages'
+
+    
+    %main.flex-shrink-0#root
+      .container{style: 'margin-top: 50px'}
+        = yield
+    = render 'layouts/footer'
