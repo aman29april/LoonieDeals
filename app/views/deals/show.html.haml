@@ -1,23 +1,70 @@
-%p#notice= notice
 
 .container
-  .row
-    .col-lg-8
-      %h1= @deal.title
-      -if @deal.image.representable?
-        = image_tag @deal.image.representation(resize_to_limit: [300, 300]).processed.url, class: 'img-fluid mb-4', alt: @deal.title
-      %p= @deal.body
-    .col-lg-4
-      .card
-        .card-body
-          %h5.card-title Deal Details
-          %p.card-text
-            Price: $#{@deal.price}
-          %p.card-text
-            Retail Price: $#{@deal.retail_price}
-          %p.card-text
-            Discount: #{@deal.discount_percentage}%
-          %a.btn.btn-success{href: "#{@deal.store.website}"} Buy Now
+  .row.deal-details
+    .col-md-9
+      .row.g-0.border.rounded.overflow-hidden.flex-md-row.mb-9.shadow-sm.h-md-250.position-relative
+        .col.d-flex.flex-column.position-static
+          .card
+            .row.g-0
+              .col-md-3
+                = resource_image(@deal.image, class: 'deal-image rounded-start', alt: @deal.title)
+                .row.text-center
+                  .col-md-11
+                    -# -if @deal.url?
+                    =link_to 'Buy Now', @deal.url, class: 'btn btn-success', target: '_blank'
+                  .ss
+                    %small.text-muted
+                      about
+                      =time_ago(@deal.updated_at)
+                  .deal-actions
+                    Good deal?
+                    =link_to '#', target: '_blank' do
+                      %i.bi.bi-hand-thumbs-up
+                    =link_to '#', target: '_blank' do
+                      %i.bi.bi-hand-thumbs-down
+                  .follow
+                    Follow Us.
+                    =render partial: 'shared/social_follow', locals: {url: deal_url(@deal), title: @deal.title}
+              .col-md-9
+                .float-right
+                  =render partial: 'shared/social_share', locals: {url: deal_url(@deal), title: @deal.title}
+
+                .card-body
+                  %h5.card-title
+                    = @deal.title
+                  %p.card-text
+                    
+
+                  .deal-price
+                    = display_money(@deal.price)
+                  .original-price
+                    = display_money(@deal.retail_price)
+                 
+                  =@deal.body
+          .row
+            .card
+              
+      .col-md-3
+
+      .col-md-9
+        
+
+
+
+-# .col-lg-4
+-#   .card
+-#     .card-body
+-#       %h5.card-title Deal Details
+-#       %p.card-text
+-#         Price:
+-#         = display_money(@deal.price)
+-#       %p.card-text
+-#         Retail Price:
+-#         = display_money(@deal.retail_price)
+-#       %p.card-text
+-#         Discount:
+-#         = format_number(@deal.discount_percentage)
+-#       %a.btn.btn-success{href: "#{@deal.store.website}"} Buy Now
 
 - if is_admin?
   = link_to 'Edit', edit_deal_path(@deal)

@@ -38,6 +38,18 @@ class DealsController < ApplicationController
     end
   end
 
+  def upvote
+    @deal = Deal.find(params[:id])
+    @deal.upvote
+    respond_to :js
+  end
+
+  def downvote
+    @deal = Deal.find(params[:id])
+    @deal.downvote
+    respond_to :js
+  end
+
   def destroy
     @deal.destroy
     redirect_to deals_url, notice: 'Deal was successfully destroyed.'
@@ -50,6 +62,6 @@ class DealsController < ApplicationController
   end
 
   def deal_params
-    params.require(:deal).permit(:title, :description, :price, :retail_price, :discount, :expiration_date, :url, :pinned, :image, :store_id, :category_id, :meta_keywords, :meta_description )
+    params.require(:deal).permit(:title, :description, :price, :retail_price, :discount, :expiration_date, :url, :pinned, :image, :store_id, :category_id, :meta_keywords, :meta_description, :body, :all_tags )
   end
 end

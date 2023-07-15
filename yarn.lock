@@ -2354,10 +2354,13 @@ __metadata:
     bootstrap: ^5.2.3
     bootstrap-icons: ^1.10.4
     bootstrap-scss: ^5.2.3
+    bootstrap-tagsinput: ^0.7.1
     compression-webpack-plugin: 9
     date-fns: ^2.29.3
     dropzone: ^6.0.0-beta.2
     esbuild: ^0.17.16
+    jquery: ^3.7.0
+    jquery-ui: ^1.13.2
     mini-css-extract-plugin: ^2.7.6
     react: ^18.2.0
     react-dom: ^18.2.0
@@ -2366,6 +2369,7 @@ __metadata:
     shakapacker: 6.6.0
     terser-webpack-plugin: 5
     trix: ^2.0.5
+    typeahead: ^0.2.2
     webpack: ^5.88.1
     webpack-assets-manifest: 5
     webpack-cli: 4
@@ -2715,6 +2719,13 @@ __metadata:
   version: 5.2.3
   resolution: "bootstrap-scss@npm:5.2.3"
   checksum: 5ba81a1cc729b6d2aa8a5199a917bcedf6483c75334250f4fe3fdcaed06e71cb4e73b980337ae1aa225c4b5b22eaa45475eb7d09891f071a1af3475b1d31a323
+  languageName: node
+  linkType: hard
+
+"bootstrap-tagsinput@npm:^0.7.1":
+  version: 0.7.1
+  resolution: "bootstrap-tagsinput@npm:0.7.1"
+  checksum: 4dcad989377b655bd3344ec842717e8fdec2fd6205397f5bff65543eb64d0662f1f4e91c2ac1e35cb79803ba5154c330949028bbe94311e8f06dc30a389d46af
   languageName: node
   linkType: hard
 
@@ -3939,6 +3950,13 @@ __metadata:
     domelementtype: ^2.0.1
     entities: ^2.0.0
   checksum: 376344893e4feccab649a14ca1a46473e9961f40fe62479ea692d4fee4d9df1c00ca8654811a79c1ca7b020096987e1ca4fb4d7f8bae32c1db800a680a0e5d5e
+  languageName: node
+  linkType: hard
+
+"dom@npm:0.0.2":
+  version: 0.0.2
+  resolution: "dom@npm:0.0.2"
+  checksum: 06de45d78b6bc2c2945477b1825bb4a991669f7fce7f9aeb6029383f59e684ad2a21ca316dcd57f709cd3d3ca62864700eef9141e838ce3e5ad8508a5f967211
   languageName: node
   linkType: hard
 
@@ -5760,6 +5778,22 @@ __metadata:
     merge-stream: ^2.0.0
     supports-color: ^8.0.0
   checksum: 98cd68b696781caed61c983a3ee30bf880b5bd021c01d98f47b143d4362b85d0737f8523761e2713d45e18b4f9a2b98af1eaee77afade4111bb65c77d6f7c980
+  languageName: node
+  linkType: hard
+
+"jquery-ui@npm:^1.13.2":
+  version: 1.13.2
+  resolution: "jquery-ui@npm:1.13.2"
+  dependencies:
+    jquery: ">=1.8.0 <4.0.0"
+  checksum: 0d04a4b86e703d6ff71bcc37335f99be137b03fa24fa22f00f61f5aac132e7143b7d6dd9973ad4f72366e102826e417bc3d88c1640f7dd824961a7131bd3966a
+  languageName: node
+  linkType: hard
+
+"jquery@npm:>=1.8.0 <4.0.0, jquery@npm:^3.7.0":
+  version: 3.7.0
+  resolution: "jquery@npm:3.7.0"
+  checksum: 907785e133afc427650a131af5fccef66a404885037513b3d4d7d63aee6409bcc32a39836868c60e59b05aa0fb8ace8961c18b2ee3ffdf6ffdb571d6d7cd88ff
   languageName: node
   linkType: hard
 
@@ -9403,6 +9437,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"typeahead@npm:^0.2.2":
+  version: 0.2.2
+  resolution: "typeahead@npm:0.2.2"
+  dependencies:
+    dom: 0.0.2
+    xtend: 1.0.3
+  checksum: 2b4f525c1a70f00e8f57b77f43c25a2cdb3f7bcb9887676d9a46592c5f5a04bd329a604547963fb7f2521e21284b6d3236a41ea99b5f82f6075d27bdce756d55
+  languageName: node
+  linkType: hard
+
 "typed-array-length@npm:^1.0.4":
   version: 1.0.4
   resolution: "typed-array-length@npm:1.0.4"
@@ -10000,6 +10044,13 @@ __metadata:
   version: 1.0.2
   resolution: "wrappy@npm:1.0.2"
   checksum: 159da4805f7e84a3d003d8841557196034155008f817172d4e986bd591f74aa82aa7db55929a54222309e01079a65a92a9e6414da5a6aa4b01ee44a511ac3ee5
+  languageName: node
+  linkType: hard
+
+"xtend@npm:1.0.3":
+  version: 1.0.3
+  resolution: "xtend@npm:1.0.3"
+  checksum: 487305737dddaf5c58d0a4c939aea0d59037248822ef1813fb51e45040d3a18a29ee81f6e50502e731a67803df7e77f34ea574ca37ea5bcdb941e705be760afe
   languageName: node
   linkType: hard
 

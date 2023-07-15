@@ -1,0 +1,13 @@
+.social-share-wrapper
+  .social-share
+
+    %a.bi.bi-whatsap{href: whatsapp_share_url(url, title), target: '_blank'}
+      %i.bi.bi-whatsapp.social-icon
+
+    %a.bi.bi-facebook.social-icon{:onclick => javascript_window_open(facebook_share_url(url))}
+    
+    %a.bi.bi-twitter.social-icon{:onclick => javascript_window_open(twitter_share_url(url, title))}
+    
+    %a{href: telegram_share_url(url, title), target: '_blank'}
+      %i.bi.bi-telegram.social-icon
+    

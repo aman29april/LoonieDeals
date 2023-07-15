@@ -1,9 +1,15 @@
 //= link_tree ../images
 //= link_tree ../builds
-//= link application.js
-//= link_directory ../javascripts .js
 //= link application.css
-//= link_directory ../../javascript/controllers .js
-//= link_directory ../../javascript/packs .js
 //= link actiontext.css
 //= link linktree.css
+
+
+// = link controllers/application.js
+// = link controllers/dropzone_controller.js
+// = link controllers/hello_controller.js
+// = link controllers/index.js
+//= link controllers/popper_controller.js
+//= link controllers/tooltip_controller.js
+//= link controllers/utils.js
+

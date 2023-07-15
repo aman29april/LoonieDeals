@@ -6,6 +6,10 @@ class ApplicationController < ActionController::Base
   helper_method :current_user, :signed_in?, :is_admin?
 
 
+  def redirect
+    url = params[:url]
+  end
+
   def index; end
 
 

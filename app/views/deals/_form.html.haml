@@ -6,17 +6,23 @@
     = form.text_field :title, class: "form-control"
   .mb-3
     = form.label :body, class: "form-label"
-    = form.rich_text_area :body, class: "form-control medium-editable  mt-2"
+    = form.rich_text_area :body, class: "form-control medium-editable  mt-2", autofocus: false
   .row
     .col-md-3
       = form.label :deal_price, class: "form-label"
-      = form.number_field :price, class: "form-control"
+      .input-group.mb-3
+        %span.input-group-text $
+        = form.number_field :price, class: "form-control"
     .col-md-3
       = form.label :retail_price, class: "form-label"
-      = form.number_field :retail_price, class: "form-control"
+      .input-group.mb-3
+        %span.input-group-text $
+        = form.number_field :retail_price, class: "form-control"
     .col-md-3
       = form.label :discount, class: "form-label"
-      = form.number_field :discount, class: "form-control"
+      .input-group.mb-3
+        %span.input-group-text %
+        = form.number_field :discount, class: "form-control"
     .col-md-3
       = form.label :expiration_date, class: "form-label"
       = form.date_field :expiration_date, class: "form-control"
@@ -26,18 +32,21 @@
       = form.select :store_id, Store.all.collect { |p| [ p.name, p.id ] }, { prompt: "Select a store" }, class: "form-select"
     .col-md-6
       = form.label :category, class: "form-label"
-      = form.select :category_id, Category.all.collect { |p| [ p.name, p.id ] }, { prompt: "Select a store" }, class: "form-select"
+      = form.select :category_id, Category.all.collect { |p| [ p.name, p.id ] }, { prompt: "Select a store" }, class: "form-select select-picker"
 
   .mb-3
     = form.label :url, class: "form-label"
-    = form.url_field :url, class: "form-control"
+    .input-group.mb-3
+      %span.input-group-text http://
+      = form.url_field :url, class: "form-control"
   .mb-6
     = form.label :image, class: "label"
     = dropzone_controller_div do
-      = form.file_field :image, direct_upload: true, data: { target: 'dropzone.input' }
+      = form.file_field :image, direct_upload: true, multiple: false, data: { 'dropzone-target': 'input' }
       .dropzone-msg.dz-message.needsclick.text-gray-600
         %h3.dropzone-msg-title Drag here to upload or click here to browse
         %span.dropzone-msg-desc.text-sm 2 MB file size maximum. Allowed file types png, jpg.
+      = form.button "Upload", class: 'btn-primary mt-2'
 
   .col-12.mt-4
     = form.label :tags, class: 'form-label'
@@ -50,7 +59,7 @@
       = form.submit 'Save'
 
 
-:javascript
-  $(document).ready( function() {
-    $(".tagsinput").tagsinput('items');
-  });
+-# :javascript
+-#   $(document).ready( function() {
+
+-#   });

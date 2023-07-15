@@ -208,7 +208,7 @@ html {
 /* body */
 
 body {
-  font-size: 1.2rem;
+  font-size: 1rem;
   letter-spacing: -0.011em;
   /* currently ems cause chrome bug misinterpreting rems on body element */
   line-height: 1.56;
@@ -951,4 +951,38 @@ hr {
   grid-area: originalPrice;
   line-height: 18px;
   text-decoration: line-through
+}
+
+
+.ico.ico-facebook,
+.socialicon .ico-facebook3,
+.ico-facebook-2 {
+  color: #4267b2
+}
+
+.ico.ico-twitter,
+.socialicon .ico-twitter-social,
+.ico-twitter-2 {
+  color: #55acee
+}
+
+.ico.ico-google,
+.socialicon .ico-pinterest-social,
+.ico-pinterest-2 {
+  color: #db081c
+}
+
+.ico.ico-Youtube,
+.socialicon {
+  color: red
+}
+
+.ico.ico-telegram,
+.socialicon .ico-telegram-2 {
+  color: #1976d2
+}
+
+.ico.ico-pinterest,
+.socialicon .ico-google-plus {
+  color: #dd4b39
 }

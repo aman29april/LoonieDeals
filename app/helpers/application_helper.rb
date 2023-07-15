@@ -11,7 +11,7 @@ module ApplicationHelper
 
   def dropzone_controller_div(&block)
     content_for :head_link do
-      tag :link, rel: 'stylesheet', href: 'https://unpkg.com/dropzone@5/dist/min/dropzone.min.css', type: 'text/css'
+      # tag :link, rel: 'stylesheet', href: 'https://unpkg.com/dropzone@5/dist/min/dropzone.min.css', type: 'text/css'
     end
 
     data = {
@@ -19,8 +19,8 @@ module ApplicationHelper
       'dropzone-max-file-size' => '8',
       'dropzone-max-files' => '10',
       'dropzone-accepted-files' => 'image/jpeg,image/jpg,image/png,image/gif',
-      'dropzone-dict-file-too-big' => 'Váš obrázok ma veľkosť {{filesize}} ale povolené sú len obrázky do veľkosti {{maxFilesize}} MB',
-      'dropzone-dict-invalid-file-type' => 'Nesprávny formát súboru. Iba obrazky .jpg, .png alebo .gif su povolene'
+      'dropzone-dict-file-too-big' => 'aa {{filesize}} bb {{maxFilesize}} MB',
+      'dropzone-dict-invalid-file-type' => 'oo .jpg, .png alebo .gif'
     }
 
     content_tag(:div, class: 'dropzone dropzone-default dz-clickable', data:, &block)
@@ -43,5 +43,46 @@ module ApplicationHelper
     formatted_amount = number_to_currency(amount, unit: currency, precision: 2)
     value_with_zero_trimmed = formatted_amount.sub(/\.?0+$/, '').html_safe
     content_tag(:span, value_with_zero_trimmed, class: 'money')
+  end
+
+  def whatsapp_share_url(url, text='')
+    msg = [text, url].reject(&:blank?).join(' - ')
+    "https://api.whatsapp.com/send?text=#{msg}"
+  end
+
+  def telegram_share_url(url, text)
+    "https://t.me/share/url?url=#{url}&text=#{text}"
+  end
+
+  def twitter_share_url(url, text)
+    "http://twitter.com/share?text=#{text} - =#{url}"
+  end
+
+  def facebook_share_url(url)
+    "http://www.facebook.com/sharer.php?u=#{url}"
+  end
+
+  def javascript_window_open(url)
+    "javascript:window.open('#{url}', '_blank', 'width=800, height=500, top=200, left=300');void(0)"
+  end
+
+  def time_ago(datetime)
+    value = time_ago_in_words(datetime)
+
+    content_tag(:time, value, title: datetime, datetime: datetime)
+  end
+
+  def display_text(text, length=50)
+    truncated = truncate(text, length: length)
+    content_tag(:span, truncated, title:text)
+  end
+
+  def social_handles
+    {
+      whatsapp: 'https://chat.whatsapp.com/IfLLCVdYyVH92bPgeG8nuU',
+      facebook: 'https://www.facebook.com/profile.php?id=100094613855327',
+      instagram: 'https://www.instagram.com/looniedeals.ca/',
+      telegram: 'https://t.me/+Vjt0oVITxa44MmM9'
+    }
   end
 end

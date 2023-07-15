@@ -9,6 +9,10 @@ Rails.application.routes.draw do
   root 'home#index'
 
   resources :deals do
+    member do
+      post :upvote
+      post :downvote
+    end
   end
 
   resources :stores do

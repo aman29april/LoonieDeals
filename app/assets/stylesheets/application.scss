@@ -1,26 +1,25 @@
-@import 'bootstrap/scss/bootstrap';
-@import 'bootstrap-icons/font/bootstrap-icons';
-@import 'structure';
-@import 'custom';
+@import "bootstrap/scss/bootstrap";
+@import "bootstrap-icons/font/bootstrap-icons";
+@import "structure";
+@import "custom";
 
 @import "./partials/variables";
 @import "./partials/mixins";
-@import './partials/miscellaneous';
+@import "./partials/miscellaneous";
 @import "./partials/notice";
 
-@import './modules/alert_message';
-@import 'modules/tags';
+@import "./modules/alert_message";
+@import "modules/tags";
 
+@import url("https://fonts.googleapis.com/css2?family=Lexend:wght@200;300;400;500;600;700;800&display=swap");
+@import "actiontext";
+@import "components/buttons";
 
+@import "library/bootstrap-tagsinput";
 
- @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@200;300;400;500;600;700;800&display=swap');
- @import 'actiontext';
- @import "components/buttons";
-
-
- @tailwind base;
- @tailwind components;
- @tailwind utilities;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 // @import 'dropzone/dist/min/dropzone.min.css';
 
@@ -31,13 +30,67 @@
 }
 
 .negative {
-  color: var(--down)
+  color: var(--down);
 }
 
 .positive {
-  color: var(--up)
+  color: var(--up);
 }
 
 .invisible {
   visibility: hidden;
+}
+
+.deal-details {
+  padding: 10px 10px 10px 10px;
+}
+
+.social-share {
+  float: right;
+
+  .social-icon {
+    padding-right: 5px;
+  }
+
+  .bi-whatsapp {
+    color: #1cbea5;
+  }
+
+  .bi-instagram {
+    color: red;
+  }
+
+  .bi-facebook {
+    color: #4267b2;
+  }
+
+  .bi-telegram {
+    color: #4267b2;
+  }
+
+  .bi-twitter {
+    color: #55acee;
+  }
+
+  .bi-google,
+  .bi-pinterest {
+    color: #db081c;
+  }
+
+  .bi-youtube {
+    color: red;
+  }
+
+  .bi-telegram {
+    color: #1976d2;
+  }
+
+  .bi-pinterest,
+  bi-.google-plus {
+    color: #dd4b39;
+  }
+}
+
+footer{
+  background-color: #333;
 }

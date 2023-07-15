@@ -5,4 +5,3 @@ export default class extends Controller {
     this.element.textContent = "Hello World!"
   }
 }
-

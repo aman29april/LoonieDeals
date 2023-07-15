@@ -1,24 +1,15 @@
-import Dropzone from "dropzone";
 import { Controller } from "@hotwired/stimulus";
 import { DirectUpload } from "@rails/activestorage";
-import * as ActiveStorage from "@rails/activestorage";
-
-import {
-  getMetaValue,
-  toArray,
-  findElement,
-  removeElement,
-  insertAfter,
-} from "../helpers";
+import { Dropzone } from "dropzone";
 
 export default class extends Controller {
   static targets = ["input"];
 
   connect() {
-    this.dropZone = createDropZone(this);
+    this.dropZone = this.createDropZone(this);
     this.hideFileInput();
     this.bindEvents();
-    Dropzone.autoDiscover = false; // necessary quirk for Dropzone error in console
+    Dropzone.autoDiscover = false;
   }
 
   // Private
@@ -30,12 +21,12 @@ export default class extends Controller {
   bindEvents() {
     this.dropZone.on("addedfile", (file) => {
       setTimeout(() => {
-        file.accepted && createDirectUploadController(this, file).start();
+        file.accepted && this.createDirectUploadController(this, file).start();
       }, 500);
     });
 
     this.dropZone.on("removedfile", (file) => {
-      file.controller && removeElement(file.controller.hiddenInput);
+      file.controller && this.removeElement(file.controller.hiddenInput);
     });
 
     this.dropZone.on("canceled", (file) => {
@@ -44,7 +35,7 @@ export default class extends Controller {
   }
 
   get headers() {
-    return { "X-CSRF-Token": getMetaValue("csrf-token") };
+    return { "X-CSRF-Token": this.getMetaValue("csrf-token") };
   }
 
   get url() {
@@ -59,6 +50,17 @@ export default class extends Controller {
     return this.data.get("maxFileSize") || 256;
   }
 
+  get dictFileTooBig() {
+    return (
+      this.data.get("dictFileTooBig") ||
+      "File sile is {{filesize}} but only files up to {{maxFilesize}} are allowed"
+    );
+  }
+
+  get dictInvalidFileType() {
+    return this.data.get("dictInvalidFileType") || "Invalid file type";
+  }
+
   get acceptedFiles() {
     return this.data.get("acceptedFiles");
   }
@@ -66,11 +68,50 @@ export default class extends Controller {
   get addRemoveLinks() {
     return this.data.get("addRemoveLinks") || true;
   }
+
+  getMetaValue(name) {
+    const element = this.findElement(document.head, `meta[name="${name}"]`);
+    if (element) {
+      return element.getAttribute("content");
+    }
+  }
+
+  findElement(root, selector) {
+    if (typeof root == "string") {
+      selector = root;
+      root = document;
+    }
+    return root.querySelector(selector);
+  }
+
+  removeElement(el) {
+    if (el && el.parentNode) {
+      el.parentNode.removeChild(el);
+    }
+  }
+
+  createDirectUploadController(source, file) {
+    return new DirectUploadController(source, file);
+  }
+
+  createDropZone(controller) {
+    return new Dropzone(controller.element, {
+      url: controller.url,
+      headers: controller.headers,
+      maxFiles: controller.maxFiles,
+      maxFilesize: controller.maxFileSize,
+      dictFileTooBig: controller.dictFileTooBig,
+      dictInvalidFileType: controller.dictInvalidFileType,
+      acceptedFiles: controller.acceptedFiles,
+      addRemoveLinks: controller.addRemoveLinks,
+      autoQueue: false,
+    });
+  }
 }
 
 class DirectUploadController {
   constructor(source, file) {
-    this.directUpload = createDirectUpload(file, source.url, this);
+    this.directUpload = this.createDirectUpload(file, source.url, this);
     this.source = source;
     this.file = file;
   }
@@ -80,7 +121,7 @@ class DirectUploadController {
     this.hiddenInput = this.createHiddenInput();
     this.directUpload.create((error, attributes) => {
       if (error) {
-        removeElement(this.hiddenInput);
+        this.removeElement(this.hiddenInput);
         this.emitDropzoneError(error);
       } else {
         this.hiddenInput.value = attributes.signed_id;
@@ -93,8 +134,18 @@ class DirectUploadController {
     const input = document.createElement("input");
     input.type = "hidden";
     input.name = this.source.inputTarget.name;
-    insertAfter(input, this.source.inputTarget);
+    this.insertAfter(input, this.source.inputTarget);
     return input;
+  }
+
+  insertAfter(el, referenceNode) {
+    return referenceNode.parentNode.insertBefore(el, referenceNode.nextSibling);
+  }
+
+  removeElement(el) {
+    if (el && el.parentNode) {
+      el.parentNode.removeChild(el);
+    }
   }
 
   directUploadWillStoreFileWithXHR(xhr) {
@@ -112,10 +163,18 @@ class DirectUploadController {
   uploadRequestDidProgress(event) {
     const element = this.source.element;
     const progress = (event.loaded / event.total) * 100;
-    findElement(
+    this.findElement(
       this.file.previewTemplate,
       ".dz-upload"
     ).style.width = `${progress}%`;
+  }
+
+  findElement(root, selector) {
+    if (typeof root == "string") {
+      selector = root;
+      root = document;
+    }
+    return root.querySelector(selector);
   }
 
   emitDropzoneUploading() {
@@ -134,24 +193,8 @@ class DirectUploadController {
     this.source.dropZone.emit("success", this.file);
     this.source.dropZone.emit("complete", this.file);
   }
-}
 
-function createDirectUploadController(source, file) {
-  return new DirectUploadController(source, file);
-}
-
-function createDirectUpload(file, url, controller) {
-  return new DirectUpload(file, url, controller);
-}
-
-function createDropZone(controller) {
-  return new Dropzone(controller.element, {
-    url: controller.url,
-    headers: controller.headers,
-    maxFiles: controller.maxFiles,
-    maxFilesize: controller.maxFileSize,
-    acceptedFiles: controller.acceptedFiles,
-    addRemoveLinks: controller.addRemoveLinks,
-    autoQueue: false,
-  });
+  createDirectUpload(file, url, controller) {
+    return new DirectUpload(file, url, controller);
+  }
 }

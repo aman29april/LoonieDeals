@@ -60,6 +60,7 @@ gem 'devise'
 gem 'friendly_id', '~> 5.4.0'
 gem 'haml-rails', '~> 2.0'
 gem 'money-rails', '~> 1.12'
+gem "font-awesome-sass", "~> 6.4.0"
 
 gem 'instagram'
 gem 'koala'

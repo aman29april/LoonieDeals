@@ -84,6 +84,14 @@ class Deal < ApplicationRecord
     tags.map(&:name).join(', ')
   end
 
+  def all_tags=(names)
+    self.tags = names.split(',').map do |name|
+      Tag.first_or_create_with_name!(name)
+    end
+    RelatedTagsCreator.create(tag_ids)
+  end
+
+
   def unpublish
     self.published_at = nil
   end
