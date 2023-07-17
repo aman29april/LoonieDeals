@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module FriendlyIdModelMonkeyPatch
   # Now all of your FriendlyId models will revert to using their ID in ActiveAdmin and their slug everywhere else.
   def to_param
@@ -9,6 +11,8 @@ module FriendlyIdModelMonkeyPatch
   end
 end
 
-module FriendlyId::Model
-  prepend FriendlyIdModelMonkeyPatch
+module FriendlyId
+  module Model
+    prepend FriendlyIdModelMonkeyPatch
+  end
 end

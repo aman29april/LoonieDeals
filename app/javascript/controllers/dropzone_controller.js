@@ -104,6 +104,7 @@ export default class extends Controller {
       dictInvalidFileType: controller.dictInvalidFileType,
       acceptedFiles: controller.acceptedFiles,
       addRemoveLinks: controller.addRemoveLinks,
+      previewsContainer: controller.previewsContainer,
       autoQueue: false,
     });
   }

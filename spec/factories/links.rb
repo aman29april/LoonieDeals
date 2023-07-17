@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: links
@@ -16,9 +18,9 @@
 #
 FactoryBot.define do
   factory :link do
-    text { "MyString" }
-    image_url { "MyString" }
-    link_url { "MyString" }
+    text { 'MyString' }
+    image_url { 'MyString' }
+    link_url { 'MyString' }
     order_number { 1 }
     deal { nil }
   end

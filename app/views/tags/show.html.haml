@@ -1,0 +1,31 @@
+.col-md-8.col-md-offset-1.dashboard-main-content
+  %div{"data-animation" => "fadeInUp-fadeOutDown"}
+    .heading-container
+      / <small class="heading-prefix">Tagged in</small>
+      .float-start
+        %h3.heading-title= @dashboard.tag.name
+     
+  .posts-wrapper{"data-animation" => "fadeInUp-fadeOutDown", "data-behavior" => "endless-scroll"}
+    = render @dashboard.deals
+  = will_paginate @dashboard.deals
+- content_for :sidebar do
+  %aside.col-md-4.main-sidebar
+    - if @related_tags.any?
+      %h4.small-heading.border-top Related Tags
+      = react_component('TagList', { tags: @related_tags })
+    / <div class="flex-container border-top">
+    / <h4 class="small-heading">Tags you follow</h4>
+    / </div>
+    - unless @dashboard.filtered?
+      %h4.small-heading.border-top Top stories
+      .sidebar-top-stories
+        %ul
+          - @dashboard.top_stories.each_with_index do |post, index|
+            %li.top-stories-list-item
+              .count-button-wrapper
+                %span.count-button= index + 1
+              .top-stories-links
+                = link_to post.title, post, class: 'post-title'
+                %br/
+                %small
+                  = react_component("PopoverLink", { user_id: post.user.id, url: user_path(post.user), children: post.username })

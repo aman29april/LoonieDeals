@@ -12,7 +12,7 @@ class QuotesController < ApplicationController
   def show
     prices =  []
     volumes = []
-    values = @quote.monthly_prices.map do |mp|
+    @quote.monthly_prices.map do |mp|
       prices << [mp.date, mp.last_day_close_cents]
       volumes << [mp.date, mp.volume]
     end

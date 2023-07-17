@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: deals
@@ -26,6 +28,8 @@
 #  updated_at       :datetime         not null
 #
 class Deal < ApplicationRecord
+  include Rails.application.routes.url_helpers
+
   belongs_to :store, counter_cache: true
   belongs_to :category, counter_cache: true
 
@@ -43,7 +47,6 @@ class Deal < ApplicationRecord
   validate :price_less_than_retail_price
   validates :url, format: { with: URI::DEFAULT_PARSER.make_regexp, message: 'must be a valid URL' }, allow_blank: true
 
-
   scope :published, -> { where.not(published_at: nil) }
   scope :featured, -> { where(featured: true) }
   scope :recent, -> { order(created_at: :desc) }
@@ -54,8 +57,8 @@ class Deal < ApplicationRecord
   has_rich_text :body
 
   before_save :calculate_discount
-  # after_save :convert_image_to_jpeg, if: :image_attached?  
-  
+  # after_save :convert_image_to_jpeg, if: :image_attached?
+
   # after_commit :generate_image_varian
   # optimize_image
 
@@ -69,7 +72,6 @@ class Deal < ApplicationRecord
     URI.encode(url_with_affiliate)
   end
 
-
   def discount_percentage
     return 0 if price.nil? || discount.nil? || price.zero?
 
@@ -80,17 +82,25 @@ class Deal < ApplicationRecord
     body.body&.to_html
   end
 
+  def body_text
+    body.body&.to_plain_text || ''
+  end
+
+  def self.tagged_with(name)
+    Tag.find_by!(name:).deals
+  end
+
   def all_tags
     tags.map(&:name).join(', ')
   end
 
   def all_tags=(names)
     self.tags = names.split(',').map do |name|
+      name.compact!
       Tag.first_or_create_with_name!(name)
     end
     RelatedTagsCreator.create(tag_ids)
   end
-
 
   def unpublish
     self.published_at = nil
@@ -131,17 +141,26 @@ class Deal < ApplicationRecord
     image.attached?
   end
 
+  def image_url
+    return unless image.attached?
+
+    url_for(image.representation(resize_to_limit: [300, 300]).processed)
+  end
+
+  def text_with_url
+    [title, url].reject!(&:blank?).join(' - ')
+  end
+
   private
 
   def convert_image_to_jpeg
     blob = image.blob
-    if blob.present?
-      converted_image = ImageConversionService.convert_to_jpeg(blob.download)
-      image.purge # Remove the existing image
-      # image.attach(io: converted_image, filename: "#{SecureRandom.hex}.jpg")
-      image.attach(io: converted_image, filename: blob.filename)
+    return unless blob.present?
 
-    end
+    converted_image = ImageConversionService.convert_to_jpeg(blob.download)
+    image.purge # Remove the existing image
+    # image.attach(io: converted_image, filename: "#{SecureRandom.hex}.jpg")
+    image.attach(io: converted_image, filename: blob.filename)
   end
 
   def calculate_discount
@@ -151,19 +170,19 @@ class Deal < ApplicationRecord
   end
 
   def price_less_than_retail_price
-    if price.present? && retail_price.present? && price >= retail_price
-      errors.add(:price, "must be less than retail price")
-    end
+    return unless price.present? && retail_price.present? && price >= retail_price
+
+    errors.add(:price, 'must be less than retail price')
   end
 
   def generate_image_variants
     image.variant(resize: '600x400>').processed if image.attached?
   end
 
-   def optimize_image
-    if image.attached?
-      optimized_image = ImageOptimizationService.optimize_image(image)
-      self.image = optimized_image
-    end
+  def optimize_image
+    return unless image.attached?
+
+    optimized_image = ImageOptimizationService.optimize_image(image)
+    self.image = optimized_image
   end
 end

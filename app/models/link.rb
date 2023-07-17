@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: links
@@ -18,5 +20,4 @@ class Link < ApplicationRecord
   belongs_to :deal
 
   validates :label, presence: true, length: { maximum: 100 }, allow_blank: false
-
 end

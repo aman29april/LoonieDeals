@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: tags
@@ -12,7 +14,7 @@
 #
 class Tag < ApplicationRecord
   has_many :taggings, dependent: :destroy
-  has_many :posts, through: :taggings, source: :subject, source_type: 'Post'
+  has_many :deals, through: :taggings, source: :subject, source_type: 'Deal'
   has_many :projects, through: :taggings, source: :subject, source_type: 'Project'
   validates :name, presence: true, uniqueness: { message: '%<value>s is already used' }
 

@@ -1,4 +1,4 @@
-.card.mb-4.h-100
+.card.mb-1.h-100.deal-card
   -if deal.image.representable?
     =link_to deal_path(deal) do
       .text-center
@@ -9,8 +9,7 @@
       =display_text(deal.title)
     %h6.card-subtitle
       =link_to store_path(deal.store) do
-        =resource_image(deal.store.image, class: 'img-fluid', alt: deal.store_name)
-    -# %p.card-text= deal.body
+        =resource_image(deal.store.image, class: 'img-fluid store-image', alt: deal.store_name)
     %p
       .card-text.deal-price
         =display_money(deal.price)

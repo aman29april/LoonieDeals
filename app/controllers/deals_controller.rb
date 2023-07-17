@@ -1,10 +1,11 @@
+# frozen_string_literal: true
+
 class DealsController < ApplicationController
   include ActiveStorage::SetCurrent
-  # before_action :authenticate_user!, except: [:show, :index]
-  before_action :set_deal, only: %i[show edit update destroy]
+  before_action :authenticate_user!, except: %i[show index]
+  before_action :set_deal, only: %i[show edit update destroy expire]
 
   def index
-    
     @deals = Deal.all
   end
 
@@ -55,6 +56,11 @@ class DealsController < ApplicationController
     redirect_to deals_url, notice: 'Deal was successfully destroyed.'
   end
 
+  def expire
+    @deal.expire!
+    redirect_to @deal, notice: 'Deal has been expired.'
+  end
+
   private
 
   def set_deal
@@ -62,6 +68,7 @@ class DealsController < ApplicationController
   end
 
   def deal_params
-    params.require(:deal).permit(:title, :description, :price, :retail_price, :discount, :expiration_date, :url, :pinned, :image, :store_id, :category_id, :meta_keywords, :meta_description, :body, :all_tags )
+    params.require(:deal).permit(:title, :description, :price, :retail_price, :discount, :expiration_date, :url,
+                                 :pinned, :image, :store_id, :category_id, :meta_keywords, :meta_description, :body, :all_tags)
   end
 end

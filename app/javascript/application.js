@@ -5,8 +5,8 @@ import "./add_jquery";
 import "bootstrap-tagsinput";
 import "trix";
 import "@rails/actiontext";
-// import { application } from "./application.js";
-// import * as bootstrap from "bootstrap";
+
+import "./components"
 
 import { Application } from "@hotwired/stimulus";
 const application = Application.start();
@@ -15,3 +15,8 @@ application.debug = false
 window.Stimulus   = application
 
 export { application }
+
+// Support component names relative to this directory:
+// var componentRequireContext = require.context("components", true);
+// var ReactRailsUJS = require("react_ujs");
+// ReactRailsUJS.useContext(componentRequireContext);

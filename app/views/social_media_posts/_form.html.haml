@@ -1,0 +1,33 @@
+= render :partial => 'shared/resource_error', locals: {resource: @social_media_post}
+
+= form_for @social_media_post, html: { multipart: true, class: "editor-form row gt-3 dropzone" , data: { page: 'main-editor' }, autocomplete: "off" } do |form|
+  .row
+    = form.hidden_field :deal_id
+    .col-md-2
+      = dropzone_controller_div do
+        = file_field_tag :image, direct_upload: true, multiple: false, data: { 'dropzone-target': 'input' }
+        .dropzone-msg.dz-message.needsclick.text-gray-600
+          %h3.dropzone-msg-title Drag or click here to browse
+          %span.dropzone-msg-desc.text-sm 2 MB max size. Allowed file types png, jpg.
+
+    .col-md-10
+      .row
+        .form-group
+          = form.label :text
+          = form.text_area :text, class: 'form-control', rows: 4
+
+      .row
+        .form-group
+          = form.label :social_media_accounts
+          - @all_accounts.each do |account|
+            .form-check
+              = form.check_box :social_media_accounts, { multiple: true, checked: @social_media_post.social_media_accounts.include?(account[:platform])  }, account[:platform], nil
+              = form.label "#{account[:platform]}_account", account[:platform].capitalize, class: 'form-check-label'
+
+      .row
+        = form.label :scheduled_at
+        = form.datetime_field :scheduled_at, class: 'form-control'
+  .actions.form-actions.mt-5
+    = form.submit 'Post to social media', class: 'btn btn-primary'
+    -if @deal
+      = link_to 'Deal', @deal, class: 'btn btn-primary'

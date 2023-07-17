@@ -1,13 +1,25 @@
 = render :partial => 'shared/resource_error', locals: {resource: @deal}
 
 = form_for @deal, html: { multipart: true, class: "editor-form row gt-3 dropzone" , data: { page: 'main-editor' }, autocomplete: "off" } do |form|
-  .mb-3
-    = form.label :title, class: "form-label"
-    = form.text_field :title, class: "form-control"
-  .mb-3
-    = form.label :body, class: "form-label"
-    = form.rich_text_area :body, class: "form-control medium-editable  mt-2", autofocus: false
   .row
+    .col-md-1
+      #dropzone-previews-container.dropzone-previews
+        =resource_image(@deal.image, class: 'deal-preview-img img-thumbnail')
+    .col-md-11
+      = form.label :title, class: "form-label"
+      = form.text_field :title, class: "form-control"
+  .row
+    .col-md-2
+      = form.label :image, class: "label"
+      = dropzone_controller_div do
+        = form.file_field :image, direct_upload: true, multiple: false, data: { 'dropzone-target': 'input' }
+        .dropzone-msg.dz-message.needsclick.text-gray-600
+          %h3.dropzone-msg-title Drag or click here to browse
+          %span.dropzone-msg-desc.text-sm 2 MB max size. Allowed file types png, jpg.
+    .col-md-10
+      = form.label :body, class: "form-label"
+      = form.rich_text_area :body, class: "form-control medium-editable  mt-2", autofocus: false
+  .row      
     .col-md-3
       = form.label :deal_price, class: "form-label"
       .input-group.mb-3
@@ -28,25 +40,18 @@
       = form.date_field :expiration_date, class: "form-control"
   .row
     .col-md-6
+      = form.label :url, class: "form-label"
+      .input-group.mb-3
+        = form.url_field :url, class: "form-control"
+    .col-md-3
       = form.label :store, class: "form-label"
       = form.select :store_id, Store.all.collect { |p| [ p.name, p.id ] }, { prompt: "Select a store" }, class: "form-select"
-    .col-md-6
+      -# =form.text_field :store_id, list: 'store_list'
+      -# %datalist#store_list
+      -#   = options_for_select(Store.all.pluck(:name, :id), @deal.store_name)
+    .col-md-3
       = form.label :category, class: "form-label"
       = form.select :category_id, Category.all.collect { |p| [ p.name, p.id ] }, { prompt: "Select a store" }, class: "form-select select-picker"
-
-  .mb-3
-    = form.label :url, class: "form-label"
-    .input-group.mb-3
-      %span.input-group-text http://
-      = form.url_field :url, class: "form-control"
-  .mb-6
-    = form.label :image, class: "label"
-    = dropzone_controller_div do
-      = form.file_field :image, direct_upload: true, multiple: false, data: { 'dropzone-target': 'input' }
-      .dropzone-msg.dz-message.needsclick.text-gray-600
-        %h3.dropzone-msg-title Drag here to upload or click here to browse
-        %span.dropzone-msg-desc.text-sm 2 MB file size maximum. Allowed file types png, jpg.
-      = form.button "Upload", class: 'btn-primary mt-2'
 
   .col-12.mt-4
     = form.label :tags, class: 'form-label'
@@ -56,10 +61,4 @@
 
   .col-12.mt-4
     .actions
-      = form.submit 'Save'
-
-
--# :javascript
--#   $(document).ready( function() {
-
--#   });
+      = form.submit 'Save', class: 'btn btn-primary'

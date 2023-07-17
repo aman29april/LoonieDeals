@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateLinks < ActiveRecord::Migration[7.0]
   def change
     create_table :links do |t|
@@ -8,8 +10,6 @@ class CreateLinks < ActiveRecord::Migration[7.0]
       t.boolean :pinned, default: false
       t.integer :position
       t.boolean :enabled
-
-
 
       t.references :deal, null: false, foreign_key: true
 

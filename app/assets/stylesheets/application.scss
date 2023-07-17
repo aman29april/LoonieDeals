@@ -9,7 +9,7 @@
 @import "./partials/notice";
 
 @import "./modules/alert_message";
-@import "modules/tags";
+@import "./modules/tags";
 
 @import url("https://fonts.googleapis.com/css2?family=Lexend:wght@200;300;400;500;600;700;800&display=swap");
 @import "actiontext";
@@ -42,13 +42,25 @@
 }
 
 .deal-details {
-  padding: 10px 10px 10px 10px;
+  padding: 15px 10px 10px 15px;
 }
+
 
 .social-share {
   float: right;
-
   .social-icon {
+    padding-right: 5px;
+    font-size: 1.2rem;
+  }
+}
+
+.social-follow{
+   .social-icon {
+    padding-right: 5px;
+    font-size: 1.8rem;
+  }
+}
+.social-icon {
     padding-right: 5px;
   }
 
@@ -89,8 +101,25 @@
   bi-.google-plus {
     color: #dd4b39;
   }
-}
 
 footer{
   background-color: #333;
+}
+
+.deal-preview-img{
+  max-height: 125px;
+}
+
+.dropbox-small{
+  height: 60px;
+  .dz-message{
+    height: 60px;
+  }
+  .dropzone-msg-title{
+    font-size: 13px;
+  }
+}
+
+.deal-card{
+  padding-top: 10px;
 }

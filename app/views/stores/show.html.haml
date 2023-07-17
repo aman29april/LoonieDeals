@@ -1,4 +1,10 @@
 %h1
-  =@store.name
-  Coupons and Deals
+  = title "#{@store.name} Coupons and Deals"
 
+  -if is_admin?
+    = link_to 'Edit', edit_store_path(@store), class: 'btn btn-primary'
+
+  .container.mt-3
+    .row.row-cols-1.row-cols-md-4.g-6
+      - @deals.each do |deal|
+        = render partial: 'deals/deal', locals: { deal: deal }

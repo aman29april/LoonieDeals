@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: social_accounts
@@ -12,9 +14,9 @@
 #
 FactoryBot.define do
   factory :social_account do
-    url { "MyString" }
+    url { 'MyString' }
     number_of_clicks { 1 }
     position { 1 }
-    account_type { "MyString" }
+    account_type { 'MyString' }
   end
 end

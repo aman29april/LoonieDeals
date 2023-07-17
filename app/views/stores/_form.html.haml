@@ -1,0 +1,40 @@
+= render :partial => 'shared/resource_error', locals: {resource: @store}
+
+= form_for @store, html: { multipart: true, class: "editor-form row gt-3 dropzone" , data: { page: 'main-editor' }, autocomplete: "off" } do |form|
+  .row
+    .col-md-1
+      #dropzone-previews-container.dropzone-previews
+        =resource_image(@store.image, class: 'deal-preview-img img-thumbnail')
+    .col-md-11
+      = form.label :name, class: "form-label"
+      = form.text_field :name, class: "form-control"
+  .row
+    .col-md-2
+      = form.label :image, class: "label"
+      = dropzone_controller_div({class: 'dropbox-small'}) do
+        = form.file_field :image, direct_upload: true, multiple: false, data: { 'dropzone-target': 'input' }
+        .dropzone-msg.dz-message.needsclick.text-gray-600
+          %h3.dropzone-msg-title Drag or click here to browse
+          -# %span.dropzone-msg-desc.text-sm 2 MB max size. Allowed file types png, jpg.
+    .col-md-10
+      .row
+        .col-12
+          = form.label :description, class: "form-label"
+          = form.text_area :description, class: 'form-control', :rows => 2
+        .col-12
+          = form.label :website, class: "form-label"
+          .input-group.mb-3
+            = form.url_field :website, class: "form-control"
+        .col-12
+          = form.label :featured do
+            = form.check_box :featured
+            Featured
+        .col-12
+          = form.label :affiliate_id, class: "form-label"
+          = form.text_field :affiliate_id, class: 'form-control'
+
+   
+ 
+  .col-12.mt-4
+    .actions
+      = form.submit 'Save', class: 'btn btn-primary'

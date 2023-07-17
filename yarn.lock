@@ -2362,9 +2362,11 @@ __metadata:
     jquery: ^3.7.0
     jquery-ui: ^1.13.2
     mini-css-extract-plugin: ^2.7.6
+    prop-types: ^15.8.1
     react: ^18.2.0
     react-dom: ^18.2.0
     react-router-dom: ^6.10.0
+    react_ujs: ^2.7.1
     sass: ^1.62.0
     shakapacker: 6.6.0
     terser-webpack-plugin: 5
@@ -6074,7 +6076,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"loose-envify@npm:^1.1.0":
+"loose-envify@npm:^1.1.0, loose-envify@npm:^1.4.0":
   version: 1.4.0
   resolution: "loose-envify@npm:1.4.0"
   dependencies:
@@ -7906,6 +7908,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"prop-types@npm:^15.8.1":
+  version: 15.8.1
+  resolution: "prop-types@npm:15.8.1"
+  dependencies:
+    loose-envify: ^1.4.0
+    object-assign: ^4.1.1
+    react-is: ^16.13.1
+  checksum: c056d3f1c057cb7ff8344c645450e14f088a915d078dcda795041765047fa080d38e5d626560ccaac94a4e16e3aa15f3557c1a9a8d1174530955e992c675e459
+  languageName: node
+  linkType: hard
+
 "prr@npm:~1.0.1":
   version: 1.0.1
   resolution: "prr@npm:1.0.1"
@@ -8041,6 +8054,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-is@npm:^16.13.1":
+  version: 16.13.1
+  resolution: "react-is@npm:16.13.1"
+  checksum: f7a19ac3496de32ca9ae12aa030f00f14a3d45374f1ceca0af707c831b2a6098ef0d6bdae51bd437b0a306d7f01d4677fcc8de7c0d331eb47ad0f46130e53c5f
+  languageName: node
+  linkType: hard
+
 "react-router-dom@npm:^6.10.0":
   version: 6.10.0
   resolution: "react-router-dom@npm:6.10.0"
@@ -8071,6 +8091,13 @@ __metadata:
   dependencies:
     loose-envify: ^1.1.0
   checksum: 88e38092da8839b830cda6feef2e8505dec8ace60579e46aa5490fc3dc9bba0bd50336507dc166f43e3afc1c42939c09fe33b25fae889d6f402721dcd78fca1b
+  languageName: node
+  linkType: hard
+
+"react_ujs@npm:^2.7.1":
+  version: 2.7.1
+  resolution: "react_ujs@npm:2.7.1"
+  checksum: e39425a5685c50bb961153de9220aec05864a0a70a1d93df7ee78613d6947270e8bfc1cdbdc752a2a5fd4f413cbd5abed8a7de6cb00f5777f04ac0b79f396b05
   languageName: node
   linkType: hard
 

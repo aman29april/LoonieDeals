@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: stores
@@ -21,7 +23,7 @@ class Store < ApplicationRecord
   validates :name, presence: true
 
   has_one_attached :image
-  has_rich_text :description
+  # has_rich_text :description
 
   validates :name, presence: true
   validate :validate_image_presence

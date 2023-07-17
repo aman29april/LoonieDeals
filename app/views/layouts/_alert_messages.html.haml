@@ -1,4 +1,9 @@
 - if notice
-  = react_component('AlertMessage', { message: notice, type: 'success' })
+  -# = react_component('AlertMessage', { message: notice, type: 'success' })
+  .alert.alert-message.alert-success{role: :alert}
+    =notice
 - if alert
-  = react_component('AlertMessage', { message: alert, type: 'danger' })
+  -# = react_component('AlertMessage', { message: alert, type: 'danger' })
+  .alert.alert-message.alert-danger{role: :alert}
+    =notice
+  

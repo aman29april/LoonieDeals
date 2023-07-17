@@ -64,7 +64,7 @@ body {
   --deletes-bg: hsl(0, 100%, 97%);
   --deletes-text: hsl(0, 89%, 63%);
 
-  --chart-price: var(--link);
+  --deal-price: #1a77d2;
   --chart-volume: hsl(220, 95%, 87%);
 
   --row-bg: #fff3cd;
@@ -278,21 +278,21 @@ h3,
 
   h1,
   .h1 {
-    font-size: 2.5rem;
+    font-size: 2.0rem;
     line-height: 1.225;
     letter-spacing: -0.022em;
   }
 
   h2,
   .h2 {
-    font-size: 2.2rem;
+    font-size: 1.8rem;
     line-height: 1.214;
     letter-spacing: -0.019em;
   }
 
   h3,
   .h3 {
-    font-size: 1.9rem;
+    font-size: 1.6rem;
     line-height: 1.2105;
     letter-spacing: -0.016em;
   }
@@ -810,7 +810,6 @@ select:focus {
   outline: 0;
 }
 
-label,
 legend {
   display: block;
   margin-bottom: 12px;
@@ -933,11 +932,25 @@ hr {
     display: none !important;
   }
 }
+.store-card{
+  padding: 10px 10px 0px 10px;
+  .store-image{
+    max-height: 50px;
+  }
+}
 
 .deal-image{
   max-height: 240px;
 }
 
+.store-image{
+  max-height: 26px;
+}
+
+.deal-price{
+  color: var(--deal-price);
+  font-size: 1.3rem;
+}
 .deal-price, .original-price{
   display: inline-block;
 }
@@ -985,4 +998,10 @@ hr {
 .ico.ico-pinterest,
 .socialicon .ico-google-plus {
   color: #dd4b39
+}
+
+.deal-actions{
+  .button_to{
+    display: inline-block;
+  }
 }

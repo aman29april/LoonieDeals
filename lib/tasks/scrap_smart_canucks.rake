@@ -28,6 +28,6 @@ namespace :scrap_smart_canucks do
 
     brands_json = JSON.pretty_generate({ brands: brands_list })
 
-    File.open('stores.json', 'w') { |f| f.write "#{brands_json}" }
+    File.open('stores.json', 'w') { |f| f.write brands_json.to_s }
   end
 end

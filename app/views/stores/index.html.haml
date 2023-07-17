@@ -1,13 +1,13 @@
 %h1
-  Find Best Deals, Coupons & Promo Codes by Store or Brand in Canada
+  = title "Find Best Deals, Coupons & Promo Codes by Store or Brand in Canada"
 
 .container
   .row
     -@stores.each do |store|
       .col-md-2
-        .card.mb-2.h-100.text-center
+        .card.mb-2.h-100.text-center.store-card
           =link_to store_path(store) do
             -if store.image.representable?
-              = image_tag url_for(store.image.representation(resize_to_limit: [200, 200]).processed), class: 'card-img-top', alt: deal.title
+              = image_tag url_for(store.image.representation(resize_to_limit: [200, 200]).processed), class: 'card-img-top img-fluid store-image', alt: store.name
             .card-body
               %h5.card-title= store.name

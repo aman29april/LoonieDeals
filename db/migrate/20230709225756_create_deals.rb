@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateDeals < ActiveRecord::Migration[7.0]
   def change
     create_table :deals do |t|
@@ -8,6 +10,7 @@ class CreateDeals < ActiveRecord::Migration[7.0]
       t.decimal :discount
 
       t.string :url
+      t.string :coupon
       t.boolean :pinned, default: false
 
       t.datetime :published_at, precision: nil

@@ -1,0 +1,20 @@
+.social-media-post
+  .post-header
+    .post-author
+      = @social_media_post.social_media_accounts
+      / Replace with the attribute representing the account name
+    .post-time
+      = time_ago_in_words(@social_media_post.created_at)
+      ago
+      / Assuming you have the created_at attribute
+  .post-content
+    - if @social_media_post.image.attached?
+      = image_tag @social_media_post.image, class: "post-image"
+      / Assuming you have an attached image
+    .post-text
+      = sanitize(@social_media_post.text)
+      / Replace with the attribute representing the post text
+    -# - if @social_media_post.link.present?
+    -#   .post-link
+    -#     = link_to @social_media_post.link, @social_media_post.link
+    -#     / Replace with the attribute representing the post link

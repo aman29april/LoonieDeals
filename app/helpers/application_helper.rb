@@ -9,7 +9,7 @@ module ApplicationHelper
     "#{"%0.#{precision}f" % amount}%" unless amount.nil?
   end
 
-  def dropzone_controller_div(&block)
+  def dropzone_controller_div(options = {}, &block)
     content_for :head_link do
       # tag :link, rel: 'stylesheet', href: 'https://unpkg.com/dropzone@5/dist/min/dropzone.min.css', type: 'text/css'
     end
@@ -17,26 +17,28 @@ module ApplicationHelper
     data = {
       controller: 'dropzone',
       'dropzone-max-file-size' => '8',
-      'dropzone-max-files' => '10',
+      'dropzone-max-files' => '1',
       'dropzone-accepted-files' => 'image/jpeg,image/jpg,image/png,image/gif',
-      'dropzone-dict-file-too-big' => 'aa {{filesize}} bb {{maxFilesize}} MB',
-      'dropzone-dict-invalid-file-type' => 'oo .jpg, .png alebo .gif'
+      'dropzone-dict-file-too-big' => 'File Size is {{filesize}}, which exceeds the maximum allowed {{maxFilesize}} MB',
+      'dropzone-dict-invalid-file-type' => 'Only .jpeg, .jpg, .png  .gif allowed',
+      'dropzone-previews-container' => '#dropzone-previews-container'
     }
-
-    content_tag(:div, class: 'dropzone dropzone-default dz-clickable', data:, &block)
+    css_class = ['dropzone dropzone-default dz-clickable', options[:class]].compact.join(' ')
+    content_tag(:div, class: css_class, data:, &block)
   end
 
   def resource_image(image, options = {})
-     if image.attached?
-        image_tag(url_for(image.representation(resize: '300x200', quality: 90)), options)
+    return unless image.attached?
 
-        image_tag url_for(image.representation(resize_to_limit: [300, 300]).processed), options
-     end
+    # image_tag(url_for(image.representation(resize: '300x200', quality: 90)), options)
+
+    image_tag url_for(image.representation(resize_to_limit: [300, 300]).processed), options
   end
 
   def format_number(number, zero_as_blank: false, precision: 2)
     return '' if zero_as_blank && number.to_f.zero?
-    number_with_precision(number.to_f, precision: precision)
+
+    number_with_precision(number.to_f, precision:)
   end
 
   def display_money(amount, zero_as_blank: true, currency: '$')
@@ -45,7 +47,7 @@ module ApplicationHelper
     content_tag(:span, value_with_zero_trimmed, class: 'money')
   end
 
-  def whatsapp_share_url(url, text='')
+  def whatsapp_share_url(url, text = '')
     msg = [text, url].reject(&:blank?).join(' - ')
     "https://api.whatsapp.com/send?text=#{msg}"
   end
@@ -69,12 +71,12 @@ module ApplicationHelper
   def time_ago(datetime)
     value = time_ago_in_words(datetime)
 
-    content_tag(:time, value, title: datetime, datetime: datetime)
+    content_tag(:time, value, title: datetime, datetime:)
   end
 
-  def display_text(text, length=50)
-    truncated = truncate(text, length: length)
-    content_tag(:span, truncated, title:text)
+  def display_text(text, length = 50)
+    truncated = truncate(text, length:)
+    content_tag(:span, truncated, title: text)
   end
 
   def social_handles

@@ -246,7 +246,6 @@ namespace :scrap_web do
   end
 
   def rename_attr(data, atrs)
-    new_data = {}
     atrs.each { |old_k, new_k| data[new_k] = data.delete(old_k.to_s) }
     data
   end
