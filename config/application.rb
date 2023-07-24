@@ -8,6 +8,11 @@ require 'rails/all'
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
+# Load dotenv only in development or test environment
+Dotenv::Railtie.load if %w[development test].include? Rails.env
+
+ENV['SECRET_TOKEN_ENCRYPTION_KEY'] = '0b9ced199939c97dc457e33d0acefff7cd2f6988d58104474ef3cb9318e9acef'
+
 module LoonieDeals
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.

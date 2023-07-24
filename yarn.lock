@@ -1621,6 +1621,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@rails/ujs@npm:^7.0.6":
+  version: 7.0.6
+  resolution: "@rails/ujs@npm:7.0.6"
+  checksum: 5fc1fc86b3ec0cd0498fce9e095b61c3d3411579682db11b01d4f7dab10e2d643cf1b0b954d5ae3b7f74bf0c791c7422b8769f1f30ff675731790f2cc5afefe5
+  languageName: node
+  linkType: hard
+
 "@rails/webpacker@npm:^5.4.4":
   version: 5.4.4
   resolution: "@rails/webpacker@npm:5.4.4"
@@ -2347,6 +2354,7 @@ __metadata:
     "@hotwired/turbo-rails": ^7.3.0
     "@popperjs/core": ^2.11.7
     "@rails/actiontext": ^7.0.6
+    "@rails/ujs": ^7.0.6
     "@rails/webpacker": ^5.4.4
     add: ^2.0.6
     autoclean: ^1.0.2
@@ -2369,6 +2377,7 @@ __metadata:
     react_ujs: ^2.7.1
     sass: ^1.62.0
     shakapacker: 6.6.0
+    sortablejs: ^1.15.0
     terser-webpack-plugin: 5
     trix: ^2.0.5
     typeahead: ^0.2.2
@@ -8854,6 +8863,13 @@ __metadata:
   dependencies:
     is-plain-obj: ^1.0.0
   checksum: 5963fd191a2a185a5ec86f06e47721e8e04713eda43bb04ae60d2a8afb21241553dd5bc9d863ed2bd7c3d541b609b0c8d0e58836b1a3eb6764c09c094bcc8b00
+  languageName: node
+  linkType: hard
+
+"sortablejs@npm:^1.15.0":
+  version: 1.15.0
+  resolution: "sortablejs@npm:1.15.0"
+  checksum: bb82223a663484640d317cad510ac987f26b7a443631040407224de1be069afcc6c39048b6d8527f10f269e33595e8128d7de2fac23517c8260470f77f932d55
   languageName: node
   linkType: hard
 

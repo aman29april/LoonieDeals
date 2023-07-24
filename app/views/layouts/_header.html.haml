@@ -12,6 +12,9 @@
           %a.nav-link.active{"aria-current" => "page", :href => "/stores"} Stores
         %li.nav-item
           %a.nav-link{:href => "/links"} Links
+        -if is_admin?
+          %li.nav-item
+            %a.nav-link{:href => "/site_settings/1/edit"} Config
         
       %form.d-flex{:role => "search"}
         %input.form-control.me-2{"aria-label" => "Search", :placeholder => "Search", :type => "search"}/

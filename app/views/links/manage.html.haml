@@ -1,0 +1,14 @@
+%div{data:{controller: :drag, 'drag-url': "/links/:id/move"}}
+  - @links.each do |link|
+    =render partial: 'form', locals: {link: link}
+:javascript
+  function toggle() {
+  var el = document.getElementById("style1");
+  if (el.href.match("assets/css/colors/light-mode.css")) {
+      el.href = "assets/css/colors/dark-mode.css";    
+  }
+  else {
+      el.href = "assets/css/colors/light-mode.css";  
+      }
+  }
+        

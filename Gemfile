@@ -50,7 +50,7 @@ gem 'bootsnap', require: false
 gem 'sassc-rails'
 
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
-gem 'image_processing', '~> 1.2'
+gem 'image_processing'
 gem 'mini_magick'
 gem 'rmagick'
 
@@ -69,7 +69,13 @@ gem 'rest-client'
 gem 'telegram-bot-ruby'
 gem 'will_paginate', '~> 3.3.0'
 
+gem 'attr_encrypted'
+gem 'cloudinary'
+gem 'omniauth-facebook'
+gem 'rack-cors'
+
 group :development, :test do
+  gem 'dotenv-rails'
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem 'debug', platforms: %i[mri mingw x64_mingw]
   gem 'factory_bot_rails'

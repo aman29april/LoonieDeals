@@ -3,7 +3,7 @@
 class DealsController < ApplicationController
   include ActiveStorage::SetCurrent
   before_action :authenticate_user!, except: %i[show index]
-  before_action :set_deal, only: %i[show edit update destroy expire]
+  before_action :set_deal, only: %i[show edit update destroy expire create_link]
 
   def index
     @deals = Deal.all
@@ -36,6 +36,16 @@ class DealsController < ApplicationController
       redirect_to @deal, notice: 'Deal was successfully updated.'
     else
       render :edit
+    end
+  end
+
+  def create_link
+    if @deal.link.present?
+      render :edit, notice: 'Link already present'
+    elsif @deal.valid?(:create_link) && Link.create_from(@deal)
+      redirect_to @deal, notice: 'Link Created successfully.'
+    else
+      render :edit, notice: 'Something wrong'
     end
   end
 

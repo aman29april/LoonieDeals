@@ -15,3 +15,6 @@ application.register("popper", PopperController)
 
 import TooltipController from "./tooltip_controller"
 application.register("tooltip", TooltipController)
+
+import DragController from "./drag_controller";
+application.register("drag", DragController);

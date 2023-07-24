@@ -32,7 +32,16 @@ module ApplicationHelper
 
     # image_tag(url_for(image.representation(resize: '300x200', quality: 90)), options)
 
-    image_tag url_for(image.representation(resize_to_limit: [300, 300]).processed), options
+    # image_tag url_for(image.representation(resize_to_limit: [300, 300]).processed), options
+
+    url = resource_image_url(image)
+    image_tag url, options
+  end
+
+  def resource_image_url(image)
+    return unless image.attached?
+
+    cloudinary_url(image.attachment.key)
   end
 
   def format_number(number, zero_as_blank: false, precision: 2)

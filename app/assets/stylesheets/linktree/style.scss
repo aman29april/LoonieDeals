@@ -1,9 +1,106 @@
-
 /*===================================
     Custom Google Fonts - Edit the line below to choose another font - (of the 5 ones included in this theme).
 =====================================*/
-@import "/assets/fonts/font-family/font-1.css";
+@import "font-1.scss";
 
+body {
+  --g-color-primary: #121212;
+  --g-color-secondary: #030303;
+  --g-color-bg: #fff;
+  --g-color-on-primary: #fff;
+  --g-color-on-secondary: #fff;
+  --g-color-on-bg: #2c2c2c;
+  --g-color-placeholder: #787878;
+  --g-color-focus: #f2ba43;
+  --g-color-anchor: #2c2c2c;
+  --g-color-error: #c42f29;
+  --g-color-success: #78b627;
+  --g-color-info: #f2ba43;
+  --g-color-gray-100: #f4f4f4;
+  --g-color-gray-200: #e0e0e0;
+  --g-color-gray-300: #c8c8c8;
+  --g-color-gray-400: #888;
+  --g-color-gray-500: #707070;
+  --g-color-gray-600: #505050;
+  --g-color-gray-700: #383838;
+  --g-color-gray-800: #282828;
+  --g-color-gray-900: #101010;
+  --g-font-body-family: "Open Sans", sans-serif;
+  --g-font-header-family: "Open Sans", sans-serif;
+  --g-font-header-weight: 800;
+  --g-font-header-text-transform: none;
+  --g-font-button-family: "Open Sans", sans-serif;
+  --g-font-input-family: "Open Sans", sans-serif;
+  --g-button-font-weight: 700;
+  --g-button-text-transform: none;
+  --g-button-letter-spacing: 0;
+  --g-zindex-drawer-overlay: 9996;
+  --g-zindex-drawer: 9997;
+  --g-zindex-modal: 9998;
+  --g-zindex-popup: 9999;
+  --p-bg-color: #d1a627;
+  --p-bg-gradient-color: null;
+  --p-bg-gradient-direction: 180deg;
+  --p-btn-margin-bottom: 12px;
+  --p-text-color: #ffffff;
+  --p-font-family: "Fjalla One", sans-serif;
+  --p-image-border-color: #e9e9e9;
+  --p-btn-bg-color: #ffffff;
+  --p-btn-color: #000000;
+  --p-btn-box-shadow: none;
+  --p-btn-box-shadow-color: 0deg 0% 0%;
+  --p-btn-box-shadow-size: 0px;
+  --p-btn-shadow-style: null;
+  --p-btn-border-width: 2px;
+  --p-btn-border-color: #ffffff;
+  --p-btn-border-radius: 4px;
+  --p-btn-font-family: "Open Sans", sans-serif;
+  --p-btn-font-weight: 800;
+  --p-btn-style: filled;
+  --p-carousel-bg-color: #dddddd;
+  --p-carousel-loader-color: #444444;
+  --p-divider-color: #333;
+  --p-title-color: #ffffff;
+  --p-title-font-family: "Fjalla One", sans-serif;
+  --p-title-font-weight: 700;
+  --p-social-color: #000000;
+  --p-bg-pattern: none;
+  --p-logo-fill: rgb(255, 255, 255);
+  --p-mark-fill: rgb(235, 235, 235);
+  --g-border-radius-min: 0.1875rem;
+  --g-border-radius-standard: 0.1875rem;
+  --g-border-radius-large: 0.375rem;
+  --g-duration-shortest: 150ms;
+  --g-duration-shorter: 200ms;
+  --g-duration-short: 250ms;
+  --g-duration-standard: 300ms;
+  --g-duration-complex: 375ms;
+  --g-duration-entering-screen: 225ms;
+  --g-duration-leaving-screen: 195ms;
+  --g-transition-speed: 250ms;
+}
+
+.deal-image-small{
+  max-width: 53px;
+}
+
+.site {
+  background-color: var(--p-bg-color);
+  color: var(--p-text-color);
+  font: 400 18px/1.4 var(--p-font-family);
+  min-height: 100%;
+  position: relative;
+}
+
+.site-bg {
+  height: 100vh;
+  height: 100lvh;
+  left: 0;
+  pointer-events: none;
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
 /*===================================
     Header CSS
 =====================================*/
@@ -12,7 +109,7 @@
   height: 120px;
   /* box-shadow: 2px 5px 12px rgba(0,0,0,50%); */
   /* box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; */
-  box-shadow: rgba(0, 0, 0, 0.30) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+  box-shadow: rgba(0, 0, 0, 0.3) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
 }
 
 .header-text {
@@ -108,67 +205,114 @@
   }
 }
 
-/*===================================
-    BG Video Player CSS
-=====================================*/
-.bg-video {
-  position: fixed;
-  right: 0;
-  bottom: 0;
-  z-index: -1;
+.site-links-title {
+    color: var(--p-title-color);
+    font-weight: var(--p-title-font-weight);
+    font-family: var(--p-title-font-family);
+    font-size: 1.25rem;
+    line-height: 1.25;
+    margin: 2rem 0 0.75rem;
+    text-align: center;
 }
 
-@media (min-aspect-ratio: 16/9) {
-  .bg-video {
-    width: 100%;
-    height: auto;
-  }
+.site-btn__img {
+  flex-shrink: 0;
+  display: block;
+  height: 52px;
+  pointer-events: none;
+  width: 52px;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  transition: all var(--g-transition-speed);
 }
 
-@media (max-aspect-ratio: 16/9) {
-  .bg-video {
-    width: auto;
-    height: 100%;
-  }
+.site-btn--large {
+  --border-height: calc(var(--p-btn-border-width) * 2);
+  min-height: calc(75px + var(--border-height));
 }
 
-/*===================================
-    Navbar
-=====================================*/
-.custom-nav {
-  color: chocolate;
-  background-color: transparent;
+.site-btn {
+  align-items: center;
+  background: var(--p-btn-bg-color);
+  border: var(--p-btn-border-width) solid var(--p-btn-border-color);
+  border-radius: var(--p-btn-border-radius);
+  color: var(--p-btn-color);
+  cursor: pointer;
+  display: flex;
+  font-family: var(--p-btn-font-family);
+  font-size: 0.945rem;
+  padding: 0;
+  position: relative;
+  overflow: hidden;
   width: 100%;
-  border-radius: 0px;
-  z-index: 999;
-  margin-bottom: 0px;
-  transition: all 0.5s ease-in-out;
+  text-decoration: none;
+  transition: transform var(--g-transition-speed) cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.custom-nav .navbar-nav li a {
-  color: #606060 !important;
-  font-size: 14px;
-  background-color: transparent !important;
-  margin-top: 8px;
-  letter-spacing: 0.05em;
-  line-height: 24px;
-  transition: all 0.5s;
-  font-weight: 700;
+.site-btn--four-corners {
+  --border-width: 6px;
+  border: 3px solid var(--p-btn-border-color);
+  border-radius: 0;
+  overflow: unset;
 }
 
-/*===================================
-    Main Buttons CSS
-=====================================*/
-.btn-round {
-  border-radius: 30px;
+.site-btn--four-corners:before {
+  top: 8px;
+  left: calc(-1 * var(--border-width) / 2);
+  height: calc(100% - 16px);
+  width: calc(100% + var(--border-width));
+  transform: scaleY(1);
 }
 
-.btn-custom {
-  padding: 18px;
-  font-size: 16px;
-  font-weight: 400;
-  transition: all 0.5s;
-  letter-spacing: 0.6px;
+.site-btn--four-corners:after {
+  left: 8px;
+  top: calc(-1 * var(--border-width) / 2);
+  height: calc(100% + var(--border-width));
+  width: calc(100% - 16px);
+  transform: scaleX(1);
+}
+.site-btn:focus,
+.site-btn:hover {
+  animation-duration: var(--g-transition-speed);
+  animation-timing-function: linear;
+  animation-iteration-count: 1;
+  background: var(--p-btn-bg-color);
+  border-color: var(--p-btn-border-color);
+  color: var(--p-btn-color);
+  transform: scale(1.02);
+}
+
+.site-btn__text {
+  align-items: center;
+  display: flex;
+  font-weight: var(--p-btn-font-weight);
+  flex-grow: 1;
+  line-height: 1.4;
+  padding: 1rem 1.125rem;
+  max-width: 100%;
+  justify-content: center;
+  text-align: center;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+}
+
+.site-btn__text--small {
+  font-size: 13px;
+}
+
+.site-btn--hollow,
+.site-btn--hollow:focus,
+.site-btn--hollow:hover {
+  background-color: transparent;
+  border-color: var(--p-btn-color);
+  color: var(--p-btn-color);
+}
+
+.site-btn--soft-shadow {
+  box-shadow: var(--p-btn-box-shadow);
 }
 
 .btn-custom:hover,
@@ -179,7 +323,7 @@
 .btn-custom:active,
 .btn-custom:focus,
 .btn-custom:hover,
-.open>.dropdown-toggle.btn-custom {
+.open > .dropdown-toggle.btn-custom {
   font-weight: 500;
 }
 
@@ -224,9 +368,156 @@
   display: block;
 }
 
-/*=========================
-    Contact Form CSS
-===========================*/
+.site {
+  background-color: var(--p-bg-color);
+  color: var(--p-text-color);
+  font: 400 18px/1.4 var(--p-font-family);
+  min-height: 100%;
+  position: relative;
+}
+
+.site--has-bg-image .site-bg {
+  background-image: var(--bg-mobile-src);
+  background-position: 50%;
+  background-size: cover;
+}
+
+.site__main {
+  margin: 0 auto;
+  max-width: 650px;
+}
+
+.site__share-container {
+  position: relative;
+}
+
+.site__share {
+  position: absolute;
+  right: -0.35rem;
+  top: 0.5rem;
+  z-index: 1;
+}
+
+.site__header {
+  // padding-top: 3rem;
+  position: relative;
+  text-align: center;
+}
+
+.site__header__img {
+  flex-shrink: 0;
+}
+
+.site__profile-img {
+  background: #fff;
+  border: none;
+  border-radius: 50%;
+  height: 100px;
+  margin-bottom: 0.325rem;
+  -o-object-fit: cover;
+  object-fit: cover;
+  width: 100px;
+}
+
+.site__header--align-left .site__profile-img {
+  height: 70px;
+  width: 70px;
+}
+
+.site-social {
+  --icon-padding: 0.425rem;
+  align-items: center;
+  -moz-column-gap: 0.75rem;
+  column-gap: 0.75rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  list-style: none;
+  margin: 1.25rem 0 0;
+  padding: 0;
+  position: relative;
+  row-gap: 0.425rem;
+  a {
+    color: var(--p-social-color);
+    display: inline-flex;
+    font-size: 1.925rem;
+    padding: var(--icon-padding);
+    transition: transform var(--g-transition-speed) cubic-bezier(0.4, 0, 0.2, 1);
+    vertical-align: top;
+  }
+}
+
+.site-social a {
+  color: var(--p-social-color);
+  display: inline-flex;
+  font-size: 1.925rem;
+  padding: var(--icon-padding);
+  transition: transform var(--g-transition-speed) cubic-bezier(0.4, 0, 0.2, 1);
+  vertical-align: top;
+}
+
+.site-container {
+  background-color: var(--p-bg-color);
+  min-height: 100vh;
+  overflow: hidden;
+  padding-bottom: 5rem;
+  padding-left: 0.925rem;
+  padding-right: 0.925rem;
+  position: relative;
+}
+
+.site__divider--rainbow {
+  background: linear-gradient(
+    to right,
+    #62efab 5%,
+    #f2ea7d 15%,
+    #f2ea7d 25%,
+    #ff8797 35%,
+    #ff8797 45%,
+    #e1a4f4 55%,
+    #e1a4f4 65%,
+    #82fff4 75%,
+    #82fff4 85%,
+    #62efab 95%
+  );
+  height: 3px;
+}
+.site__divider {
+  background: var(--p-divider-color);
+  border: 0;
+  margin: 30px auto;
+  height: 2px;
+  width: 90px;
+}
+
+.site__username {
+  color: var(--p-title-color);
+  font-family: var(--p-title-font-family);
+  font-size: 1.325rem;
+  font-weight: var(--p-title-font-weight);
+  line-height: 1.25;
+  margin-bottom: 0.425rem;
+}
+.site__header--align-left .site__username {
+  font-size: 1.125rem;
+}
+.site__intro,
+.site__location {
+  font-size: 0.925rem;
+  font-weight: 400;
+  line-height: 1.6;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 450px;
+}
+
+.site__links {
+  list-style: none;
+  margin: 20px 0 0;
+  padding: 0;
+  position: relative;
+}
+
 .form-treelink .form-control {
   box-shadow: none !important;
   height: 50px;
@@ -271,9 +562,6 @@
   font-size: 22px;
 }
 
-/*==========================
-    Toogle Switch CSS
-============================*/
 .form-check {
   font-size: 26px;
   display: block;
@@ -281,9 +569,6 @@
   margin-top: 4px;
 }
 
-/*==========================
-    Modal CSS
-============================*/
 .modal-body {
   position: relative;
   flex: 1 1 auto;

@@ -12,4 +12,6 @@
 //= link controllers/popper_controller.js
 //= link controllers/tooltip_controller.js
 //= link controllers/utils.js
+//= link controllers/drag_controller.js
+
 

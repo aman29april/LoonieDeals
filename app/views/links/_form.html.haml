@@ -1,0 +1,44 @@
+.card.card-body{data: {id: link.id}}
+  = form_for link do |f|
+    .col-md-12
+      .row
+        .col-md-2
+          = dropzone_controller_div({class: 'dropbox-small'}) do
+            = f.file_field :image, direct_upload: true, multiple: false, data: { 'dropzone-target': 'input' }
+            .dropzone-msg.dz-message.needsclick.text-gray-600
+              %h3.dropzone-msg-title Drag or click here to browse
+            -# %span.dropzone-msg-desc.text-sm 2 MB max size. Allowed file types png, jpg.
+        .col-md-10
+          .row
+            .col-md-12
+              .input-group.mb-3
+                %span.input-group-text URL
+                = f.text_field :url, class: "form-control", placeholder: "Url"
+    
+            .col-md-10
+              .input-group.mb-3
+                %span.input-group-text Label
+                = f.text_field :label, class: "form-control", placeholder: "Label"
+
+            .col-12.mt-2
+              .row
+                .col-md-2
+                  .form-check
+                    = f.check_box :enabled
+                    = f.label :enabled, class: 'form-check-label'
+              
+                .col-md-2
+                  .form-check
+                    = f.check_box :pinned
+                    = f.label :pinned, class: 'form-check-label'
+
+    .actions
+      = button_tag type: :submit, class: '', title: "Update" do
+        %i{class: 'bi bi-cloud-arrow-up-fill'}
+
+      -# =link_to link, method: :delete, data: { confirm: 'Are you sure?' } do
+      -#   %i{class: 'bi bi-trash3'}
+
+      = button_tag method: :destroy, class: '', title: "Delete" do
+        %i{class: 'bi bi-trash3'}
+

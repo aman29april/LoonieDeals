@@ -1,0 +1,11 @@
+%h1 Edit Site Settings
+= form_with(model: @site_setting, url: site_setting_path(@site_setting), method: :patch) do |form|
+  .field
+    = form.label :instagram_id
+    = form.text_field :ig_id
+  .field
+    = form.label :secret_token
+    = form.text_field :secret_token
+  .actions
+    = form.submit 'Save Settings'
+

@@ -16,3 +16,4 @@ pin 'just-extend', to: 'https://ga.jspm.io/npm:just-extend@6.2.0/index.esm.js'
 
 # pin 'trix'
 # pin '@rails/actiontext', to: 'actiontext.js'
+pin '@rails/ujs', to: 'https://ga.jspm.io/npm:@rails/ujs@7.0.6/lib/assets/compiled/rails-ujs.js'

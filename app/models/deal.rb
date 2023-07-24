@@ -29,6 +29,9 @@
 #
 class Deal < ApplicationRecord
   include Rails.application.routes.url_helpers
+  include ImageConversionConcern
+
+  attr_accessor :auto_create_link
 
   belongs_to :store, counter_cache: true
   belongs_to :category, counter_cache: true
@@ -37,6 +40,7 @@ class Deal < ApplicationRecord
   delegate :name, to: :category, prefix: true
 
   has_one_attached :image
+  has_one :link
 
   has_many :taggings, as: :subject, dependent: :destroy
   has_many :tags, through: :taggings
@@ -57,10 +61,17 @@ class Deal < ApplicationRecord
   has_rich_text :body
 
   before_save :calculate_discount
-  # after_save :convert_image_to_jpeg, if: :image_attached?
+  before_save -> { convert_image_to_jpg(image) }
 
-  # after_commit :generate_image_varian
-  # optimize_image
+  validate :image_format_validation
+
+  after_create :create_link
+
+  with_options(if: :auto_create_link) do |it|
+    it.validates :url, format: { with: URI::DEFAULT_PARSER.make_regexp, message: 'must be a valid URL' },
+                       allow_blank: false, on: :create_link
+    it.validates :title, presence: true, allow_blank: false
+  end
 
   def free?
     price.zero?
@@ -96,7 +107,7 @@ class Deal < ApplicationRecord
 
   def all_tags=(names)
     self.tags = names.split(',').map do |name|
-      name.compact!
+      name.strip!
       Tag.first_or_create_with_name!(name)
     end
     RelatedTagsCreator.create(tag_ids)
@@ -153,6 +164,10 @@ class Deal < ApplicationRecord
 
   private
 
+  def create_link
+    Link.create_from(self) if auto_create_link
+  end
+
   def convert_image_to_jpeg
     blob = image.blob
     return unless blob.present?
@@ -184,5 +199,14 @@ class Deal < ApplicationRecord
 
     optimized_image = ImageOptimizationService.optimize_image(image)
     self.image = optimized_image
+  end
+
+  def image_format_validation
+    return unless image.attached?
+
+    return if image.content_type.in?(%w[image/jpeg image/jpg image/png])
+
+    errors.add(:image, 'must be a JPEG, JPG, or PNG file')
+    image.purge # Remove the invalid image
   end
 end

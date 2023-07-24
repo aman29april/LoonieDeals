@@ -7,23 +7,17 @@
     = csrf_meta_tags
     = csp_meta_tag
     = stylesheet_link_tag 'linktree', media: 'all', 'data-turbolinks-track': 'reload'
-    -# = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
-    = javascript_include_tag "application", "data-turbo-track": "reload", defer: true 
+    -# = javascript_include_tag "application", "data-turbo-track": "reload", defer: true 
     = javascript_include_tag "activestorage"
-    = javascript_importmap_tags
+    -# = javascript_importmap_tags
     = stylesheet_link_tag "actiontext", "data-turbo-track": "reload"
 
     
  
     =yield :head_link
-  %body.d-flex.flex-column.h-100
-
-
-
-    =render partial: 'layouts/alert_messages'
-
-    
+  %body.d-flex.flex-column.h-100.site
+    .site-bg
     %main.flex-shrink-0#root
-      .container{style: 'margin-top: 50px'}
+      .site-container{style: 'margin-top: 50px'}
         = yield
     = render 'layouts/footer'

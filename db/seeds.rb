@@ -48,3 +48,5 @@ stores = %(Amazon).split("\n")
 stores.each do |name|
   Store.create!(name:)
 end
+
+Link.create(label: '', url: '', pinned: true, enabled: true)

@@ -18,10 +18,19 @@ class SocialMediaPost < ApplicationRecord
   has_one_attached :image
   before_create :attach_deal_image
 
+  after_initialize do |_user|
+    attach_deal_image
+  end
+
   validates :social_media_accounts, presence: true, allow_blank: false
   validates :social_media_accounts, inclusion: { in: %w[facebook instagram twitter telegram] }
   validates :text, presence: true, allow_blank: false
   validate :scheduled_at_cannot_be_in_the_past
+
+  def self_or_deal_image
+    image if image.attached?
+    deal.image if deal.present? && deal.image.attached?
+  end
 
   private
 
@@ -32,8 +41,12 @@ class SocialMediaPost < ApplicationRecord
   end
 
   def attach_deal_image
-    return if deal.blank?
+    return if deal.blank? || !deal.image.attached?
 
-    image.attach(deal.image) if deal.image.attached?
+    # image = deal.image
+    # image.file.attach(deal.image.file.blob)
+
+    # image.attach(io: StringIO.new(deal.image.download),
+    # filename: deal.image.filename, content_type: deal.image.content_type)
   end
 end

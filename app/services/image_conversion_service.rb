@@ -3,10 +3,15 @@
 require 'mini_magick'
 
 class ImageConversionService
-  def self.convert_to_jpeg(image, format = 'jpg')
-    converted_image = MiniMagick::Image.new(image.tempfile.path)
+  include Rails.application.routes.url_helpers
+
+  def self.convert_to_jpg(image, format = 'jpg')
+    return image if image.content_type.include?(format)
+
+    tempfile = image.download
+    converted_image = MiniMagick::Image.read(tempfile)
     converted_image.format(format)
-    converted_image.strip
+
     converted_image
   end
 end
