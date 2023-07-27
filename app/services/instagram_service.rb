@@ -14,7 +14,7 @@ class InstagramService
   REDIRECT_URL = 'http://localhost:3000/facebook_callback'
 
   def initialize
-    @access_token = ACCESS_TOKEN
+    @access_token = SiteSetting.instance.facebook_access_token
     @url = [BASE_URL, API_VERSION, IG_USER_ID].join('/')
     @authorization_url = "https://api.instagram.com/oauth/authorize?client_id=#{APP_ID}&redirect_uri=#{REDIRECT_URL}&scope=user_profile,user_media&response_type=code"
 

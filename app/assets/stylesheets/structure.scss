@@ -940,7 +940,18 @@ hr {
 }
 
 .deal-image{
-  max-height: 240px;
+  max-height: 215px;
+}
+.deal-card{
+  .card-title{
+    span{
+      font-size: 1rem;
+    }
+  }
+  .card-body{
+    padding-top: 10px;
+    padding-bottom: 10px;;
+  }
 }
 
 .store-image{

@@ -159,7 +159,7 @@ class Deal < ApplicationRecord
   end
 
   def text_with_url
-    [title, url].reject!(&:blank?).join(' - ')
+    [title, url].reject!(&:blank?)&.join(' - ')
   end
 
   private

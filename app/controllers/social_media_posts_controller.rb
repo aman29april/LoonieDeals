@@ -20,6 +20,13 @@ class SocialMediaPostsController < ApplicationController
     caption = @social_media_post.text
     InstagramService.new.create_photo_post(image_url, caption:)
 
+    if params[:action] != 'post_and_save'
+      flash[:success] = 'Deal successfully posted on selected social media accounts.'
+      return render :new
+    end
+
+    return unless params[:action] == 'post_and_save'
+
     if @social_media_post.save
       flash[:success] = 'Deal successfully posted on selected social media accounts.'
       redirect_to @social_media_post

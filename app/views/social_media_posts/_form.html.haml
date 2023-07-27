@@ -2,17 +2,9 @@
 
 = form_for @social_media_post, html: { multipart: true, class: "editor-form row gt-3 dropzone" , data: { page: 'main-editor' }, autocomplete: "off" } do |form|
   .row
-    .col-md-3
-      #dropzone-previews-container.dropzone-previews
-        =resource_image(@social_media_post.self_or_deal_image, class: 'deal-preview-img img-thumbnail')
-  .row
     = form.hidden_field :deal_id
     .col-md-2
-      = dropzone_controller_div do
-        = file_field_tag :image, direct_upload: true, multiple: false, data: { 'dropzone-target': 'input' }
-        .dropzone-msg.dz-message.needsclick.text-gray-600
-          %h3.dropzone-msg-title Drag or click here to browse
-          %span.dropzone-msg-desc.text-sm 2 MB max size. Allowed file types png, jpg.
+      =render partial: 'shared/dropzone_image', locals: { f: form, image: @social_media_post.self_or_deal_image}
 
     .col-md-10
       .row
@@ -32,8 +24,8 @@
         = form.label :scheduled_at
         = form.datetime_field :scheduled_at, class: 'form-control'
   .actions.form-actions.mt-5
-    = form.submit 'Post to social media', class: 'btn btn-primary', value: "post and save", name: 'action'
-    = form.submit 'Post to Insta', class: 'btn btn-primary', value: "post without save", name: 'action'
+    = form.submit 'Post to social media', class: 'btn btn-primary', value: "post_and_save", name: 'action', data: {action: 'post_and_save'}
+    = form.submit 'Post to Insta', class: 'btn btn-primary', value: "post_without_save", name: 'action', data: {action: 'post_without_save'}
     -if @deal
       = link_to 'Deal', @deal, class: 'btn btn-primary'
 
@@ -42,6 +34,7 @@
   document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("new_social_media_post").addEventListener("submit", function(event) {
       event.preventDefault();
+      debugger
       var formData = new FormData(event.target);
       var action = formData.get("action");
       

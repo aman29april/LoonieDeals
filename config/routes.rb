@@ -18,6 +18,12 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   root 'home#index'
 
+  get '/auth/instagram', to: 'instagram_auth#new', as: :new_instagram_auth
+  get '/auth/instagram/callback', to: 'instagram_auth#create', as: :create_instagram_auth
+
+  get '/auth/facebook/callback', to: 'facebook_auth#callback'
+  get '/auth/facebook', to: 'facebook_auth#new', as: :new_facebook_auth
+
   resources :deals do
     member do
       post :upvote

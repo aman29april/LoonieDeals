@@ -2,6 +2,6 @@
 
 class HomeController < ApplicationController
   def index
-    @deals = Deal.all
+    @deals = Deal.all.includes(:store).recent
   end
 end

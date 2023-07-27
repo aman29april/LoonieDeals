@@ -9,7 +9,7 @@ class StoresController < ApplicationController
   end
 
   def show
-    @deals = @store.deals
+    @deals = @store.deals.includes(:store)
   end
 
   def edit; end

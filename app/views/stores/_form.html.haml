@@ -2,20 +2,13 @@
 
 = form_for @store, html: { multipart: true, class: "editor-form row gt-3 dropzone" , data: { page: 'main-editor' }, autocomplete: "off" } do |form|
   .row
-    .col-md-1
-      #dropzone-previews-container.dropzone-previews
-        =resource_image(@store.image, class: 'deal-preview-img img-thumbnail')
     .col-md-11
       = form.label :name, class: "form-label"
       = form.text_field :name, class: "form-control"
   .row
     .col-md-2
-      = form.label :image, class: "label"
-      = dropzone_controller_div({class: 'dropbox-small'}) do
-        = form.file_field :image, direct_upload: true, multiple: false, data: { 'dropzone-target': 'input' }
-        .dropzone-msg.dz-message.needsclick.text-gray-600
-          %h3.dropzone-msg-title Drag or click here to browse
-          -# %span.dropzone-msg-desc.text-sm 2 MB max size. Allowed file types png, jpg.
+      =render partial: 'shared/dropzone_image', locals: { f: form, image: @store.image, css_class: 'dropbox-small'}
+
     .col-md-10
       .row
         .col-12

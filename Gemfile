@@ -71,6 +71,7 @@ gem 'will_paginate', '~> 3.3.0'
 
 gem 'attr_encrypted'
 gem 'cloudinary'
+gem 'httparty'
 gem 'omniauth-facebook'
 gem 'rack-cors'
 
@@ -98,7 +99,6 @@ group :development do
   gem 'better_errors'
 
   gem 'csv'
-  gem 'httparty'
   gem 'nokogiri'
 end
 

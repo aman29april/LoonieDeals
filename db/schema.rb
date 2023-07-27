@@ -193,10 +193,10 @@ ActiveRecord::Schema[7.0].define(version: 20_230_719_051_320) do
 
   create_table 'site_settings', force: :cascade do |t|
     t.string 'ig_id'
-    t.string 'encrypted_ig_secret_token'
+    t.string 'ig_secret_token'
+    t.string 'facebook_access_token'
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
-    t.string 'encrypted_secret_token'
   end
 
   create_table 'social_accounts', force: :cascade do |t|

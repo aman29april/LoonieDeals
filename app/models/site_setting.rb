@@ -14,7 +14,7 @@
 class SiteSetting < ApplicationRecord
   # attr_encrypted :ig_secret_token, key: ENV['SECRET_TOKEN_ENCRYPTION_KEY']
 
-  encrypts :ig_secret_token, deterministic: true
+  encrypts :ig_secret_token, :facebook_access_token, deterministic: true
 
   # validates :ig_id, :encrypted_ig_secret_token, presence: true
 

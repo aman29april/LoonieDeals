@@ -1,0 +1,10 @@
+-css_class = '' if local_assigns[:css_class].nil?
+
+= dropzone_controller_div({class: css_class }) do
+  = f.file_field :image, direct_upload: true, multiple: false, data: { 'dropzone-target': 'input' }
+  .dropzone-msg.dz-message.needsclick.text-gray-600
+    -if image.attached?
+      =resource_image(image, class: 'deal-preview-img img-thumbnail')
+    - else
+      %h3.dropzone-msg-title Drag or click here to browse
+      %span.dropzone-msg-desc.text-sm 2 MB max size. Allowed file types png, jpg.
