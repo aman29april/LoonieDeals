@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -12,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 20_230_719_051_320) do
+ActiveRecord::Schema[7.0].define(version: 20_230_719_050_913) do
   create_table 'action_text_rich_texts', force: :cascade do |t|
     t.string 'name', null: false
     t.text 'body'
@@ -114,6 +112,7 @@ ActiveRecord::Schema[7.0].define(version: 20_230_719_051_320) do
     t.decimal 'retail_price'
     t.decimal 'discount'
     t.string 'url'
+    t.string 'coupon'
     t.boolean 'pinned', default: false
     t.datetime 'published_at', precision: nil
     t.boolean 'featured', default: false

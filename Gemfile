@@ -69,7 +69,6 @@ gem 'rest-client'
 gem 'telegram-bot-ruby'
 gem 'will_paginate', '~> 3.3.0'
 
-gem 'attr_encrypted'
 gem 'cloudinary'
 gem 'httparty'
 gem 'omniauth-facebook'
@@ -98,6 +97,7 @@ group :development do
   gem 'annotate'
   gem 'better_errors'
 
+  gem 'bullet'
   gem 'csv'
   gem 'nokogiri'
 end

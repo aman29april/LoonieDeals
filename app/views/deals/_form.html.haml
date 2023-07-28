@@ -58,6 +58,12 @@
       = form.label :tags, class: 'form-label'
       = form.text_field :all_tags, class: 'form-control tagsinput', 'data-role': 'tagsinput', value: tag_from_param(@deal)
 
+  .col-md-12
+    .col-md-4
+      .input-group.mb-3
+        %span.input-group-text Coupon
+        = form.text_field :coupon, class: "form-control"
+
 
   - if @deal.new_record?
     .col-12.mt-4
@@ -70,10 +76,16 @@
   .col-12.mt-4
     .actions
       = form.submit 'Save', class: 'btn btn-primary'
+      = form.submit 'Generate Image', class: 'btn btn-primary', name: 'generate_image'
+
 
 - unless @deal.new_record?
   = form_with(url: create_link_deal_path(@deal), method: :post) do |form|
     = form.submit 'Create Link', class: 'btn btn-primary'
+
+-if @deal.generated_image.present?
+  =image_tag @deal.generated_image, class: 'image'
+
 
 
 :javascript

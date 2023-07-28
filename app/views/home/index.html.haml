@@ -1,6 +1,9 @@
 %div
   %h1 Listing deals
 
+  -if is_admin?
+    = link_to 'New Deal', new_deal_path
+
   .container
     .row
       - @deals.each do |deal|

@@ -31,7 +31,7 @@ class Deal < ApplicationRecord
   include Rails.application.routes.url_helpers
   include ImageConversionConcern
 
-  attr_accessor :auto_create_link
+  attr_accessor :auto_create_link, :generated_image
 
   belongs_to :store, counter_cache: true
   belongs_to :category, counter_cache: true

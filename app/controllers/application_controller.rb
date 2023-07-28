@@ -20,9 +20,10 @@ class ApplicationController < ActionController::Base
     return nil if link_url.blank?
 
     begin
-      response = Net::HTTP.get_response(URI.parse(link_url))
-      page = Nokogiri::HTML(response.body)
-      title = page.title.strip
+      response = Net::HTTP.get_response(URI.parse(link_url(link_url)))
+      page = Nokogiri::HTML(ScrapWebPageService.get_html_content)
+      # title = page.title.strip
+      title = page.at_css('title').text
       render plain: title
     rescue StandardError => e
       Rails.logger.error "Error fetching title from link: #{e.message}"
