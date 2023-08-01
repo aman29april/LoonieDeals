@@ -33,7 +33,7 @@ class Link < ApplicationRecord
   has_one_attached :image
 
   def self.create_from(deal)
-    link = Link.create(deal:, label: deal.title, url: deal.url)
+    link = Link.create(deal:, label: deal.title, url: deal.affiliate_url)
     return unless deal.image.attached?
 
     link.image.attach(io: StringIO.new(deal.image.download),

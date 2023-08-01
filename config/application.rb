@@ -22,6 +22,9 @@ module LoonieDeals
     config.active_record.encryption.deterministic_key = ENV['DETERMINISTIC_KEY']
     config.active_record.encryption.key_derivation_salt = ENV['KEY_DERIVATION_SALT']
 
+    config.action_view.form_with_generates_ids = true
+
+
     # Configuration for the application, engines, and railties goes here.
     #
     # These settings can be overridden in specific environments using the files

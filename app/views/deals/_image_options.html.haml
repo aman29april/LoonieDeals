@@ -1,0 +1,23 @@
+.col-md-12
+  .row
+    .col-md-2
+      .form-check
+        = f.check_box :image_full_with
+        = f.label :image_full_with, class: 'form-check-label'
+
+    .col-md-2
+      .form-check
+        = f.check_box :store_background
+        = f.label :store_background, class: 'form-check-label'
+    .col-md-2 
+      .form-check
+        = f.check_box :hide_discount
+        = f.label :hide_discount, class: 'form-check-label'
+    .col-md-2
+      .form-check
+        = f.check_box :hide_coupon
+        = f.label :hide_coupon, class: 'form-check-label'
+    .col-md-3
+      .input-group.mb-3
+        %span.input-group-text Enlarge
+        = f.number_field :enlarge_image_by, class: 'form-input'

@@ -1,0 +1,23 @@
+= render :partial => 'shared/resource_error', locals: {resource: @deal}
+
+= form_with  model: @deal, scope: '', url: deal_images_update_path(deal: @deal), method: :post, html: { class: "editor-form row gt-3 dropzone" , data: { page: 'main-editor' }, autocomplete: "off" } do |f|
+  .col-md-12
+    .row
+      .col-md-5
+        -if @deal.generated_image.present?
+          =image_tag @deal.generated_image, class: 'image img-fluid'
+        
+      .col-md-5
+        .row
+          .col-md-12
+            .input-group.mb-3
+              %span.input-group-text Title
+              = f.text_field :title, class: "form-control"
+          .col-md-12
+            = render 'deals/image_options', f: f
+          .col-md-12
+            .actions
+              = f.submit 'Generate Image', class: 'btn btn-primary'
+              = link_to 'Goto Deal', @deal, class: 'btn btn-primary'
+              -# , form: 'deal_images_update' + params[:deal]
+

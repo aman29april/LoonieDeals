@@ -37,6 +37,18 @@ Rails.application.routes.draw do
     get 'search', on: :collection
   end
 
+  resolve('DealImages') { [:deal_images] }
+
+  resource :deal_images, only: [:new]
+  get 'deal_images/update', to: 'deal_images#update'
+  post 'deal_images/update', to: 'deal_images#update'
+
+  # resources :deal_images do
+  #   member do
+  #     get :post_without_save
+  #   end
+  # end
+
   resources :social_media_posts do
     member do
       post :post_without_save

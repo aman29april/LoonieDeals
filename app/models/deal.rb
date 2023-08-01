@@ -31,7 +31,7 @@ class Deal < ApplicationRecord
   include Rails.application.routes.url_helpers
   include ImageConversionConcern
 
-  attr_accessor :auto_create_link, :generated_image
+  attr_accessor :auto_create_link, :generated_image, :image_full_with, :store_background, :hide_discount, :enlarge_image_by, :hide_coupon
 
   belongs_to :store, counter_cache: true
   belongs_to :category, counter_cache: true
@@ -46,7 +46,7 @@ class Deal < ApplicationRecord
   has_many :tags, through: :taggings
 
   validates :title, presence: true, allow_blank: false
-  validates :price, numericality: { greater_than_or_equal_to: 0 }
+  validates :price, numericality: { greater_than_or_equal_to: 0 }, allow_blank: true
   validates :retail_price, :discount, numericality: { greater_than_or_equal_to: 0 }, allow_blank: true
   validate :price_less_than_retail_price
   validates :url, format: { with: URI::DEFAULT_PARSER.make_regexp, message: 'must be a valid URL' }, allow_blank: true
@@ -78,15 +78,22 @@ class Deal < ApplicationRecord
   end
 
   def affiliate_url
-    affiliate_id = store.affiliate.present? ? store.affiliate : nil
-    url_with_affiliate = "#{link}?affiliate=#{affiliate_id}"
+    affiliate = store.affiliate_id
+    link = url_or_store_url
+    return link if affiliate.blank?
+
+    url_with_affiliate = "#{link}?#{affiliate}"
     URI.encode(url_with_affiliate)
   end
 
-  def discount_percentage
-    return 0 if price.nil? || discount.nil? || price.zero?
+  def url_or_store_url
+    return url if url.present?
+    return store.website
+  end
 
-    (discount / price.to_f) * 100
+  def discount_percentage
+    return 0 if discount.nil?
+    "#{discount.to_i}%"
   end
 
   def body_html

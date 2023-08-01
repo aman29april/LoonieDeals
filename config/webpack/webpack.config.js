@@ -1,5 +1,13 @@
 const { webpackConfig } = require('shakapacker')
 
+// module.exports = {
+//     resolve: {
+//         fallback: {
+//             "fs": false
+//         },
+//     }
+// }
+
 // See the shakacode/shakapacker README and docs directory for advice on customizing your webpackConfig.
 // environment.plugins.append(
 //   "Provide",

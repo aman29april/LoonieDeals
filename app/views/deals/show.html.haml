@@ -12,8 +12,8 @@
                   = resource_image(@deal.image, class: 'deal-image rounded-start', alt: @deal.title)
                 .row.text-center.mt-3
                   .col-12
-                    -# -if @deal.url?
-                    =link_to 'Buy Now', @deal.url, class: 'btn btn-success', target: '_blank'
+                    -# -if @deal.affiliate_url.present?
+                    =link_to 'Buy Now', @deal.affiliate_url, class: 'btn btn-success', target: '_blank'
                   .ss.mt-1
                     %small.text-muted
                       about
@@ -39,15 +39,22 @@
                   
                   .row
                     %p.card-text
-                      .deal-price
-                        = display_money(@deal.price)
-                      .original-price
-                        = display_money(@deal.retail_price)
+                      - if @deal.price?
+                        .deal-price
+                          = display_money(@deal.price)
+                      - if @deal.retail_price?
+                        .original-price
+                          = display_money(@deal.retail_price)
                       .deal-store
                         =link_to store_path(@deal.store) do
                           =resource_image(@deal.store.image, class: 'img-fluid store-image', alt: @deal.store_name)
+
+                      -if @deal.coupon
+                        .deal-coupon
+                          =render partial: 'coupon', locals: {coupon: @deal.coupon}
                  
-                  =@deal.body
+                  .row
+                    =@deal.body
           .row
             .card
 
@@ -59,4 +66,5 @@
     = link_to 'Social media', new_social_media_post_path(deal: @deal), class: 'btn btn-primary'
     = button_to 'Expire', expire_deal_path(@deal), method: :patch, class: 'btn btn-warning inline-block'
     = link_to 'Delete', @deal, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'
+    = link_to 'Generate Image', deal_images_update_path(deal: @deal), class: 'btn btn-primary'
     = link_to 'Back', deals_path, class: 'btn btn-primary'

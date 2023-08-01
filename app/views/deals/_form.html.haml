@@ -73,10 +73,13 @@
 
   = render 'meta_fields', f: form
 
+  = render 'image_options', f: form
+
   .col-12.mt-4
     .actions
       = form.submit 'Save', class: 'btn btn-primary'
-      = form.submit 'Generate Image', class: 'btn btn-primary', name: 'generate_image'
+      = form.submit 'Build Image here', class: 'btn btn-primary', name: 'generate_image'
+      = link_to 'Generate Image', deal_images_update_path(deal: @deal), class: 'btn btn-primary'
 
 
 - unless @deal.new_record?

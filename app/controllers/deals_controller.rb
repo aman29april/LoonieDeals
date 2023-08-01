@@ -22,13 +22,8 @@ class DealsController < ApplicationController
   def create
     @deal = Deal.new(deal_params)
 
-    if params[:generate_image]
-      path = ImageGenerationService.generate_deal_image(@deal)
-      flash.now[:alert] = path
-      @deal.generated_image = path
-      return render :new
-    end
-
+    return generate_image if params[:generate_image]
+     
     if @deal.save
       redirect_to @deal, notice: 'Deal was successfully created.'
     else
@@ -37,10 +32,19 @@ class DealsController < ApplicationController
     end
   end
 
+  def generate_image
+    path = ImageGenerationService.new(@deal).generate
+    flash.now[:alert] = path
+    @deal.generated_image = path
+    return render @deal.persisted? ? :edit : :new
+  end
+
   def edit; end
 
   def update
-    if @deal.update(deal_params)
+     @deal.assign_attributes(deal_params)
+     return generate_image if params[:generate_image]
+    if @deal.save
       redirect_to @deal, notice: 'Deal was successfully updated.'
     else
       render :edit
@@ -87,6 +91,6 @@ class DealsController < ApplicationController
 
   def deal_params
     params.require(:deal).permit(:title, :description, :price, :retail_price, :discount, :expiration_date, :url,
-                                 :pinned, :image, :store_id, :category_id, :meta_keywords, :meta_description, :body, :all_tags, :coupon)
+                                 :pinned, :image, :store_id, :category_id, :meta_keywords, :meta_description, :body, :all_tags, :coupon, :generated_image, :image_full_with, :store_background, :hide_discount, :enlarge_image_by, :hide_coupon)
   end
 end

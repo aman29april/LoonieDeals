@@ -97,6 +97,8 @@ GEM
       rack (>= 0.9.0)
       rouge (>= 1.0.0)
     bindex (0.8.1)
+    binding_of_caller (1.0.0)
+      debug_inspector (>= 0.0.1)
     bootsnap (1.16.0)
       msgpack (~> 1.2)
     builder (3.2.4)
@@ -125,6 +127,7 @@ GEM
     debug (1.8.0)
       irb (>= 1.5.0)
       reline (>= 0.3.1)
+    debug_inspector (1.1.0)
     devise (4.9.2)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
@@ -486,6 +489,7 @@ DEPENDENCIES
   annotate
   awesome_print (= 1.9.2)
   better_errors
+  binding_of_caller
   bootsnap
   bullet
   capybara
