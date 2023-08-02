@@ -39,18 +39,19 @@
                   
                   .row
                     %p.card-text
-                      - if @deal.price?
-                        .deal-price
-                          = display_money(@deal.price)
-                      - if @deal.retail_price?
-                        .original-price
+                      .col.col-sm-2
+                        - if @deal.price?
+                          .deal-price
+                            = display_money(@deal.price)
+                      .col.original-price.col-sm-1
+                        - if @deal.retail_price?
                           = display_money(@deal.retail_price)
-                      .deal-store
+                      .col.deal-store
                         =link_to store_path(@deal.store) do
                           =resource_image(@deal.store.image, class: 'img-fluid store-image', alt: @deal.store_name)
 
-                      -if @deal.coupon
-                        .deal-coupon
+                      -if @deal.coupon?
+                        .col.col-lg-4.deal-coupon
                           =render partial: 'coupon', locals: {coupon: @deal.coupon}
                  
                   .row

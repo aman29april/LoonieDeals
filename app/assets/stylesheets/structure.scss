@@ -1,5 +1,5 @@
-// html is set to 62.5% so that all the REM measurements throughout Skeleton are based on 10px sizing. So basically 1.5rem=15px :) 
- html {
+// html is set to 62.5% so that all the REM measurements throughout Skeleton are based on 10px sizing. So basically 1.5rem=15px :)
+html {
   // font-size: 62.5%;
   font-family: "Inter", sans-serif;
 }
@@ -15,9 +15,11 @@ body {
   /* colors */
   --base: var(--white);
   --page-base: hsl(218, 34%, 96%);
-  --page-base-gradient: linear-gradient(177deg,
-      hsla(218, 36%, 93%, 0.64) 29%,
-      hsla(0, 0%, 100%, 0.64) 150%);
+  --page-base-gradient: linear-gradient(
+    177deg,
+    hsla(218, 36%, 93%, 0.64) 29%,
+    hsla(0, 0%, 100%, 0.64) 150%
+  );
 
   --ink-900: var(--black);
   --ink-700: hsl(207, 12%, 43%);
@@ -76,9 +78,11 @@ body.dark {
   --base-hsl: 224, 19%, 16%;
   --base: hsl(224, 19%, 16%);
   --page-base: hsl(227, 22%, 10%);
-  --page-base-gradient: linear-gradient(177deg,
-      hsl(227, 22%, 10%) 29%,
-      hsl(0, 0%, 0%) 150%);
+  --page-base-gradient: linear-gradient(
+    177deg,
+    hsl(227, 22%, 10%) 29%,
+    hsl(0, 0%, 0%) 150%
+  );
 
   --ink-900: hsl(0, 0%, 100%);
   --ink-700: hsl(224, 25%, 77%);
@@ -121,9 +125,11 @@ body.dark .logo {
     --base-hsl: 224, 19%, 16%;
     --base: hsl(224, 19%, 16%);
     --page-base: hsl(227, 22%, 10%);
-    --page-base-gradient: linear-gradient(177deg,
-        hsl(227, 22%, 10%) 29%,
-        hsl(0, 0%, 0%) 150%);
+    --page-base-gradient: linear-gradient(
+      177deg,
+      hsl(227, 22%, 10%) 29%,
+      hsl(0, 0%, 0%) 150%
+    );
 
     --ink-900: hsl(0, 0%, 100%);
     --ink-700: hsl(224, 25%, 77%);
@@ -231,7 +237,6 @@ h3,
 }
 
 @media (min-width: 992px) {
-
   h1,
   h2,
   h3,
@@ -261,7 +266,7 @@ h1,
 h2,
 .h2,
 article h1 {
-  font-size: 2.0rem;
+  font-size: 2rem;
   line-height: 1.1818;
   letter-spacing: -0.018em;
 }
@@ -275,10 +280,9 @@ h3,
 
 /* Tablet onwards */
 @media (min-width: 768px) {
-
   h1,
   .h1 {
-    font-size: 2.0rem;
+    font-size: 2rem;
     line-height: 1.225;
     letter-spacing: -0.022em;
   }
@@ -316,8 +320,6 @@ p {
   white-space: nowrap;
   flex-shrink: 2;
 }
-
-
 
 @media (min-width: 768px) {
   html {
@@ -402,16 +404,15 @@ h3 {
   margin-right: calc(-1 * var(--card-padding));
 }
 
-
-.fill-card-width>table tr td:first-child,
-.fill-card-width>table tr th:first-child,
+.fill-card-width > table tr td:first-child,
+.fill-card-width > table tr th:first-child,
 .fill-card-width #result_list tr td:first-child,
 .fill-card-width #result_list tr th:first-child {
   padding-left: var(--card-padding);
 }
 
-.fill-card-width>table tr td:last-child,
-.fill-card-width>table tr th:last-child,
+.fill-card-width > table tr td:last-child,
+.fill-card-width > table tr th:last-child,
 .fill-card-width #result_list tr td:last-child,
 .fill-card-width #result_list tr th:last-child {
   padding-right: var(--card-padding);
@@ -504,7 +505,7 @@ h3 {
     flex-direction: unset;
   }
 
-  .flex-column-mobile>.width-50-cent {
+  .flex-column-mobile > .width-50-cent {
     width: 50%;
   }
 }
@@ -520,7 +521,7 @@ h3 {
   margin: -4px;
 }
 
-.flex-gap-8>* {
+.flex-gap-8 > * {
   margin: 4px;
 }
 
@@ -528,7 +529,7 @@ h3 {
   margin: -6px;
 }
 
-.flex-gap-12>* {
+.flex-gap-12 > * {
   margin: 6px;
 }
 
@@ -536,7 +537,7 @@ h3 {
   margin: -8px;
 }
 
-.flex-gap-16>* {
+.flex-gap-16 > * {
   margin: 8px;
 }
 
@@ -544,7 +545,7 @@ h3 {
   margin: -12px;
 }
 
-.flex-gap-24>* {
+.flex-gap-24 > * {
   margin: 12px;
 }
 
@@ -552,7 +553,7 @@ h3 {
   margin: -16px;
 }
 
-.flex-gap-32>* {
+.flex-gap-32 > * {
   margin: 16px;
 }
 
@@ -560,7 +561,7 @@ h3 {
   margin: -24px;
 }
 
-.flex-gap-48>* {
+.flex-gap-48 > * {
   margin: 24px;
 }
 
@@ -568,7 +569,7 @@ h3 {
   margin: calc(-1 * var(--margin-small));
 }
 
-.flex-gap-small>* {
+.flex-gap-small > * {
   margin: var(--margin-small);
 }
 
@@ -576,7 +577,7 @@ h3 {
   margin: calc(-1 * var(--margin-medium));
 }
 
-.flex-gap-medium>* {
+.flex-gap-medium > * {
   margin: var(--margin-medium);
 }
 
@@ -651,7 +652,6 @@ input[type="button"] {
 }
 
 @media (min-width: 768px) {
-
   .button,
   button,
   input[type="submit"],
@@ -825,7 +825,7 @@ label.label-body {
   font-weight: normal;
 }
 
-label.label-body>span {
+label.label-body > span {
   margin-left: 0.5rem;
 }
 
@@ -870,7 +870,7 @@ code {
   border-radius: 4px;
 }
 
-pre>code {
+pre > code {
   display: block;
   padding: 1rem 1.5rem;
   white-space: pre;
@@ -932,46 +932,46 @@ hr {
     display: none !important;
   }
 }
-.store-card{
+.store-card {
   padding: 10px 10px 0px 10px;
-  .store-image{
+  .store-image {
     max-height: 50px;
     width: auto;
   }
 }
 
-.deal-image{
+.deal-image {
   max-height: 215px;
   max-width: 90%;
   width: auto;
 }
-.deal-card{
-  .card-title{
-    span{
+.deal-card {
+  .card-title {
+    span {
       font-size: 1rem;
     }
   }
-  .card-body{
+  .card-body {
     padding-top: 10px;
     padding-bottom: 10px;
-    display: flex;
     flex-direction: column;
   }
 }
 
-.store-image{
+.store-image {
   max-height: 26px;
 }
 
-.deal-price{
+.deal-price {
   color: var(--deal-price);
   font-size: 1.3rem;
 }
-.deal-price, .original-price{
+.deal-price,
+.original-price {
   display: inline-block;
 }
 
-.original-price{
+.original-price {
   align-self: baseline;
   padding-left: 8px;
   color: var(--originalPriceColor);
@@ -979,45 +979,44 @@ hr {
   font-weight: 400;
   grid-area: originalPrice;
   line-height: 18px;
-  text-decoration: line-through
+  text-decoration: line-through;
 }
-
 
 .ico.ico-facebook,
 .socialicon .ico-facebook3,
 .ico-facebook-2 {
-  color: #4267b2
+  color: #4267b2;
 }
 
 .ico.ico-twitter,
 .socialicon .ico-twitter-social,
 .ico-twitter-2 {
-  color: #55acee
+  color: #55acee;
 }
 
 .ico.ico-google,
 .socialicon .ico-pinterest-social,
 .ico-pinterest-2 {
-  color: #db081c
+  color: #db081c;
 }
 
 .ico.ico-Youtube,
 .socialicon {
-  color: red
+  color: red;
 }
 
 .ico.ico-telegram,
 .socialicon .ico-telegram-2 {
-  color: #1976d2
+  color: #1976d2;
 }
 
 .ico.ico-pinterest,
 .socialicon .ico-google-plus {
-  color: #dd4b39
+  color: #dd4b39;
 }
 
-.deal-actions{
-  .button_to{
+.deal-actions {
+  .button_to {
     display: inline-block;
   }
 }
@@ -1034,24 +1033,47 @@ hr {
   align-items: center;
   color: #fff;
   font-size: 16px;
-  border-radius: 5px
+  border-radius: 5px;
 }
 
 .coupon-btn {
-    position: relative;
-    overflow: hidden;
-    display: inline-block;
-    padding: 0;
-    width: 100%;
-    font-size: 14px;
-    height: 48px;
-    border: 2px solid #db402c;
-    border-radius: 5px;
-    background-color: #fff2f2;
-    border-radius: 5px;
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+  padding: 5px;
+  width: 100%;
+  font-size: 14px;
+  height: 48px;
+  border: 2px solid #000000;
+  border-radius: 5px;
+  background-color: #ffea87;
+  border-radius: 5px;
 }
 .copy-code {
-    z-index: 5;
-    display: inline-block;
-    background: #fff2f2
+  z-index: 5;
+  display: inline-block;
+  background: #fff2f2;
+}
+.w-cpn-btn {
+  width: 195px;
+}
+.not-clickable {
+  cursor: none;
+  pointer-events: none;
+}
+.pr {
+  position: relative;
+}
+.copy-coupon {
+  font-size: 20px;
+}
+.deal-code {
+  padding-left: 4px;
+  padding-right: 4px;
+  font-weight: 700;
+  text-align: right;
+  height: 100%;
+  position: absolute;
+  right: 10px;
+  line-height: 30px;
 }

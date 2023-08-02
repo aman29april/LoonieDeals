@@ -39,7 +39,12 @@ Rails.application.routes.draw do
 
   resolve('DealImages') { [:deal_images] }
 
-  resource :deal_images, only: [:new]
+  resource :deal_images, only: [:new] do
+    collection do
+      post :post_to_telegram
+      post :post_to_insta
+    end
+  end
   get 'deal_images/update', to: 'deal_images#update'
   post 'deal_images/update', to: 'deal_images#update'
 

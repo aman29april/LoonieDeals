@@ -7,4 +7,5 @@
   .container.mt-3
     .row.row-cols-1.row-cols-md-4.g-6
       - @deals.each do |deal|
-        = render partial: 'deals/deal', locals: { deal: deal }
+        .col
+          = render partial: 'deals/deal', locals: { deal: deal }

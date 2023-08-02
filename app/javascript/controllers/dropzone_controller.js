@@ -32,6 +32,15 @@ export default class extends Controller {
     this.dropZone.on("canceled", (file) => {
       file.controller && file.controller.xhr.abort();
     });
+
+    // document.onpaste = function (event) {
+    //   const items = (event.clipboardData || event.originalEvent.clipboardData).items;
+    //   for (const item of items) {
+    //     if (item.kind === "file" && item.type.includes("image")) {
+    //       this.dropZone.addFile(item.getAsFile());
+    //     }
+    //   }
+    // }
   }
 
   get headers() {
@@ -106,6 +115,27 @@ export default class extends Controller {
       addRemoveLinks: controller.addRemoveLinks,
       previewsContainer: controller.previewsContainer,
       autoQueue: false,
+      init: function () {
+        // Handle pasted images
+        document.addEventListener("paste", (event) => {
+          const items = (
+            event.clipboardData || event.originalEvent.clipboardData
+          ).items;
+          for (const item of items) {
+            if (item.type.indexOf("image") !== -1) {
+              const blob = item.getAsFile();
+              // const file = new File([blob], "pasted_image.png", {
+              //   type: "image/png",
+              // });
+              this.addFile(blob);
+            }
+          }
+        });
+
+        this.on("success", function (file, response) {
+
+        });
+      },
     });
   }
 }

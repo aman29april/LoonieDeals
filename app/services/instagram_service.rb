@@ -13,6 +13,8 @@ class InstagramService
 
   REDIRECT_URL = 'http://localhost:3000/facebook_callback'
 
+  alias create_photo_post send_photo
+
   def initialize
     @access_token = SiteSetting.instance.facebook_access_token
     @url = [BASE_URL, API_VERSION, IG_USER_ID].join('/')

@@ -1,23 +1,52 @@
-= render :partial => 'shared/resource_error', locals: {resource: @deal}
+= render :partial => 'shared/resource_error', locals: {resource: @deal_image}
 
-= form_with  model: @deal, scope: '', url: deal_images_update_path(deal: @deal), method: :post, html: { class: "editor-form row gt-3 dropzone" , data: { page: 'main-editor' }, autocomplete: "off" } do |f|
-  .col-md-12
-    .row
-      .col-md-5
-        -if @deal.generated_image.present?
-          =image_tag @deal.generated_image, class: 'image img-fluid'
-        
-      .col-md-5
-        .row
+.col-md-12
+  .row
+    .col-md-5
+      -if @deal_image.generated_image.present?
+        =image_tag @deal_image.generated_image, class: 'image img-fluid'
+
+    .col-md-7
+      .row
+        = form_with  model: @deal_image, scope: '', url: deal_images_update_path(deal: @deal_image.deal), method: :post, html: { class: "editor-form row gt-3 dropzone" , data: { page: 'main-editor' }, autocomplete: "off" } do |f|
           .col-md-12
             .input-group.mb-3
               %span.input-group-text Title
-              = f.text_field :title, class: "form-control"
+              = f.text_area :title, class: "form-control"
+          .col-md-12
+            .input-group.mb-3
+              %span.input-group-text Tags
+              = f.text_area :hash_tags, class: 'form-control', :rows => 2
+          .col-md-12
+            .row
+              .col-md-4
+                .input-group.mb-3
+                  %span.input-group-text Code
+                  = f.text_field :coupon, class: 'form-control'
+              .col-md-5
+                .input-group.mb-3
+                  %span.input-group-text Extra
+                  = f.text_area :extra, class: 'form-control', :rows => 2
           .col-md-12
             = render 'deals/image_options', f: f
           .col-md-12
+            .form-group 
+              =f.label :type
+              =f.select :type, DealImage::AVAILABLE_TYPES, prompt: 'Select Type', class: 'form-control' 
+      
+          .col-md-12.mt-3
             .actions
               = f.submit 'Generate Image', class: 'btn btn-primary'
+              = f.submit "Reset", type: :reset, class: 'btn btn-primary'
               = link_to 'Goto Deal', @deal, class: 'btn btn-primary'
-              -# , form: 'deal_images_update' + params[:deal]
+              = f.submit 'Post to telegram', class: 'btn btn-primary', name: 'post_to_telegram'
+              = f.submit 'Post to Insta', class: 'btn btn-primary', name: 'post_to_insta'
 
+        -# .row.mt-3
+        -#   .col-md-12
+        -#     .d-inline-block
+        -#       = form_with(url: post_to_telegram_deal_images_path(deal: @deal_image.deal), method: :post) do |f|
+        -#         = f.submit 'Post to telegram', class: 'btn btn-primary'
+        -#     .d-inline-block
+        -#       = form_with(url: post_to_insta_deal_images_path(deal: @deal_image.deal), method: :post) do |f|
+        -#         = f.submit 'Post to Insta', class: 'btn btn-primary'

@@ -1,9 +1,8 @@
 .pr.w-cpn-btn
   .pr
-    .code-0.csecondary.coupon-show.f12{:style => "opacity:0;text-align:center;"} Coupon Copied
     .coupon-btn.flex.align-items{"data-id" => "0", :style => "justify-content: space-between;"}
-      %a.copy-code.p10.scale-by-bit.js-clipboard{:href => "javascript:void(0);", :title => "Copy Coupon", data: {'clipboard-text': 'BRINGMYBASS'}}
-        %span.ico-copy.ico.cdred.f18
-      %a.get_code_tag.click_coupons_code.allowCopy.gtm-store-getcode.not-clickable{"data-href" => "", "data-href-alt" => "", :href => "javascript:void(0)", :rel => "nofollow"}
-        %span#code-0.hide-code.plr4.ptb6.cdred.f18.bold.tr
-          BRINGMYBASS
+      %a.copy-code.p10.scale-by-bit.js-clipboard{:href => "javascript:void(0);", :title => "Copy Coupon", data: {'clipboard-text': "#{coupon}"}}
+        %i{class: 'bi bi-back copy-coupon'}
+      %a.get_code_tag.click_coupons_code.js-clipboard{ :href => "javascript:void(0)", data: {'clipboard-text': "#{coupon}"} }
+        %span#code-0.deal-code
+          =coupon

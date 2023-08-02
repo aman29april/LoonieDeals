@@ -5,7 +5,7 @@ module ApplicationHelper
     "%0.#{precision}f" % amount unless amount.nil?
   end
 
-  def format_percentage(amount, precision=0)
+  def format_percentage(amount, precision = 0)
     "#{"%0.#{precision}f" % amount}%" unless amount.nil?
   end
 
@@ -52,7 +52,7 @@ module ApplicationHelper
 
   def to_money(amount, zero_as_blank: true, currency: '$')
     formatted_amount = number_to_currency(amount, unit: currency, precision: 2)
-    value_with_zero_trimmed = formatted_amount.sub(/\.?0+$/, '')
+    formatted_amount.sub(/\.?0+$/, '')
   end
 
   def display_money(amount, zero_as_blank: true, currency: '$')

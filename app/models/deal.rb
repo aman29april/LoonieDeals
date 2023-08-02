@@ -31,7 +31,8 @@ class Deal < ApplicationRecord
   include Rails.application.routes.url_helpers
   include ImageConversionConcern
 
-  attr_accessor :auto_create_link, :generated_image, :image_full_with, :store_background, :hide_discount, :enlarge_image_by, :hide_coupon
+  attr_accessor :auto_create_link, :generated_image, :image_full_with, :store_background, :hide_discount,
+                :enlarge_image_by, :hide_coupon
 
   belongs_to :store, counter_cache: true
   belongs_to :category, counter_cache: true
@@ -88,11 +89,13 @@ class Deal < ApplicationRecord
 
   def url_or_store_url
     return url if url.present?
-    return store.website
+
+    store.website
   end
 
   def discount_percentage
     return 0 if discount.nil?
+
     "#{discount.to_i}%"
   end
 

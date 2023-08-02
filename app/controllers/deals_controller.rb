@@ -23,7 +23,7 @@ class DealsController < ApplicationController
     @deal = Deal.new(deal_params)
 
     return generate_image if params[:generate_image]
-     
+
     if @deal.save
       redirect_to @deal, notice: 'Deal was successfully created.'
     else
@@ -36,14 +36,15 @@ class DealsController < ApplicationController
     path = ImageGenerationService.new(@deal).generate
     flash.now[:alert] = path
     @deal.generated_image = path
-    return render @deal.persisted? ? :edit : :new
+    render @deal.persisted? ? :edit : :new
   end
 
   def edit; end
 
   def update
-     @deal.assign_attributes(deal_params)
-     return generate_image if params[:generate_image]
+    @deal.assign_attributes(deal_params)
+    return generate_image if params[:generate_image]
+
     if @deal.save
       redirect_to @deal, notice: 'Deal was successfully updated.'
     else

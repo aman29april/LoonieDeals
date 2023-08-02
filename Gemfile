@@ -73,6 +73,7 @@ gem 'cloudinary'
 gem 'httparty'
 gem 'omniauth-facebook'
 gem 'rack-cors'
+gem 'redcarpet'
 
 group :development, :test do
   gem 'dotenv-rails'
