@@ -8,7 +8,7 @@
 
     .col-md-7
       .row
-        = form_with  model: @deal_image, scope: '', url: deal_images_update_path(deal: @deal_image.deal), method: :post, html: { class: "editor-form row gt-3 dropzone" , data: { page: 'main-editor' }, autocomplete: "off" } do |f|
+        = form_with  model: @deal_image, scope: '', url: deal_images_update_path(deal: @deal_image.deal.id), method: :post, html: { class: "editor-form row gt-3 dropzone" , data: { page: 'main-editor' }, autocomplete: "off" } do |f|
           .col-md-12
             .input-group.mb-3
               %span.input-group-text Title
@@ -23,30 +23,66 @@
                 .input-group.mb-3
                   %span.input-group-text Code
                   = f.text_field :coupon, class: 'form-control'
-              .col-md-5
+              .col-md-7
                 .input-group.mb-3
                   %span.input-group-text Extra
                   = f.text_area :extra, class: 'form-control', :rows => 2
           .col-md-12
-            = render 'deals/image_options', f: f
+            .row
+              .col-md-4
+                %ul{class: 'list-unstyled'}
+                  %li
+                    .form-check
+                      = f.check_box :image_full_with
+                      = f.label :image_full_with, class: 'form-check-label'
+                  %li
+                    .form-check
+                      = f.check_box :store_background
+                      = f.label :store_background, class: 'form-check-label'
+                  %li
+                    .form-check
+                      = f.check_box :hide_discount
+                      = f.label :hide_discount, class: 'form-check-label'
+                  %li
+                    .form-check
+                      = f.check_box :hide_coupon
+                      = f.label :hide_coupon, class: 'form-check-label'
+              .col
+                .row
+                  .col
+                    .form-group 
+                      =f.label :type
+                      =f.select :type, DealImage::AVAILABLE_TYPES, prompt: 'Select Type', class: 'form-control' 
+
+                  .col
+                    .form-group 
+                      =f.label :theme
+                      =f.select :theme, DealImage::THEMES, prompt: 'Select Theme', class: 'form-control'
+                 
+
+                .row.mt-3
+                  .col
+                    .input-group.mb-3
+                      %span.input-group-text Enlarge
+                      = f.number_field :enlarge_image_by, class: 'form-control'
+                  .col
+                    .input-group.mb-3
+                      %span.input-group-text Enlarge Logo
+                      = f.number_field :enlarge_logo_by, class: 'form-control'
+                .row
+                  .col
+                    .input-group.mb-3
+                      %span.input-group-text Sub
+                      = f.text_area :subheading, class: 'form-control'
+
           .col-md-12
-            .form-group 
-              =f.label :type
-              =f.select :type, DealImage::AVAILABLE_TYPES, prompt: 'Select Type', class: 'form-control' 
-      
+            .row
+        
           .col-md-12.mt-3
             .actions
               = f.submit 'Generate Image', class: 'btn btn-primary'
               = f.submit "Reset", type: :reset, class: 'btn btn-primary'
-              = link_to 'Goto Deal', @deal, class: 'btn btn-primary'
               = f.submit 'Post to telegram', class: 'btn btn-primary', name: 'post_to_telegram'
               = f.submit 'Post to Insta', class: 'btn btn-primary', name: 'post_to_insta'
-
-        -# .row.mt-3
-        -#   .col-md-12
-        -#     .d-inline-block
-        -#       = form_with(url: post_to_telegram_deal_images_path(deal: @deal_image.deal), method: :post) do |f|
-        -#         = f.submit 'Post to telegram', class: 'btn btn-primary'
-        -#     .d-inline-block
-        -#       = form_with(url: post_to_insta_deal_images_path(deal: @deal_image.deal), method: :post) do |f|
-        -#         = f.submit 'Post to Insta', class: 'btn btn-primary'
+              = link_to 'Goto Deal', @deal_image.deal, class: 'btn btn-primary'
+              = link_to 'Auth with FB', '/auth/facebook', class: 'btn btn-primary', target: '_blank'

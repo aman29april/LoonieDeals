@@ -17,4 +17,5 @@ class Category < ApplicationRecord
   has_one_attached :image
 
   scope :by_deals, -> { order(deals_count: :desc) }
+  scope :by_name, -> { order(name: :asc) }
 end

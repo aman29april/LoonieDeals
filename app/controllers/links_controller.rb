@@ -2,14 +2,27 @@
 
 class LinksController < ApplicationController
   layout 'linktree', only: :index
+  include Pagy::Backend
 
   before_action :set_link, only: %i[show edit update destroy move]
   before_action :authenticate_user!, except: %i[index]
 
   # GET /links or /links.json
   def index
-    @pinned = Link.pinned.enabled_only.by_position
-    @links = Link.un_pinned.by_position
+    @pinned = Link.pinned.by_position
+
+    @links = if params[:q].present?
+               Link.where('short_slug LIKE ?', "%#{params[:q]}%")
+             else
+               Link.un_pinned.by_position
+             end
+
+    @pagy, @links = pagy(@links)
+
+    respond_to do |format|
+      format.html
+      format.js
+    end
   end
 
   # GET /links/1 or /links/1.json
@@ -24,7 +37,7 @@ class LinksController < ApplicationController
   def edit; end
 
   def manage
-    @links = Link.all
+    @links = Link.all.by_position
   end
 
   def move

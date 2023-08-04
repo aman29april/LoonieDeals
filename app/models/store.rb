@@ -32,6 +32,7 @@ class Store < ApplicationRecord
   friendly_id :name, use: %i[slugged finders]
 
   scope :by_deals, -> { order(deals_count: :desc) }
+  scope :by_name, -> { order(name: :asc) }
 
   def validate_image_presence
     # errors.add(:image, 'must be attached') unless image.attached?

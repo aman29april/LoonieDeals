@@ -16,7 +16,7 @@ Rails.application.routes.draw do
   default_url_options host: 'http://127.0.0.1:3000'
 
   # Defines the root path route ("/")
-  root 'home#index'
+  root 'deals#index'
 
   get '/auth/instagram', to: 'instagram_auth#new', as: :new_instagram_auth
   get '/auth/instagram/callback', to: 'instagram_auth#create', as: :create_instagram_auth

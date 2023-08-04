@@ -18,6 +18,5 @@ Rails.application.config.assets.paths << Rails.root.join('node_modules/bootstrap
 # folder are already added.
 # Rails.application.config.assets.precompile += %w( application.js application.css )
 
-
-[ Proc.new { |filename, path| path =~ /app\/assets/ && !%w(.js .css).include?(File.extname(filename)) },
-/application.(css|js)$/ ]
+[proc { |filename, path| path =~ %r{app/assets} && !%w[.js .css].include?(File.extname(filename)) },
+ /application.(css|js)$/]

@@ -5,10 +5,11 @@ class DealImage
   include ActiveModel::AttributeAssignment
   include MarkdownHelper
 
-  AVAILABLE_TYPES = %w[POST STORY].freeze
+  AVAILABLE_TYPES = %w[post story].freeze
+  THEMES = %w[light dark].freeze
 
   attr_accessor :auto_create_link, :generated_image, :image_full_with, :store_background, :hide_discount,
-                :enlarge_image_by, :hide_coupon, :type, :title, :url, :deal, :hash_tags, :coupon, :extra, :hide_deal_image, :hide_store_logo
+                :enlarge_image_by, :hide_coupon, :type, :title, :url, :deal, :hash_tags, :coupon, :extra, :hide_deal_image, :hide_store_logo, :theme, :enlarge_logo_by, :custom_image, :subheading
 
   delegate :coupon, to: :deal
   DEFAULT_TAGS = '#LoonieDeals #CanadianDeals #canada #cheapfindscanada #canadafreestuff #dealsincanada'
@@ -18,7 +19,7 @@ class DealImage
   # validate :scheduled_at_cannot_be_in_the_past
 
   def initialize(params)
-    @deal = Deal.find(params[:deal])
+    @deal = Deal.friendly.find(params[:deal])
     @title = @deal.title
     @url = @deal.affiliate_url
     @hash_tags = DEFAULT_TAGS
@@ -26,14 +27,22 @@ class DealImage
   end
 
   def deal
-    @deal ||= Deal.find
+    @deal ||= Deal.friendly.find
   end
 
   def generate!
     ImageGenerationService.new(self).generate
   end
 
-  def title_with_url
+  def title_with_tags
+    <<~MESSAGE
+      #{title}
+
+      #{hash_tags}
+    MESSAGE
+  end
+
+  def md_title_with_url
     <<~MESSAGE
       #{title}
 
@@ -42,7 +51,7 @@ class DealImage
   end
 
   def photo_url
-    Rails.root.join('public', 'deal_images', generated_image.split('/').last)
+    Rails.root.join('public', 'deal_images', @generated_image.split('/').last)
   end
 
   def title_with_tags
@@ -56,10 +65,11 @@ class DealImage
     MESSAGE
   end
 
+  # photo, text
   def telegram_data
     [
       photo_url,
-      title_with_url,
+      md_title_with_url,
       {
         title_with_tags:,
         url: @url
@@ -67,5 +77,25 @@ class DealImage
     ]
   end
 
-  def insta_data; end
+  # photo, caption
+  def insta_data
+    public_photo_url = upload_to_cloud
+    [
+      public_photo_url,
+      title_with_tags
+    ]
+  end
+
+  def upload_to_cloud
+    response = Cloudinary::Uploader.upload(photo_url,
+                                           folder: 'looniedeals/tmp/',
+                                           public_id: 'instagram_upload',
+                                           overwrite: true,
+                                           resource_type: 'image',
+                                           use_filename: true,
+                                           unique_filename: false)
+
+    # response['url']
+    response['secure_url']
+  end
 end

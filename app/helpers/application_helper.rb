@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 module ApplicationHelper
+  include Pagy::Frontend
+
   def format_precision(amount, precision)
     "%0.#{precision}f" % amount unless amount.nil?
   end
@@ -28,13 +30,7 @@ module ApplicationHelper
   end
 
   def resource_image(image, options = {})
-    return unless image.attached?
-
-    # image_tag(url_for(image.representation(resize: '300x200', quality: 90)), options)
-
-    # image_tag url_for(image.representation(resize_to_limit: [300, 300]).processed), options
-
-    url = resource_image_url(image)
+    url = image.attached? ?  resource_image_url(image) : '/assets/no_image_available.svg'
     image_tag url, options
   end
 
@@ -98,7 +94,8 @@ module ApplicationHelper
       whatsapp: 'https://chat.whatsapp.com/IfLLCVdYyVH92bPgeG8nuU',
       facebook: 'https://www.facebook.com/profile.php?id=100094613855327',
       instagram: 'https://www.instagram.com/looniedeals.ca/',
-      telegram: 'https://t.me/+Vjt0oVITxa44MmM9'
+      telegram: 'https://t.me/+Vjt0oVITxa44MmM9',
+      website: '/'
     }
   end
 end

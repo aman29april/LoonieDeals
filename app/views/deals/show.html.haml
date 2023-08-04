@@ -8,16 +8,21 @@
             .row.g-0
               .col-md-3
                 .row
-                  .col-12
-                  = resource_image(@deal.image, class: 'deal-image rounded-start', alt: @deal.title)
+                  .col-12.text-center.align-middle.d-flex.justify-content-center.align-items-center
+                    = resource_image(@deal.image, class: 'deal-image rounded-start', alt: @deal.title)
                 .row.text-center.mt-3
                   .col-12
                     -# -if @deal.affiliate_url.present?
                     =link_to 'Buy Now', @deal.affiliate_url, class: 'btn btn-success', target: '_blank'
                   .ss.mt-1
-                    %small.text-muted
-                      about
-                      =time_ago(@deal.updated_at)
+                    -if @deal.expired?
+                      .deal-expired
+                        Expired
+                    -else
+                      %small.text-muted
+                        %i{class: "bi bi-clock" }
+                        about
+                        =time_ago(@deal.created_at)
                   .deal-actions.mt-2
                     Good deal?
                     =link_to '#', target: '_blank' do
@@ -38,12 +43,12 @@
                     = title @deal.title
                   
                   .row
-                    %p.card-text
+                    %p.card-text.d-flex.justify-content-center.align-items-center
                       .col.col-sm-2
                         - if @deal.price?
                           .deal-price
                             = display_money(@deal.price)
-                      .col.original-price.col-sm-1
+                      .col.original-price.col-sm-2
                         - if @deal.retail_price?
                           = display_money(@deal.retail_price)
                       .col.deal-store
@@ -55,6 +60,10 @@
                           =render partial: 'coupon', locals: {coupon: @deal.coupon}
                  
                   .row
+                    -if @deal.expired?
+                      .alert.alert-danger{:role => "alert"}
+                        Unfortunately this deal has expired.
+
                     =@deal.body
           .row
             .card
@@ -67,5 +76,8 @@
     = link_to 'Social media', new_social_media_post_path(deal: @deal), class: 'btn btn-primary'
     = button_to 'Expire', expire_deal_path(@deal), method: :patch, class: 'btn btn-warning inline-block'
     = link_to 'Delete', @deal, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'
-    = link_to 'Generate Image', deal_images_update_path(deal: @deal), class: 'btn btn-primary'
+    = link_to 'Generate Image', deal_images_update_path(deal: @deal.id), class: 'btn btn-primary'
     = link_to 'Back', deals_path, class: 'btn btn-primary'
+
+    = form_with(url: create_link_deal_path(@deal), method: :post) do |form|
+      = form.submit 'Create Link', class: 'btn btn-primary'

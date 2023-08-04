@@ -3,12 +3,18 @@
   %head
     %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
     %meta{:content => "width=device-width,initial-scale=1", :name => "viewport"}/
+    %link{:href => "/assets/favicon.ico", :rel => "shortcut icon"}/
+
     = csrf_meta_tags
     = csp_meta_tag
     = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
     = stylesheet_link_tag "actiontext", "data-turbo-track": "reload"
     = javascript_include_tag "application", "data-turbo-track": "reload", defer: true 
     = javascript_include_tag "activestorage"
+    = stylesheet_link_tag "https://cdnjs.cloudflare.com/ajax/libs/slim-select/2.6.0/slimselect.min.css", "data-turbo-track": "reload"
+
+    -# = stylesheet_link_tag "https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css", "data-turbo-track": "reload"
+
     = javascript_importmap_tags
     = display_meta_tags site: "Loonie Deals" 
     -# = javascript_pack_tag  'application', 'data-turbolinks-track': 'reload'

@@ -13,5 +13,5 @@
 //= link controllers/tooltip_controller.js
 //= link controllers/utils.js
 //= link controllers/drag_controller.js
-
-
+//= link controllers/cropper_controller.js
+//= link controllers/slim_controller.js

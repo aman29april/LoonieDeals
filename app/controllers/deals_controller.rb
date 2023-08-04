@@ -2,11 +2,20 @@
 
 class DealsController < ApplicationController
   include ActiveStorage::SetCurrent
+  include Pagy::Backend
+
   before_action :authenticate_user!, except: %i[show index]
   before_action :set_deal, only: %i[show edit update destroy expire create_link]
 
   def index
-    @deals = Deal.all
+    search = "%#{params[:q]}%"
+    @deals = if params[:q].present?
+               Deal.where('title LIKE ? or short_slug LIKE ?', search, search)
+             else
+               Deal.all.includes(:store)
+             end
+
+    @pagy, @deals = pagy(@deals.active_first.recent)
   end
 
   def show
@@ -15,8 +24,8 @@ class DealsController < ApplicationController
 
   def new
     @deal = Deal.new
-    @stores = Store.all
-    @categories = Category.all
+    @stores = Store.all.by_name
+    @categories = Category.all.by_name
   end
 
   def create
@@ -63,13 +72,13 @@ class DealsController < ApplicationController
   end
 
   def upvote
-    @deal = Deal.find(params[:id])
+    @deal = Deal.friendly.find(params[:id])
     @deal.upvote
     respond_to :js
   end
 
   def downvote
-    @deal = Deal.find(params[:id])
+    @deal = Deal.friendly.find(params[:id])
     @deal.downvote
     respond_to :js
   end
@@ -87,7 +96,7 @@ class DealsController < ApplicationController
   private
 
   def set_deal
-    @deal = Deal.find(params[:id])
+    @deal = Deal.friendly.find(params[:id])
   end
 
   def deal_params

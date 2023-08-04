@@ -8,20 +8,31 @@
   .site-social.site-social--top
     =render partial: 'shared/social_follow'
 
-  .search
-    =link_to "Main Site", "/"
+  .search.text-center
+    =form_tag '', method: :get, class: "inline-form search-form" do |f|
+      = text_field_tag :q, params[:q], placeholder: 'Search', type: 'search', class: ''
+      = image_submit_tag image_path('/assets/search.svg'), class: 'submit-button submit-button', name: ''
     
 
   .site__links
     .link-wrapper.link-wrapper--pb
       - if @pinned.any?
+        .site-links-title
+          Pinned
         .mt-3.pt-2{bis_skin_checked: "1"}
-          -@pinned.each do |link|
-            = render partial: 'link', locals: {link: link }
+          = render @pinned
 
-      .mt-3.pt-2{bis_skin_checked: "1"}
-        -@links.each do |link|
-          = render partial: 'link', locals: {link: link }
+      #links-container.mt-3.pt-2{bis_skin_checked: "1"}
+        .site-links-title
+          Recent
+        = render @links
+
+        -if @links.empty?
+          .notification
+            No Deals found
+
+      != pagy_nav(@pagy) if @pagy.pages > 1 
+
 
 :javascript
   function toggle() {

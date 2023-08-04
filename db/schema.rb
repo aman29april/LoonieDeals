@@ -165,6 +165,7 @@ ActiveRecord::Schema[7.0].define(version: 20_230_719_050_913) do
     t.boolean 'pinned', default: false
     t.integer 'position'
     t.boolean 'enabled'
+    t.string 'short_slug'
     t.integer 'deal_id', null: false
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false

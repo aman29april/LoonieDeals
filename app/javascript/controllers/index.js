@@ -4,6 +4,12 @@
 
 import { application } from "./application"
 
+import CropperController from "./cropper_controller"
+application.register("cropper", CropperController)
+
+import DragController from "./drag_controller"
+application.register("drag", DragController)
+
 import DropzoneController from "./dropzone_controller"
 application.register("dropzone", DropzoneController)
 
@@ -13,8 +19,8 @@ application.register("hello", HelloController)
 import PopperController from "./popper_controller"
 application.register("popper", PopperController)
 
+import SlimController from "./slim_controller"
+application.register("slim", SlimController)
+
 import TooltipController from "./tooltip_controller"
 application.register("tooltip", TooltipController)
-
-import DragController from "./drag_controller";
-application.register("drag", DragController);

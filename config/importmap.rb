@@ -17,3 +17,8 @@ pin 'just-extend', to: 'https://ga.jspm.io/npm:just-extend@6.2.0/index.esm.js'
 # pin 'trix'
 # pin '@rails/actiontext', to: 'actiontext.js'
 pin '@rails/ujs', to: 'https://ga.jspm.io/npm:@rails/ujs@7.0.6/lib/assets/compiled/rails-ujs.js'
+pin 'react', to: 'https://ga.jspm.io/npm:react@18.2.0/index.js'
+# pin "slim-select", to: "https://ga.jspm.io/npm:slim-select@2.6.0/dist/slimselect.es.js", preload: true
+pin '@hotwired/stimulus', to: 'stimulus.min.js', preload: true
+pin '@hotwired/stimulus-loading', to: 'stimulus-loading.js', preload: true
+pin_all_from 'app/javascript/controllers', under: 'controllers'

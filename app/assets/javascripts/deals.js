@@ -1,3 +1,4 @@
+
 $(document).on("click", "#upvote-button, #downvote-button", function (e) {
   e.preventDefault();
 

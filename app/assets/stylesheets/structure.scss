@@ -72,6 +72,8 @@ body {
   --row-bg: #fff3cd;
 
   --originalPriceColor: #4a4a4a;
+
+  --expired: #DB402C;
 }
 
 body.dark {
@@ -1076,4 +1078,21 @@ hr {
   position: absolute;
   right: 10px;
   line-height: 30px;
+}
+.image-container{
+  min-height: 220px;
+  display: flex;
+  align-items: center;
+}
+.deal-dsp{
+  min-height: 120px;
+}
+.deal-expired{
+  color: var(--expired);
+}
+
+.image-container > cropper-canvas {
+    width: 100%;
+    height: 700px;
+    max-width: 100%;
 }

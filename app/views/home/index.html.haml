@@ -5,7 +5,9 @@
     = link_to 'New Deal', new_deal_path, class: 'btn btn-primary'
 
   .container
-    .row.row-cols-1.row-cols-sm-2.row-cols-md-4.g-3
+    .row.row-cols-2.row-cols-sm-1.row-cols-md-4.g-3
       - @deals.each do |deal|
-        .col
-          = render partial: 'deals/deal', locals: { deal: deal }
+        = render partial: 'deals/deal', locals: { deal: deal }
+      
+      = != pagy_nav(@pagy) if @pagy.pages > 1
+

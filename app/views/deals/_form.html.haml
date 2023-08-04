@@ -20,6 +20,9 @@
     .row
       .col-md-2
         =render partial: 'shared/dropzone_image', locals: { image: @deal.image, f: form}
+        / Button trigger modal
+        %button.btn.btn-primary{"data-bs-target" => "#editImageModal", "data-bs-toggle" => "modal", :type => "button"}
+          Edit
       .col-md-10
         .row 
           .col-md-12 
@@ -30,15 +33,15 @@
       .col-md-3
         .input-group.mb-3
           %span.input-group-text Price $
-          = form.number_field :price, class: "form-control"
+          = form.number_field :price, class: "form-control", step: :any
       .col-md-3
         .input-group.mb-3
           %span.input-group-text Retail Price $
-          = form.number_field :retail_price, class: "form-control"
+          = form.number_field :retail_price, class: "form-control", step: :any
       .col-md-3
         .input-group.mb-3
           %span.input-group-text Discount %
-          = form.number_field :discount, class: "form-control"
+          = form.number_field :discount, class: "form-control", step: :any
       .col-md-3
         .input-group.mb-3
           %span.input-group-text Expiration
@@ -47,13 +50,12 @@
     
     .col-md-3
       = form.label :store, class: "form-label"
-      = form.select :store_id, Store.all.collect { |p| [ p.name, p.id ] }, { prompt: "Select a store" }, class: "form-select"
-      -# =form.text_field :store_id, list: 'store_list'
-      -# %datalist#store_list
-      -#   = options_for_select(Store.all.pluck(:name, :id), @deal.store_name)
+      = form.select :store_id, Store.all.by_name.collect { |p| [ p.name, p.id ] }, {include_blank: true}, { prompt: "Select a store", data: {controller: 'slim'}, class: "" }
+      
     .col-md-3
       = form.label :category, class: "form-label"
-      = form.select :category_id, Category.all.collect { |p| [ p.name, p.id ] }, { prompt: "Select a store" }, class: "form-select select-picker"
+      = form.select :category_id,Category.all.by_name.collect { |p| [ p.name, p.id ] }, {include_blank: false}, { prompt: "Select Category", data: {controller: 'slim'}, class: "" }
+
     .col-md-6
       = form.label :tags, class: 'form-label'
       = form.text_field :all_tags, class: 'form-control tagsinput', 'data-role': 'tagsinput', value: tag_from_param(@deal)
@@ -78,8 +80,8 @@
   .col-12.mt-4
     .actions
       = form.submit 'Save', class: 'btn btn-primary'
-      = form.submit 'Build Image here', class: 'btn btn-primary', name: 'generate_image'
-      = link_to 'Generate Image', deal_images_update_path(deal: @deal), class: 'btn btn-primary'
+      -# = form.submit 'Build Image here', class: 'btn btn-primary', name: 'generate_image'
+      = link_to 'Generate Image', deal_images_update_path(deal: @deal.id), class: 'btn btn-primary'
 
 
 - unless @deal.new_record?
@@ -90,6 +92,7 @@
   =image_tag @deal.generated_image, class: 'image'
 
 
+=render partial: 'shared/image_crop', locals: {deal: @deal}
 
 :javascript
   document.addEventListener('DOMContentLoaded', () => {

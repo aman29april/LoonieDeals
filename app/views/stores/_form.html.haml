@@ -2,29 +2,32 @@
 
 = form_for @store, html: { multipart: true, class: "editor-form row gt-3 dropzone" , data: { page: 'main-editor' }, autocomplete: "off" } do |form|
   .row
-    .col-md-11
-      = form.label :name, class: "form-label"
-      = form.text_field :name, class: "form-control"
-  .row
     .col-md-2
       =render partial: 'shared/dropzone_image', locals: { f: form, image: @store.image, css_class: 'dropbox-small'}
-
     .col-md-10
       .row
-        .col-12
-          = form.label :description, class: "form-label"
-          = form.text_area :description, class: 'form-control', :rows => 2
-        .col-12
-          = form.label :website, class: "form-label"
+        .col
           .input-group.mb-3
-            = form.url_field :website, class: "form-control"
+            %span.input-group-text Name
+            = form.text_field :name, class: "form-control"
+
+        .col
+          .input-group.mb-3
+            %span.input-group-text Description
+            = form.text_area :description, class: 'form-control', :rows => 2
         .col-12
+          .input-group.mb-3
+            %span.input-group-text Website
+            = form.url_field :website, class: "form-control"
+
+        .col
           = form.label :featured do
             = form.check_box :featured
             Featured
-        .col-12
-          = form.label :affiliate_id, class: "form-label"
-          = form.text_field :affiliate_id, class: 'form-control'
+        .col
+          .input-group.mb-3
+            %span.input-group-text Affiliate
+            = form.text_field :affiliate_id, class: 'form-control'
 
    
  

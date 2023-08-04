@@ -41,7 +41,7 @@ class DealImagesController < ApplicationController
   end
 
   def deal_params
-    params.permit(:title, :image_full_with, :store_background, :hide_discount, :enlarge_image_by, :hide_coupon, :type,
-                  :url, :coupon, :extra, :hide_deal_image, :hide_store_logo)
+    params.permit(:title, :image_full_with, :store_background, :hide_discount, :enlarge_image_by, :hide_coupon, :type, :theme,
+                  :url, :coupon, :extra, :hide_deal_image, :hide_store_logo, :enlarge_logo_by, :custom_image, :subheading)
   end
 end

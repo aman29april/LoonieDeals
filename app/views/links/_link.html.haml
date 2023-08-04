@@ -2,6 +2,10 @@
   %span{class: 'site-btn__img'}
     .v-ratio-box
       .v-ratio-box__inner
-        =resource_image(link.image, class: 'deal-image-small', alt: link.label)
+        - if link.image.attached?
+          =resource_image(link.image, class: 'deal-image-small', alt: link.label)
   .site-btn__text
     =link.label
+  -if link.deal&.price
+    .deal_price
+      = display_money(link.deal.price)

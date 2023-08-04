@@ -30,6 +30,9 @@
 class Deal < ApplicationRecord
   include Rails.application.routes.url_helpers
   include ImageConversionConcern
+  extend FriendlyId
+
+  friendly_id :title, use: :slugged
 
   attr_accessor :auto_create_link, :generated_image, :image_full_with, :store_background, :hide_discount,
                 :enlarge_image_by, :hide_coupon
@@ -55,6 +58,8 @@ class Deal < ApplicationRecord
   scope :published, -> { where.not(published_at: nil) }
   scope :featured, -> { where(featured: true) }
   scope :recent, -> { order(created_at: :desc) }
+  scope :active, -> { where(expiration_date: nil) }
+  scope :active_first, -> { order(Deal.arel_table[:expiration_date].desc.nulls_first) }
   scope :latest, ->(number) { recent.limit(number) }
 
   scope :top_stories, ->(number) { latest(number).order(upvotes: :desc) }
@@ -63,6 +68,8 @@ class Deal < ApplicationRecord
 
   before_save :calculate_discount
   before_save -> { convert_image_to_jpg(image) }
+
+  before_create :set_short_slug
 
   validate :image_format_validation
 
@@ -135,6 +142,10 @@ class Deal < ApplicationRecord
 
   def expire!
     self.expiration_date = Time.zone.now
+    self.short_slug = nil
+
+    link.expire! if link.present?
+
     save
   end
 
@@ -191,7 +202,10 @@ class Deal < ApplicationRecord
   def calculate_discount
     return unless price.present? && retail_price.present?
 
-    self.discount = retail_price - price
+    discount_amount = retail_price - price
+    discount_percentage = (discount_amount / retail_price.to_f) * 100
+
+    self.discount = discount_percentage.round(2)
   end
 
   def price_less_than_retail_price
@@ -218,5 +232,9 @@ class Deal < ApplicationRecord
 
     errors.add(:image, 'must be a JPEG, JPG, or PNG file')
     image.purge # Remove the invalid image
+  end
+
+  def set_short_slug
+    self.short_slug = ShortIdUtil.generate_short_slug
   end
 end

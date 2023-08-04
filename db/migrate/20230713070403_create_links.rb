@@ -11,6 +11,7 @@ class CreateLinks < ActiveRecord::Migration[7.0]
       t.integer :position
       t.boolean :enabled
 
+      t.string :short_slug
       t.references :deal, null: false, foreign_key: true
 
       t.timestamps

@@ -33,13 +33,18 @@ class Link < ApplicationRecord
   has_one_attached :image
 
   def self.create_from(deal)
-    link = Link.create(deal:, label: deal.title, url: deal.affiliate_url)
+    link = Link.create(deal:, label: deal.title, url: deal.affiliate_url, short_slug: deal.short_slug, position: 1)
     return unless deal.image.attached?
 
     link.image.attach(io: StringIO.new(deal.image.download),
                       filename: deal.image.filename,
                       content_type: deal.image.content_type)
+  end
 
-    # link.image.attach(deal.image.blob)
+  def expire!
+    self.enabled = false
+    self.pinned = false
+    self.short_slug = nil
+    save
   end
 end

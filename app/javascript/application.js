@@ -2,10 +2,13 @@
 // import "@hotwired/turbo-rails";
 import "./controllers";
 import "./add_jquery";
+import "./add_bootstrap";
+
+
+
 import "bootstrap-tagsinput";
 import "trix";
 import "@rails/actiontext";
-
 import "./components"
 
 import { Application } from "@hotwired/stimulus";
@@ -16,7 +19,10 @@ window.Stimulus   = application
 
 export { application }
 import ClipboardJS from "clipboard";
+import "./infinite_pagination.js"
+import "./controllers";
 
+$.fn.selectpicker.Constructor.BootstrapVersion = "5";
 
 // Support component names relative to this directory:
 // var componentRequireContext = require.context("components", true);

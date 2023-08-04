@@ -6,21 +6,22 @@ require 'open-uri'
 
 class ImageGenerationService
   BASE_IMAGES = {
-    'POST': 'post.png',
-    'STORY': 'story.png'
+    'post': 'post',
+    'story': 'story'
   }.with_indifferent_access.freeze
 
   def initialize(deal_image)
     @deal_image = deal_image
     @deal = @deal_image.deal
 
-    @type = @deal_image.type || 'STORY'
-    base_image_path = determine_base_image(@deal_image.type)
+    type = @deal_image.type.blank? ? 'story' : @deal_image.type
+    theme = @deal_image.theme.blank? ? 'light' : @deal_image.theme
+    base_image_path = determine_base_image(type, theme)
     @base_image = Image.read(base_image_path).first
-    @options = ImageGeneration::Options.for(@type)
+    @options = ImageGeneration::Options.for(type, theme)
   end
 
-  DEFAULT_BASE_IMAGE = 'story.png'
+  DEFAULT_BASE_IMAGE = 'story'
   FONT_PATH = Rails.root.join('app', 'assets', 'fonts', 'OpenSans-Regular.ttf').to_s
 
   def to_money(val)
@@ -28,19 +29,22 @@ class ImageGenerationService
   end
 
   def generate
+    overlay_deal_image
+    overlay_store_logo
     write_title
     write_price
+    write_extra
+    write_subheading
     write_retail_price
     write_discount
     write_coupon
-    overlay_deal_image
-    overlay_store_logo
+    write_short_slug
 
     save_image
   end
 
   def save_image
-    name = [@deal.id, @deal.slug, @deal_image.type].compact.join('_')
+    name = [@deal.id, @deal_image.type].compact.join('_')
     name = "#{name}.jpg"
     composite_image_path = Rails.root.join('public', 'deal_images', name)
     @base_image.write(composite_image_path)
@@ -48,8 +52,29 @@ class ImageGenerationService
   end
 
   def write_title
-    title = @deal_image.title || 'DUMMY text here here here here here here here here here'
+    title = @deal_image.title || ''
     write_text_in_center(@base_image, title, @options[:title])
+  end
+
+  def write_extra
+    return if @deal_image.extra.blank?
+
+    msg = @deal_image.extra
+    write_text_in_center(@base_image, msg, @options[:extra])
+  end
+
+  def write_subheading
+    return if @deal_image.subheading.blank?
+
+    msg = @deal_image.subheading
+    write_text_in_center(@base_image, msg, @options[:subheading])
+  end
+
+  def write_short_slug
+    return if @deal.short_slug.blank?
+
+    msg = "##{@deal.short_slug}"
+    write_text_in_center(@base_image, msg, @options[:short_slug])
   end
 
   def write_price
@@ -84,7 +109,7 @@ class ImageGenerationService
     options = {}
     options.merge! @options[:deal_image]
     options.merge!(image_full_with: true) if @deal_image.image_full_with == '1'
-    options.merge!(enlarge_image_by: @deal_image.enlarge_image_by.to_i) if @deal_image.enlarge_image_by.to_i.positive?
+    options.merge!(enlarge_image_by: @deal_image.enlarge_image_by.to_i)
     overlay = Magick::Image.read(@deal.image.url).first
     @base_image = overlay_image_in_center(@base_image, overlay, options)
   end
@@ -96,7 +121,17 @@ class ImageGenerationService
       options = {}
       options.merge! @options[:store_logo]
       options.merge!(with_background: true) if @deal_image.store_background == '1'
-      overlay = Magick::Image.read(store.image.url).first
+      options.merge!(enlarge_image_by: @deal_image.enlarge_logo_by.to_i)
+      url = ApplicationController.helpers.cloudinary_url(store.image.attachment.key)
+
+      if store.image.blob.content_type.include?('svg')
+        svg_string = URI(url).read
+        png = convert_svg_to_png(svg_string)
+        overlay = Magick::Image.from_blob(png).first
+      else
+        overlay = Magick::Image.read(url).first
+      end
+
       @base_image = overlay_image_in_center(@base_image, overlay, options)
     else
       write_text_in_center(@base_image, store.name, @options[:store_name])
@@ -114,13 +149,15 @@ class ImageGenerationService
     height = img.rows
 
     font_size = options[:size]
-    font_path = options[:font_path] || ''
+    font = options[:font] || 'OpenSans-Regular'
+    font_path = get_font_path(font)
 
     draw = Magick::Draw.new
 
     if options[:break_line]
       width_of_bounding_box = width
-      text = RMagickTextWrapHelper.new(text, font_size, width_of_bounding_box, font_path).get_text_with_line_breaks
+      text = ImageGeneration::TextHelper.new(text, font_size, width_of_bounding_box,
+                                             font_path).get_text_with_line_breaks
     end
     # Calculate the coordinates to place the text in the center
     metrics = draw.get_multiline_type_metrics(text)
@@ -130,7 +167,7 @@ class ImageGenerationService
     x = options[:x] || 0
     y = options[:y] || (height - metrics.height) / 2 + metrics.ascent
 
-    draw.annotate(img, width, 100, x, y, text) do |d|
+    draw.annotate(img, width, 90, x, y, text) do |d|
       d.gravity = options[:gravity] || Magick::CenterGravity
       d.fill = options[:color]
       d.pointsize = font_size
@@ -138,7 +175,14 @@ class ImageGenerationService
       d.decorate = LineThroughDecoration if options[:strike]
       d.decorate = UnderlineDecoration if options[:underline]
       d.font_weight = BoldWeight if options[:bold]
+      d.font = font_path
+      d.font_style = ItalicStyle if options[:italic]
+      d.interline_spacing = options[:line_spacing] if options[:line_spacing]
     end
+  end
+
+  def get_font_path(name)
+    "#{Rails.root}/app/assets/fonts/#{name}.ttf"
   end
 
   def add_text_inside_circle(img, text, options)
@@ -225,9 +269,12 @@ class ImageGenerationService
     img
   end
 
-  def determine_base_image(social_media_type)
+  def determine_base_image(social_media_type, theme)
     img_name = BASE_IMAGES[social_media_type] || DEFAULT_BASE_IMAGE
-    Rails.root.join('app', 'assets', 'images', 'templates', img_name)
+    extension = 'png'
+    themed_img = [img_name, theme].reject(&:blank?).join('_')
+    final_img = [themed_img, extension].join('.').downcase
+    Rails.root.join('app', 'assets', 'images', 'templates', final_img)
   end
 
   def overlay_image_in_center(main_img, overlay_img, options = {})
@@ -254,6 +301,25 @@ class ImageGenerationService
     main_img.composite!(overlay_img, x, y, Magick::OverCompositeOp)
   end
 
+  def convert_svg_to_png(str)
+    img = Magick::Image.from_blob(str) do |image|
+      image.format = 'SVG'
+      image.background_color = 'transparent'
+    end.first
+
+    img.to_blob do |image|
+      image.format = 'PNG'
+    end
+  end
+
+  def to_png(image)
+    png = Magick::Image.from_blob(image) do |img|
+      img.format = 'PNG'
+      img.background_color = 'transparent'
+    end
+    Magick::Image.from_blob(png).first
+  end
+
   def add_background_color(image, background_color = 'white')
     width = image.columns
     height = image.rows
@@ -261,62 +327,5 @@ class ImageGenerationService
       img.background_color = background_color
     end
     background_image.composite(image, 0, 0, Magick::OverCompositeOp)
-  end
-end
-
-class RMagickTextWrapHelper
-  def initialize(text_to_print, font_size, width_of_bounding_box, path_to_font_file = nil)
-    @text_to_print = text_to_print
-    @font_size = font_size
-    @path_to_font_file = path_to_font_file
-    @width_of_bounding_box = width_of_bounding_box
-  end
-
-  def get_text_with_line_breaks
-    fit_text(@text_to_print, @width_of_bounding_box)
-  end
-
-  def text_fit?(text, width)
-    tmp_image = Magick::Image.new(width, 500)
-
-    drawing = Magick::Draw.new
-
-    drawing.gravity = Magick::NorthGravity
-    drawing.pointsize = @font_size
-    drawing.fill = '#ffffff'
-
-    drawing.font_family = @path_to_font_file if @path_to_font_file
-
-    drawing.font_weight = Magick::BoldWeight
-    drawing.annotate(tmp_image, 0, 0, 0, 0, text)
-
-    metrics = drawing.get_multiline_type_metrics(tmp_image, text)
-    (metrics.width < width)
-  end
-
-  def fit_text(text, width)
-    separator = ' '
-    line = ''
-
-    if !text_fit?(text, width) && text.include?(separator)
-      i = 0
-      text.split(separator).each do |word|
-        tmp_line = if i.zero?
-                     line + word
-                   else
-                     line + separator + word
-                   end
-
-        if text_fit?(tmp_line, width)
-          line += separator unless i.zero?
-        else
-          line += '\n' unless i.zero?
-        end
-        line += word
-        i += 1
-      end
-      text = line
-    end
-    text
   end
 end

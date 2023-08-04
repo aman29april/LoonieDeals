@@ -5,11 +5,30 @@ class StoresController < ApplicationController
   before_action :authenticate_user!, only: %i[edit update]
 
   def index
-    @stores = Store.by_deals
+    @stores = if params[:q].present?
+                Store.where('name LIKE ?', "%#{params[:q]}%")
+              else
+                Store.by_deals
+              end
   end
 
   def show
     @deals = @store.deals.includes(:store)
+  end
+
+  def new
+    @store = Store.new
+  end
+
+  def create
+    @store = Store.new(store_params)
+
+    if @store.save
+      redirect_to @store, notice: 'Store was successfully created.'
+    else
+      flash.now[:alert] = 'Could not update the Store, Please try again'
+      render :new, status: :unprocessable_entity
+    end
   end
 
   def edit; end

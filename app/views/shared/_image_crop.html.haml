@@ -1,0 +1,16 @@
+#editImageModal.modal.modal-lg.fade{"aria-hidden" => "true", "aria-labelledby" => "exampleModalLabel", :tabindex => "-1"}
+  .modal-dialog
+    .modal-content
+      .modal-header
+        %button.btn-close{"aria-label" => "Close", "data-bs-dismiss" => "modal", :type => "button"}
+
+      .modal-body
+        .container{ data: {controller: "cropper", images_url: deal.image, images_id: deal.image, }}
+          .image-container
+            - if deal.image.attached?
+              = resource_image(deal.image, class: "image img-fluid", id: "source", data: {cropper_target: "source"}) 
+
+            
+      .modal-footer
+        = button_to "Crop", "#", data: { action: "click->images#click", cropper_target: "cropButton" }, method: :get
+        %button.btn.btn-secondary{"data-bs-dismiss" => "modal", :type => "button"} Close
