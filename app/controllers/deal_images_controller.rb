@@ -22,16 +22,13 @@ class DealImagesController < ApplicationController
   end
 
   def post_to_telegram
-    # debugger
     TelegramService.new.send_photo(*@deal_image.telegram_data)
     flash.now[:notice] = 'Message sent!'
-    # render :update
   end
 
   def post_to_insta
     InstagramService.new.send_photo(*@deal_image.insta_data)
     flash.now[:notice] = 'Post sent!'
-    render :update
   end
 
   private
@@ -42,6 +39,6 @@ class DealImagesController < ApplicationController
 
   def deal_params
     params.permit(:title, :image_full_with, :store_background, :hide_discount, :enlarge_image_by, :hide_coupon, :type, :theme,
-                  :url, :coupon, :extra, :hide_deal_image, :hide_store_logo, :enlarge_logo_by, :custom_image, :subheading)
+                  :url, :coupon, :extra, :hide_deal_image, :hide_store_logo, :enlarge_logo_by, :custom_image, :subheading, :sub_as_tag)
   end
 end

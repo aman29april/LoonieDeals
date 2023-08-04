@@ -56,7 +56,6 @@ gem 'rmagick'
 
 gem 'activeadmin'
 gem 'devise'
-gem 'font-awesome-sass', '~> 6.4.0'
 gem 'friendly_id', '~> 5.4.0'
 gem 'haml-rails', '~> 2.0'
 gem 'money-rails', '~> 1.12'
@@ -73,7 +72,6 @@ gem 'cloudinary'
 gem 'httparty'
 gem 'omniauth-facebook'
 gem 'rack-cors'
-gem 'redcarpet'
 
 group :development, :test do
   gem 'dotenv-rails'

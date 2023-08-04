@@ -66,8 +66,17 @@ class ImageGenerationService
   def write_subheading
     return if @deal_image.subheading.blank?
 
+    options = {}
+    options.merge!(@options[:subheading])
     msg = @deal_image.subheading
-    write_text_in_center(@base_image, msg, @options[:subheading])
+    if @deal_image.sub_as_tag == '1'
+      options[:color] = 'white'
+      options[:size] = 30
+      options[:corner_radius] = 10
+      add_text_inside_rounded_rect(msg, options)
+    else
+      write_text_in_center(@base_image, msg, options)
+    end
   end
 
   def write_short_slug
@@ -228,7 +237,8 @@ class ImageGenerationService
     img
   end
 
-  def add_text_inside_rounded_rect(img, text, options)
+  def add_text_inside_rounded_rect(text, options)
+    img = @base_image
     width = img.columns
     img.rows
     text_draw = Magick::Draw.new
@@ -239,8 +249,8 @@ class ImageGenerationService
     metrics.width
     metrics.height
 
-    fill_color = options[:fill] || 'red'
-    stroke_color = options[:stroke] || 'red'
+    fill_color = options[:fill] || '#CC0C39'
+    stroke_color = options[:stroke] || 'white'
     rectangle = Magick::Draw.new
     rectangle.fill(fill_color)
     rectangle.stroke(stroke_color)
@@ -255,7 +265,7 @@ class ImageGenerationService
     rectangle_x = x
     rectangle_y = y
 
-    corner_size = 20
+    corner_size = options[:corner_radius] || 20
     rectangle.roundrectangle(rectangle_x, rectangle_y, rectangle_x + rectangle_width, rectangle_y + rectangle_height,
                              corner_size, corner_size)
     rectangle.draw(img)
