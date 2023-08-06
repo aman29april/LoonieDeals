@@ -1,71 +1,131 @@
-# Use the official Ruby image as the base image
-FROM ruby:3.2.2-alpine
+# syntax = docker/dockerfile:1
 
-ENV BUNDLER_VERSION=2.0.2
+# Make sure RUBY_VERSION matches the Ruby version in .ruby-version and Gemfile
+ARG RUBY_VERSION=3.2.2
+FROM ruby:$RUBY_VERSION-slim as base
 
-# Install system dependencies
-RUN apk add --update --no-cache \
-  binutils-gold \
-  build-base \
-  curl \
-  file \
-  g++ \
-  gcc \
-  git \
-  less \
-  libstdc++ \
-  libffi-dev \
-  libc-dev \ 
-  linux-headers \
-  libxml2-dev \
-  libxslt-dev \
-  libgcrypt-dev \
-  make \
-  netcat-openbsd \
-  nodejs \
-  openssl \
-  pkgconfig \
-  postgresql-dev \
-  tzdata \
-  yarn \
-  imagemagick \
-  imagemagick-dev \
-  imagemagick-libs
+# Rails app lives here
+WORKDIR /rails
 
-# Install bundler
-ENV BUNDLE_PATH /gems
-RUN gem install bundler
-RUN gem install nokogiri --platform=ruby
+# Set production environment
+ENV RAILS_ENV="development" \
+    BUNDLE_DEPLOYMENT="1"
+
+# Update gems and bundler
+RUN gem update --system --no-document && \
+    gem install -N bundler
+
+# Install packages needed to install nodejs
+RUN --mount=type=cache,id=dev-apt-cache,sharing=locked,target=/var/cache/apt \
+    --mount=type=cache,id=dev-apt-lib,sharing=locked,target=/var/lib/apt \
+    apt-get update -qq && \
+    apt-get install --no-install-recommends -y curl
+
+# Install Node.js
+ARG NODE_VERSION=20.4.0
+ENV PATH=/usr/local/node/bin:$PATH
+RUN curl -sL https://github.com/nodenv/node-build/archive/master.tar.gz | tar xz -C /tmp/ && \
+    /tmp/node-build-master/bin/node-build "${NODE_VERSION}" /usr/local/node && \
+    rm -rf /tmp/node-build-master
 
 
-# Set the working directory inside the container
-WORKDIR /app
+# Throw-away build stages to reduce size of final image
+FROM base as prebuild
 
-# Copy the Gemfile and Gemfile.lock to the container
-COPY Gemfile Gemfile.lock ./
+# Install packages needed to build gems and node modules
+RUN --mount=type=cache,id=dev-apt-cache,sharing=locked,target=/var/cache/apt \
+    --mount=type=cache,id=dev-apt-lib,sharing=locked,target=/var/lib/apt \
+    apt-get update -qq && \
+    apt-get install --no-install-recommends -y build-essential libmagickwand-dev libvips node-gyp pkg-config python-is-python3
 
-# RUN bundle config build.nokogiri --use-system-libraries
 
+FROM prebuild as node
 
-# Install Ruby gems
-RUN bundle lock --add-platform x86_64-linux
-RUN bundle check || bundle install 
+# Install yarn
+ARG YARN_VERSION=1.22.17
+RUN npm install -g yarn@$YARN_VERSION
 
-COPY package.json yarn.lock ./
-
+# Install node modules
+COPY --link package.json yarn.lock ./
 RUN yarn install --check-files
 
-# Copy the rest of the application code to the container
-COPY . .
 
-# RUN bundle exec rails assets:precompile
+FROM prebuild as build
+
+# Build options
+ENV PATH="/usr/local/node/bin:$PATH"
+
+# Install application gems
+COPY --link Gemfile Gemfile.lock ./
+RUN --mount=type=cache,id=bld-gem-cache,sharing=locked,target=/srv/vendor \
+    bundle config set app_config .bundle && \
+    bundle config set path /srv/vendor && \
+    bundle install && \
+    bundle exec bootsnap precompile --gemfile && \
+    bundle clean && \
+    mkdir -p vendor && \
+    bundle config set path vendor && \
+    cp -ar /srv/vendor .
+
+# Copy node modules
+COPY --from=node /rails/node_modules /rails/node_modules
+COPY --from=node /usr/local/node /usr/local/node
+ENV PATH=/usr/local/node/bin:$PATH
+
+# Copy application code
+COPY --link . .
+
+# Precompile bootsnap code for faster boot times
+RUN bundle exec bootsnap precompile app/ lib/
+
+# Precompiling assets for production without requiring secret RAILS_MASTER_KEY
+# RUN SECRET_KEY_BASE=DUMMY ./bin/rails assets:precompile
+ENV RAILS_MASTER_KEY=79747573b8965e75ce01e5f48d172361
+RUN ./bin/rails assets:precompile
 
 
-ENTRYPOINT ["./entrypoints/docker-entrypoint.sh"]
+# Final stage for app image
+FROM base
 
+# Install packages needed for deployment
+RUN --mount=type=cache,id=dev-apt-cache,sharing=locked,target=/var/cache/apt \
+    --mount=type=cache,id=dev-apt-lib,sharing=locked,target=/var/lib/apt \
+    apt-get update -qq && \
+    apt-get install -yq --no-install-recommends \
+    curl \
+    imagemagick \
+    libsqlite3-0 \
+    libvips \
+    ghostscript
 
-# Expose port 3000 to access the Rails application
+# Copy built artifacts: gems, application
+COPY --from=build /usr/local/bundle /usr/local/bundle
+COPY --from=build /rails /rails
+
+# Run and own only the runtime files as a non-root user for security
+ARG UID=1000 \
+    GID=1000
+RUN groupadd -f -g $GID rails && \
+    useradd -u $UID -g $GID rails --create-home --shell /bin/bash && \
+    mkdir /data && \
+    chown -R rails:rails db log storage tmp /data public/deal_images
+USER rails:rails
+
+# Deployment options
+# ENV DATABASE_URL="sqlite3:///db/production.sqlite3" \
+#     RAILS_LOG_TO_STDOUT="1" \
+#     RAILS_SERVE_STATIC_FILES="true"
+
+# ENV DATABASE_URL="sqlite3://./db/production.sqlite3"
+ENV RAILS_LOG_TO_STDOUT="1" \
+RAILS_SERVE_STATIC_FILES="true"
+
+# Entrypoint prepares the database.
+ENTRYPOINT ["/rails/bin/docker-entrypoint"]
+
+# RUN chown -R /rails/public/
+
+# Start the server by default, this can be overwritten at runtime
 EXPOSE 3000
-
-# Start the Rails server using Puma (adjust as needed)
-# CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0"]
+VOLUME /data
+CMD ["./bin/rails", "server"]

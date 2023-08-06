@@ -7,7 +7,7 @@
      
   .posts-wrapper{"data-animation" => "fadeInUp-fadeOutDown", "data-behavior" => "endless-scroll"}
     = render @dashboard.deals
-  != pagy_nav(@pagy) if @pagy.pages > 1 
+  != pagy_bootstrap_nav(@pagy) if @pagy.pages > 1 
 - content_for :sidebar do
   %aside.col-md-4.main-sidebar
     - if @related_tags.any?

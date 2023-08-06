@@ -34,11 +34,11 @@ class DealImagesController < ApplicationController
   private
 
   def set_data
-    @deal_image = DealImage.new(params)
+    @deal_image = DealImage.new(params[:deal])
   end
 
   def deal_params
-    params.permit(:title, :image_full_with, :store_background, :hide_discount, :enlarge_image_by, :hide_coupon, :type, :theme,
-                  :url, :coupon, :extra, :hide_deal_image, :hide_store_logo, :enlarge_logo_by, :custom_image, :subheading, :sub_as_tag)
+    params.permit(:title, :image_full_with, :store_background, :hide_discount, :enlarge_image_by, :hide_coupon, :type, :theme, :hash_tags,
+                  :url, :coupon, :extra, :hide_deal_image, :hide_store_logo, :enlarge_logo_by, :custom_image, :subheading, :sub_as_tag, :image_offset, :title_auto_break)
   end
 end

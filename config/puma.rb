@@ -20,11 +20,6 @@ worker_timeout 3600 if ENV.fetch('RAILS_ENV', 'development') == 'development'
 port ENV.fetch('PORT', 3000)
 
 if ENV.fetch('RAILS_ENV', 'development') == 'development'
-  # ssl_bind '0.0.0.0', '3000', {
-  #   key: Rails.root.join('config', 'ssl', 'localhost-key.pem'),
-  #   cert: Rails.root.join('config', 'ssl', 'localhost.pem'),
-  #   verify_mode: 'none'
-  # }
 
   ssl_bind '127.0.0.1', '3001', {
     key: Rails.root.join('config', 'ssl', 'localhost.key'),

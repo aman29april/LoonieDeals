@@ -6,14 +6,15 @@ class StoresController < ApplicationController
 
   def index
     @stores = if params[:q].present?
-                Store.where('name LIKE ?', "%#{params[:q]}%")
+                Store.where('name LIKE ?', "%#{params[:q]}%").with_attached_image
               else
-                Store.by_deals
+                @top_stores = Store.by_deals.with_attached_image.limit(16)
+                Store.by_deals.with_attached_image
               end
   end
 
   def show
-    @deals = @store.deals.includes(:store)
+    @deals = @store.deals.active_first.recent.with_attached_image
   end
 
   def new

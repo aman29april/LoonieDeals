@@ -26,19 +26,25 @@ class Link < ApplicationRecord
   scope :pinned, -> { where(pinned: true) }
   scope :un_pinned, -> { where(pinned: false) }
 
-  validates :label, presence: true, length: { maximum: 100 }, allow_blank: false
+  scope :with_attached_image, -> { includes(image_attachment: :blob) }
+  scope :with_deal, -> { includes(:deal) }
+
+  validates :label, presence: true, length: { maximum: 120 }, allow_blank: false
   validates :url, presence: true, allow_blank: false
   validates :url, format: { with: URI::DEFAULT_PARSER.make_regexp, message: 'must be a valid URL' }
 
-  has_one_attached :image
+  has_one_attached :image, dependent: :destroy
 
   def self.create_from(deal)
-    link = Link.create(deal:, label: deal.title, url: deal.affiliate_url, short_slug: deal.short_slug, position: 1)
+    link = Link.create!(deal:, label: deal.title, url: deal.affiliate_url, short_slug: deal.short_slug, position: 1)
     return unless deal.image.attached?
 
-    link.image.attach(io: StringIO.new(deal.image.download),
+    thumbnail = deal.image.variant(resize_to_limit: [60, 60]).processed
+    link.image.attach(io: StringIO.new(thumbnail.download),
                       filename: deal.image.filename,
                       content_type: deal.image.content_type)
+  rescue StandardError
+    false
   end
 
   def expire!

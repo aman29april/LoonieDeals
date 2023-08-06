@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  get 'fetch_url_title', controller: :application
+  get 'fetch_url_info', controller: :application
 
   resources :links do
     member do
@@ -30,6 +30,8 @@ Rails.application.routes.draw do
       post :downvote
       patch :expire
       post :create_link
+      post :post_to_insta
+      post :post_to_telegram
     end
   end
 

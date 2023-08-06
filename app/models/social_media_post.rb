@@ -15,7 +15,7 @@
 class SocialMediaPost < ApplicationRecord
   belongs_to :deal, optional: true
 
-  has_one_attached :image
+  has_one_attached :image, dependent: :destroy
   before_create :attach_deal_image
 
   after_initialize do |_user|

@@ -34,7 +34,6 @@
   document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("new_social_media_post").addEventListener("submit", function(event) {
       event.preventDefault();
-      debugger
       var formData = new FormData(event.target);
       var action = formData.get("action");
       

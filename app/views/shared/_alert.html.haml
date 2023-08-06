@@ -1,0 +1,3 @@
+.alert.alert-message.alert-dismissible.fade.show{role: :alert, class: "alert-#{type}"}
+  = sanitize(msg)
+  %button.btn-close{"aria-label" => "Close", "data-bs-dismiss" => "alert", :type => "button"}

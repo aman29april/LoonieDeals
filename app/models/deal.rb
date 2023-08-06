@@ -43,8 +43,8 @@ class Deal < ApplicationRecord
   delegate :name, to: :store, prefix: true
   delegate :name, to: :category, prefix: true
 
-  has_one_attached :image
-  has_one :link
+  has_one_attached :image, dependent: :destroy
+  has_one :link, dependent: :destroy
 
   has_many :taggings, as: :subject, dependent: :destroy
   has_many :tags, through: :taggings
@@ -61,6 +61,8 @@ class Deal < ApplicationRecord
   scope :active, -> { where(expiration_date: nil) }
   scope :active_first, -> { order(Deal.arel_table[:expiration_date].desc.nulls_first) }
   scope :latest, ->(number) { recent.limit(number) }
+  scope :with_attached_image, -> { includes(image_attachment: :blob) }
+  scope :with_store, -> { includes(store: [image_attachment: :blob]) }
 
   scope :top_stories, ->(number) { latest(number).order(upvotes: :desc) }
 

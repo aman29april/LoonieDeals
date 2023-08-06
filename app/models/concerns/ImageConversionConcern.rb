@@ -6,9 +6,11 @@ module ImageConversionConcern
   def convert_image_to_jpg(image)
     return unless image.attached?
 
-    return unless image.content_type != 'image/jpeg'
+    # return if image.content_type != 'image/jpeg'
 
-    converted_image = ImageConversionService.convert_to_jpg(image)
+    converted_image = ImageConversionService.optimize(image)
+
+    return if converted_image.blank?
 
     image.purge
     image.attach(io: File.open(converted_image.path), filename: 'converted_image.jpg')

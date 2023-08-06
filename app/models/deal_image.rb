@@ -9,16 +9,18 @@ class DealImage
   THEMES = %w[light dark].freeze
 
   attr_accessor :auto_create_link, :generated_image, :image_full_with, :store_background, :hide_discount,
-                :enlarge_image_by, :hide_coupon, :type, :title, :url, :deal, :hash_tags, :coupon, :extra, :hide_deal_image, :hide_store_logo, :theme, :enlarge_logo_by, :custom_image, :subheading, :sub_as_tag
+                :enlarge_image_by, :hide_coupon, :type, :title, :url, :deal, :hash_tags, :coupon, :extra, :hide_deal_image, :hide_store_logo, :theme, :enlarge_logo_by, :custom_image, :subheading, :sub_as_tag, :image_offset, :title_auto_break
 
   delegate :coupon, to: :deal
   DEFAULT_TAGS = '#LoonieDeals #CanadianDeals #canada #cheapfindscanada #canadafreestuff #dealsincanada'
 
-  def initialize(params)
-    @deal = Deal.friendly.find(params[:deal])
+  def initialize(deal_id)
+    @deal = Deal.friendly.find(deal_id)
     @title = @deal.title
     @url = @deal.affiliate_url
+    @extra = @deal.body_text
     @hash_tags = DEFAULT_TAGS
+    @title_auto_break = '1'
     generate!
   end
 

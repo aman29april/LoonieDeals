@@ -14,7 +14,7 @@ class Category < ApplicationRecord
   has_many :deals
   validates :name, presence: true, uniqueness: true
 
-  has_one_attached :image
+  has_one_attached :image, dependent: :destroy
 
   scope :by_deals, -> { order(deals_count: :desc) }
   scope :by_name, -> { order(name: :asc) }

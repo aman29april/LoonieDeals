@@ -1,8 +1,14 @@
 - if notice
-  -# = react_component('AlertMessage', { message: notice, type: 'success' })
-  .alert.alert-message.alert-success{role: :alert}
-    =notice
+  = render partial: 'shared/alert', locals: {type: :warning, msg: notice}
+
 - if alert
-  -# = react_component('AlertMessage', { message: alert, type: 'danger' })
-  .alert.alert-message.alert-danger{role: :alert}
-    =alert
+  = render partial: 'shared/alert', locals: {type: :danger, msg: alert}
+
+- if flash[:sucess]
+  = render partial: 'shared/alert', locals: {type: :sucess, msg: flash[:sucess]}
+
+- if flash[:error]
+  = render partial: 'shared/alert', locals: {type: :danger, msg: flash[:error]}
+  
+
+

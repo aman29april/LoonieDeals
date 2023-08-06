@@ -10,6 +10,7 @@ export default class extends Controller {
     this.hideFileInput();
     this.bindEvents();
     Dropzone.autoDiscover = false;
+    document.dropZone = this.dropZone;
   }
 
   // Private

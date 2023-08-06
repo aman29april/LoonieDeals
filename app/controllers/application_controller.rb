@@ -15,15 +15,14 @@ class ApplicationController < ActionController::Base
     # ? current_user.admin : false
   end
 
-  def fetch_url_title
+  def fetch_url_info
     link_url = params[:link_url]
     return nil if link_url.blank?
 
     begin
-      page = Nokogiri::HTML(ScrapWebPageService.get_html_content(link_url))
-      # title = page.title.strip
-      title = page.at_css('title').text
-      render plain: title
+      data = ScrapWebPageService.new(link_url).data
+
+      render json: data
     rescue StandardError => e
       Rails.logger.error "Error fetching title from link: #{e.message}"
       head :bad_request

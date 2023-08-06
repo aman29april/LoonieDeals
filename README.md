@@ -13,4 +13,5 @@ Things you may want to cover:
 rake db:purge db:create db:migrate db:seed
 
 
+docker-compose up --build
 

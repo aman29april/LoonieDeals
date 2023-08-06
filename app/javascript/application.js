@@ -22,8 +22,6 @@ import ClipboardJS from "clipboard";
 import "./infinite_pagination.js"
 import "./controllers";
 
-$.fn.selectpicker.Constructor.BootstrapVersion = "5";
-
 // Support component names relative to this directory:
 // var componentRequireContext = require.context("components", true);
 // var ReactRailsUJS = require("react_ujs");

@@ -17,7 +17,7 @@ class LinksController < ApplicationController
                Link.un_pinned.by_position
              end
 
-    @pagy, @links = pagy(@links)
+    @pagy, @links = pagy(@links.with_attached_image.with_deal)
 
     respond_to do |format|
       format.html
@@ -38,6 +38,8 @@ class LinksController < ApplicationController
 
   def manage
     @links = Link.all.by_position
+
+    @pagy, @links = pagy(@links.with_attached_image)
   end
 
   def move

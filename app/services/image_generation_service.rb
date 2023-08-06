@@ -52,8 +52,13 @@ class ImageGenerationService
   end
 
   def write_title
-    title = @deal_image.title || ''
-    write_text_in_center(@base_image, title, @options[:title])
+    return if @deal_image.title.blank?
+
+    title = @deal_image.title
+    options = {}
+    options.merge!(@options[:title])
+    options[:break_line] = (@deal_image.title_auto_break == '1')
+    write_text_in_center(@base_image, title, options)
   end
 
   def write_extra
@@ -108,7 +113,7 @@ class ImageGenerationService
     return unless @deal.coupon? && @deal_image.hide_coupon != '1'
 
     text = "Coupon: #{@deal.coupon}"
-    @base_image = add_text_inside_rounded_rect(@base_image, text, @options[:coupon])
+    @base_image = add_text_inside_rounded_rect(text, @options[:coupon])
   end
 
   def overlay_deal_image
@@ -119,7 +124,9 @@ class ImageGenerationService
     options.merge! @options[:deal_image]
     options.merge!(image_full_with: true) if @deal_image.image_full_with == '1'
     options.merge!(enlarge_image_by: @deal_image.enlarge_image_by.to_i)
+    options.merge!(y_offset: @deal_image.image_offset.to_i) if @deal_image.image_offset.present?
     overlay = Magick::Image.read(@deal.image.url).first
+
     @base_image = overlay_image_in_center(@base_image, overlay, options)
   end
 
@@ -158,7 +165,8 @@ class ImageGenerationService
     height = img.rows
 
     font_size = options[:size]
-    font = options[:font] || 'OpenSans-Regular'
+    font = options[:font]
+    font = 'OpenSans-Regular' if font.blank?
     font_path = get_font_path(font)
 
     draw = Magick::Draw.new
@@ -305,6 +313,8 @@ class ImageGenerationService
     x = options[:x] || (main_width - overlay_width) / 2.0
     # y = (main_height - overlay_height) / 2
     y = options[:y] || 400
+
+    y += options[:y_offset].to_i
 
     overlay_img = add_background_color(overlay_img) if options[:with_background]
 

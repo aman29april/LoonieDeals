@@ -3,10 +3,12 @@
 = form_for @deal, html: { multipart: true, class: "editor-form row gt-3 dropzone" , data: { page: 'main-editor' }, autocomplete: "off" } do |form|
   .col-md-12
     .row
-      .col-md-1
-        -# #dropzone-previews-container.dropzone-previews
-        -#   =resource_image(@deal.image, class: 'deal-preview-img img-thumbnail')
-      .col-md-11
+      .col-md-2
+        =render partial: 'shared/dropzone_image', locals: { image: @deal.image, f: form}
+
+        %button.btn.btn-primary{"data-bs-target" => "#editImageModal", "data-bs-toggle" => "modal", :type => "button"}
+          Edit
+      .col-md-10
         .row
           .col-md-12
             .input-group.mb-3
@@ -16,36 +18,36 @@
             .input-group.mb-3
               %span.input-group-text Title
               = form.text_field :title, class: "form-control"
-  .col-md-12
-    .row
-      .col-md-2
-        =render partial: 'shared/dropzone_image', locals: { image: @deal.image, f: form}
-        / Button trigger modal
-        %button.btn.btn-primary{"data-bs-target" => "#editImageModal", "data-bs-toggle" => "modal", :type => "button"}
-          Edit
-      .col-md-10
-        .row 
-          .col-md-12 
-            = form.label :body, class: "form-label"
-            = form.rich_text_area :body, class: "form-control medium-editable  mt-2", autofocus: false
-  .col-md-12.mt-4
-    .row     
-      .col-md-3
-        .input-group.mb-3
-          %span.input-group-text Price $
-          = form.number_field :price, class: "form-control", step: :any
-      .col-md-3
-        .input-group.mb-3
-          %span.input-group-text Retail Price $
-          = form.number_field :retail_price, class: "form-control", step: :any
-      .col-md-3
-        .input-group.mb-3
-          %span.input-group-text Discount %
-          = form.number_field :discount, class: "form-control", step: :any
-      .col-md-3
-        .input-group.mb-3
-          %span.input-group-text Expiration
-          = form.date_field :expiration_date, class: "form-control"
+          .col-md-12
+            .row              
+              .col-md-12
+                .row 
+                  .col-md-12.mt-4
+                    .row
+                      .col-md-3
+                        .input-group.mb-3
+                          %span.input-group-text Coupon
+                          = form.text_field :coupon, class: "form-control"
+                      .col-md-2
+                        .input-group.mb-3
+                          %span.input-group-text $
+                          = form.number_field :price, class: "form-control", step: :any
+                      .col-md-2
+                        .input-group.mb-3
+                          %span.input-group-text R $
+                          = form.number_field :retail_price, class: "form-control", step: :any
+                      .col-md-2
+                        .input-group.mb-3
+                          %span.input-group-text %
+                          = form.number_field :discount, class: "form-control", step: :any
+                      .col-md-3
+                        .input-group.mb-3
+                          %span.input-group-text Exp.
+                          = form.date_field :expiration_date, class: "form-control"
+
+                    .col-md-12 
+                      = form.label :body, class: "form-label"
+                      = form.rich_text_area :body, class: "form-control medium-editable  mt-2", autofocus: false
   .row
     
     .col-md-3
@@ -60,12 +62,6 @@
       = form.label :tags, class: 'form-label'
       = form.text_field :all_tags, class: 'form-control tagsinput', 'data-role': 'tagsinput', value: tag_from_param(@deal)
 
-  .col-md-12
-    .col-md-4
-      .input-group.mb-3
-        %span.input-group-text Coupon
-        = form.text_field :coupon, class: "form-control"
-
 
   - if @deal.new_record?
     .col-12.mt-4
@@ -75,13 +71,13 @@
 
   = render 'meta_fields', f: form
 
-  = render 'image_options', f: form
+  -# = render 'image_options', f: form
 
   .col-12.mt-4
     .actions
       = form.submit 'Save', class: 'btn btn-primary'
       -# = form.submit 'Build Image here', class: 'btn btn-primary', name: 'generate_image'
-      = link_to 'Generate Image', deal_images_update_path(deal: @deal.id), class: 'btn btn-primary'
+      -# = link_to 'Generate Image', deal_images_update_path(deal: @deal.id), class: 'btn btn-primary'
 
 
 - unless @deal.new_record?
@@ -106,14 +102,50 @@
       return;
     }
 
+    async function addImageToDropzone(url){
+      const response = await fetch(url)
+      const data = await response.blob()
+      const file = new File([data], name, {
+          type: data.type || defaultType,
+        })
+
+      const files = [file]
+
+      document.dropZone.handleFiles(files)
+    }
+
     // Make an asynchronous request to the server to fetch the title
-    fetch(`/fetch_url_title?link_url=${encodeURIComponent(url)}`)
-      .then(response => response.text())
-      .then(title => {
-        // Update the deal title field with the fetched title
+    fetch(`/fetch_url_info?link_url=${encodeURIComponent(url)}`)
+      .then(response => response.json())
+      .then(data => {
+        title = data.title
+        img = data.image
+
         if(titleInput.value.trim() === ''){
           titleInput.value = title;
         }
+
+        if (img && img !== ''){
+          addImageToDropzone(img)
+        }
+
+        if(data.current_price){
+          document.getElementById("deal_price").setAttribute('value', data.current_price);
+        }
+
+        if(data.retail_price){
+          document.getElementById("deal_retail_price").setAttribute('value', data.retail_price);
+        }
+
+        if(data.retail_price){
+          document.getElementById("deal_retail_price").setAttribute('value', data.retail_price);
+        }
+          
+        if(url.includes('amazon') || url.includes('amzn.to')){
+          document.getElementById('deal_store_id').slim.setSelected(data.store_id)
+        }
+        // Update the deal title field with the fetched title
+        
       })
       .catch(error => {
         console.error('Error fetching title:', error);

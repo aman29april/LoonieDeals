@@ -1,6 +1,9 @@
 %div{data:{controller: :drag, 'drag-url': "/links/:id/move"}}
   - @links.each do |link|
     =render partial: 'form', locals: {link: link}
+
+  != pagy_bootstrap_nav(@pagy) if @pagy.pages > 1
+  
 :javascript
   function toggle() {
   var el = document.getElementById("style1");

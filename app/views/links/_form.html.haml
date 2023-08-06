@@ -3,11 +3,8 @@
     .col-md-12
       .row
         .col-md-2
-          = dropzone_controller_div({class: 'dropbox-small'}) do
-            = f.file_field :image, direct_upload: true, multiple: false, data: { 'dropzone-target': 'input' }
-            .dropzone-msg.dz-message.needsclick.text-gray-600
-              %h3.dropzone-msg-title Drag or click here to browse
-            -# %span.dropzone-msg-desc.text-sm 2 MB max size. Allowed file types png, jpg.
+          =render partial: 'shared/dropzone_image', locals: { image: link.image, f: f, class: 'dropbox-small'}
+          
         .col-md-10
           .row
             .col-md-12

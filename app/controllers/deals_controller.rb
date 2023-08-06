@@ -5,7 +5,8 @@ class DealsController < ApplicationController
   include Pagy::Backend
 
   before_action :authenticate_user!, except: %i[show index]
-  before_action :set_deal, only: %i[show edit update destroy expire create_link]
+  before_action :set_deal, only: %i[show edit update destroy expire create_link post_to_insta post_to_telegram]
+  before_action :set_deal_image, only: %i[post_to_insta post_to_telegram]
 
   def index
     search = "%#{params[:q]}%"
@@ -15,7 +16,7 @@ class DealsController < ApplicationController
                Deal.all.includes(:store)
              end
 
-    @pagy, @deals = pagy(@deals.active_first.recent)
+    @pagy, @deals = pagy(@deals.active_first.recent.with_attached_image.with_store)
   end
 
   def show
@@ -48,11 +49,24 @@ class DealsController < ApplicationController
     render @deal.persisted? ? :edit : :new
   end
 
+  def post_to_insta; end
+
+  def post_to_telegram
+    TelegramService.new.send_photo(*@deal_image.telegram_data)
+    redirect_to @deal, notice: 'Posted to telegram!'
+  end
+
+  def post_to_insta
+    InstagramService.new.send_photo(*@deal_image.insta_data)
+    redirect_to @deal, notice: 'Posted to Instagram!'
+  end
+
   def edit; end
 
   def update
     @deal.assign_attributes(deal_params)
     return generate_image if params[:generate_image]
+    return post_to_telegram if params[:post_to_telegram]
 
     if @deal.save
       redirect_to @deal, notice: 'Deal was successfully updated.'
@@ -63,11 +77,11 @@ class DealsController < ApplicationController
 
   def create_link
     if @deal.link.present?
-      render :edit, notice: 'Link already present'
+      redirect_back_or_to @deal, flash: { error: 'Link already exist' }
     elsif @deal.valid?(:create_link) && Link.create_from(@deal)
       redirect_to @deal, notice: 'Link Created successfully.'
     else
-      render :edit, notice: 'Something wrong'
+      redirect_back_or_to @deal, notice: 'something went wrong'
     end
   end
 
@@ -97,6 +111,10 @@ class DealsController < ApplicationController
 
   def set_deal
     @deal = Deal.friendly.find(params[:id])
+  end
+
+  def set_deal_image
+    @deal_image = DealImage.new(params[:id])
   end
 
   def deal_params

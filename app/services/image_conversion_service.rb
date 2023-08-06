@@ -5,12 +5,25 @@ require 'mini_magick'
 class ImageConversionService
   include Rails.application.routes.url_helpers
 
-  def self.convert_to_jpg(image, format = 'jpg')
+  def self.to_jpg_and_resize(image, format = 'jpg')
     return image if image.content_type.include?(format)
 
     tempfile = image.download
     converted_image = MiniMagick::Image.read(tempfile)
+    converted_image.resize('612x612')
+    converted_image.strip
     converted_image.format(format)
+
+    converted_image
+  end
+
+  def self.optimize(image)
+    tempfile = image.download
+    return if tempfile.blank?
+
+    converted_image = MiniMagick::Image.read(tempfile)
+    converted_image.resize('512x512')
+    converted_image.strip
 
     converted_image
   end

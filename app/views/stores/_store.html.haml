@@ -1,0 +1,8 @@
+.col
+  .card.h-100.text-center.store-card
+    =link_to store_path(store) do
+      -if store.image.attached?
+        =resource_image(store.image, class: 'card-img-top img-fluid store-image')
+      
+      .card-body
+        %h5.card-title= store.name

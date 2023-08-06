@@ -116,3 +116,5 @@ gem 'jsbundling-rails', '~> 1.1'
 gem 'shakapacker', '= 6.6'
 
 gem 'react-rails'
+
+gem 'dockerfile-rails', '>= 1.5', group: :development
