@@ -72,6 +72,7 @@ gem 'cloudinary'
 gem 'httparty'
 gem 'omniauth-facebook'
 gem 'rack-cors'
+gem 'tinymce-rails'
 
 group :development, :test do
   gem 'dotenv-rails'
@@ -117,4 +118,5 @@ gem 'shakapacker', '= 6.6'
 
 gem 'react-rails'
 
+gem 'breadcrumbs_on_rails'
 gem 'dockerfile-rails', '>= 1.5', group: :development

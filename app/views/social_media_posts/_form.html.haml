@@ -1,34 +1,38 @@
 = render :partial => 'shared/resource_error', locals: {resource: @social_media_post}
 
-= form_for @social_media_post, html: { multipart: true, class: "editor-form row gt-3 dropzone" , data: { page: 'main-editor' }, autocomplete: "off" } do |form|
+= form_with model: @social_media_post, html: { multipart: true, class: "editor-form row gt-3 dropzone" , data: { page: 'main-editor' }, autocomplete: "off" } do |f|
   .row
-    = form.hidden_field :deal_id
+    = f.hidden_field :deal_id
     .col-md-2
-      =render partial: 'shared/dropzone_image', locals: { f: form, image: @social_media_post.self_or_deal_image}
+      =render partial: 'shared/dropzone_image', locals: { f: f, image: nil, multiple: true, max_files: 10}
 
     .col-md-10
       .row
         .form-group
-          = form.label :text
-          = form.text_area :text, class: 'form-control', rows: 4
+          = f.label :text
+          = f.text_area :text, class: 'form-control', rows: 4
 
       .row
         .form-group
-          = form.label :social_media_accounts
+          = f.label :social_media_accounts
           - @all_accounts.each do |account|
             .form-check
-              = form.check_box :social_media_accounts, { multiple: true, checked: @social_media_post.social_media_accounts&.include?(account[:platform])  }, account[:platform], nil
-              = form.label "#{account[:platform]}_account", account[:platform].capitalize, class: 'form-check-label'
+              = f.check_box :social_media_accounts, { multiple: true, checked: @social_media_post.social_media_accounts&.include?(account[:platform])  }, account[:platform], nil
+              = f.label "#{account[:platform]}_account", account[:platform].capitalize, class: 'form-check-label'
 
       .row
-        = form.label :scheduled_at
-        = form.datetime_field :scheduled_at, class: 'form-control'
+        = f.label :scheduled_at
+        = f.datetime_field :scheduled_at, class: 'form-control'
   .actions.form-actions.mt-5
-    = form.submit 'Post to social media', class: 'btn btn-primary', value: "post_and_save", name: 'action', data: {action: 'post_and_save'}
-    = form.submit 'Post to Insta', class: 'btn btn-primary', value: "post_without_save", name: 'action', data: {action: 'post_without_save'}
+    = f.submit 'Post to social media', class: 'btn btn-primary', name: 'post_and_save'
+    -# = f.submit 'Post to Insta', class: 'btn btn-primary', value: "post_without_save", name: 'action', data: {action: 'post_without_save'}
+    = f.submit "Reset", type: :reset, class: 'btn btn-secondary'
     -if @deal
       = link_to 'Deal', @deal, class: 'btn btn-primary'
 
+    = button_tag type: :submit, class: 'btn btn-primary me-1', name: 'post_to_instagram' do
+      Post to
+      %i{class: "bi-instagram"}
 
 :javascript
   document.addEventListener("DOMContentLoaded", function() {

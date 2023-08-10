@@ -10,11 +10,16 @@
           %a.nav-link.active{"aria-current" => "page", :href => "/"} Home
         %li.nav-item
           %a.nav-link.active{"aria-current" => "page", :href => "/stores"} Stores
+
+        %li.nav-item
+          %a.nav-link.active{"aria-current" => "page", :href => "/categories"} Categories
         -if is_admin?
           %li.nav-item
             %a.nav-link{:href => "/site_settings/1/edit"} Config
           %li.nav-item
             %a.nav-link{:href => "/links"} Links
+          %li.nav-item
+            %a.nav-link{:href => "/posts"} Posts
         
       =form_tag '', method: :get, class: "inline-form search-form" do |f|
         =text_field_tag :q, params[:q], placeholder: 'Search', type: 'search', class: ''

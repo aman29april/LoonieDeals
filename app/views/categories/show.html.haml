@@ -1,0 +1,20 @@
+%h3
+  .store-header
+    .row
+      -# .col-1
+      -#   .store-image-container.text-center.align-middle.d-flex.justify-content-center.align-items-center.rounded-2
+      -#     =resource_image(@category.image, class: 'img-fluid', alt: @category.name)
+      .col
+        .store-title.align-middle.d-flex.align-items-center.mt-3
+          = title "#{@category.name} Coupons & Deals"
+      -if is_admin?
+        .col
+          = link_to 'Edit', edit_category_path(@category), class: 'btn btn-primary'
+
+  .container.mt-3
+    .row
+      .col-md-9
+        .row.row-cols-sm-1.row-cols-md-4.row-cols-lg-4.g-3.gy-4
+          =render @deals
+      .col
+        =render partial: 'side_bar/side_bar', locals: {side_bar: @side_bar}

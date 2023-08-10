@@ -56,18 +56,23 @@
       
     .col-md-3
       = form.label :category, class: "form-label"
-      = form.select :category_id,Category.all.by_name.collect { |p| [ p.name, p.id ] }, {include_blank: false}, { prompt: "Select Category", data: {controller: 'slim'}, class: "" }
+      = form.select :category_ids,Category.all.by_name.collect { |p| [ p.name, p.id ] }, {include_blank: false}, { prompt: "Select Category", data: {controller: 'slim'}, class: "" , multiple: true}
 
     .col-md-6
       = form.label :tags, class: 'form-label'
       = form.text_field :all_tags, class: 'form-control tagsinput', 'data-role': 'tagsinput', value: tag_from_param(@deal)
 
 
-  - if @deal.new_record?
+  
     .col-12.mt-4
+      - if @deal.new_record?
+        .form-check
+          = form.check_box :auto_create_link
+          = form.label :auto_create_link, class: 'form-check-label'
+
       .form-check
-        = form.check_box :auto_create_link
-        = form.label :auto_create_link, class: 'form-check-label'
+        = form.check_box :large_image
+        = form.label :large_image, class: 'form-check-label'
 
   = render 'meta_fields', f: form
 

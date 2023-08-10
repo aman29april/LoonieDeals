@@ -15,3 +15,4 @@
 //= link controllers/drag_controller.js
 //= link controllers/cropper_controller.js
 //= link controllers/slim_controller.js
+//= link controllers/tinymce_controller.js

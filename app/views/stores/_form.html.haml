@@ -28,9 +28,15 @@
           .input-group.mb-3
             %span.input-group-text Affiliate
             = form.text_field :affiliate_id, class: 'form-control'
+          .input-group.mb-3
+            %span.input-group-text Referral
+            = form.text_field :referral, class: 'form-control'
+        .col
+          .input-group.mb-3
+            -# = form.label :category_ids, 'Categories', class: "form-label"
+            = form.select :category_ids, Category.all.by_name.collect { |p| [ p.name, p.id ] }, {include_blank: true}, { prompt: "Select a Catgories", data: {controller: 'slim'}, class: "" , multiple: true, }
 
-   
- 
+  
   .col-12.mt-4
     .actions
       = form.submit 'Save', class: 'btn btn-primary'

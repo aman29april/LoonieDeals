@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -10,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 20_230_719_050_913) do
+ActiveRecord::Schema[7.0].define(version: 20_230_809_152_205) do
   create_table 'action_text_rich_texts', force: :cascade do |t|
     t.string 'name', null: false
     t.text 'body'
@@ -81,6 +83,24 @@ ActiveRecord::Schema[7.0].define(version: 20_230_719_050_913) do
     t.integer 'deals_count', default: 0
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
+    t.string 'slug'
+    t.integer 'position'
+    t.integer 'parent_id'
+    t.index ['parent_id'], name: 'index_categories_on_parent_id'
+  end
+
+  create_table 'categories_deals', id: false, force: :cascade do |t|
+    t.integer 'deal_id', null: false
+    t.integer 'category_id', null: false
+    t.index %w[category_id deal_id], name: 'index_categories_deals_on_category_id_and_deal_id'
+    t.index %w[deal_id category_id], name: 'index_categories_deals_on_deal_id_and_category_id'
+  end
+
+  create_table 'categories_stores', id: false, force: :cascade do |t|
+    t.integer 'category_id', null: false
+    t.integer 'store_id', null: false
+    t.index %w[category_id store_id], name: 'index_categories_stores_on_category_id_and_store_id'
+    t.index %w[store_id category_id], name: 'index_categories_stores_on_store_id_and_category_id'
   end
 
   create_table 'companies', force: :cascade do |t|
@@ -125,7 +145,7 @@ ActiveRecord::Schema[7.0].define(version: 20_230_719_050_913) do
     t.integer 'upvotes', default: 0
     t.integer 'downvotes', default: 0
     t.integer 'store_id', null: false
-    t.integer 'category_id', null: false
+    t.integer 'category_id'
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
     t.index ['category_id'], name: 'index_deals_on_category_id'
@@ -163,9 +183,11 @@ ActiveRecord::Schema[7.0].define(version: 20_230_719_050_913) do
     t.boolean 'pinned', default: false
     t.integer 'position'
     t.boolean 'enabled'
+    t.string 'short_slug'
     t.integer 'deal_id', null: false
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
+    t.string 'extra_info'
     t.index ['deal_id'], name: 'index_links_on_deal_id'
   end
 
@@ -188,6 +210,18 @@ ActiveRecord::Schema[7.0].define(version: 20_230_719_050_913) do
     t.datetime 'updated_at', null: false
     t.index ['slug'], name: 'index_posts_on_slug', unique: true
     t.index ['user_id'], name: 'index_posts_on_user_id'
+  end
+
+  create_table 'recurring_schedules', force: :cascade do |t|
+    t.integer 'deal_id', null: false
+    t.string 'recurrence_type'
+    t.string 'day_of_week'
+    t.integer 'day_of_month'
+    t.datetime 'starts_at'
+    t.datetime 'expires_at'
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+    t.index ['deal_id'], name: 'index_recurring_schedules_on_deal_id'
   end
 
   create_table 'site_settings', force: :cascade do |t|
@@ -242,6 +276,7 @@ ActiveRecord::Schema[7.0].define(version: 20_230_719_050_913) do
     t.integer 'deals_count', default: 0
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
+    t.string 'referral'
   end
 
   create_table 'tag_relationships', force: :cascade do |t|
@@ -292,5 +327,6 @@ ActiveRecord::Schema[7.0].define(version: 20_230_719_050_913) do
   add_foreign_key 'deals', 'categories'
   add_foreign_key 'deals', 'stores'
   add_foreign_key 'links', 'deals'
+  add_foreign_key 'recurring_schedules', 'deals'
   add_foreign_key 'social_media_posts', 'deals'
 end

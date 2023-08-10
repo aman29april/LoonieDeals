@@ -1,14 +1,18 @@
-/ app/views/devise/sessions/new.html.erb
-%h2 Sign in
-= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
-  .field
-    = f.label :email
-    %br/
-    = f.email_field :email, autofocus: true
-  .field
-    = f.label :password
-    %br/
-    = f.password_field :password, autocomplete: "current-password"
-  .actions
-    = f.submit 'Log in'
-= link_to 'Sign in with Facebook', user_facebook_omniauth_authorize_path
+.col-md-10.mx-auto.col-lg-5
+  %h2 Log in
+  = form_for(resource, as: resource_name, url: session_path(resource_name), html: {class: 'p-4 p-md-5 border rounded-3 bg-light'}) do |f|
+    .form-floating.mb-3
+      = f.email_field :email, autofocus: true, autocomplete: "email", class: 'form-control'
+      = f.label :email, for: 'user_email'
+    .form-floating.mb-3d
+      = f.password_field :password, autocomplete: "current-password", class: 'form-control'
+      = f.label :password, for: 'user_password'
+    - if devise_mapping.rememberable?
+      .field
+        .checkbox.mb-3
+          %label
+            = f.check_box :remember_me, name: " Remember me"
+          
+    .actions
+      = f.submit "Log in", class: 'w-100 btn btn-lg btn-primary'
+  = render "devise/shared/links"

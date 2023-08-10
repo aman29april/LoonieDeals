@@ -17,12 +17,12 @@ class ImageConversionService
     converted_image
   end
 
-  def self.optimize(image)
+  def self.optimize(image, size = '512x512')
     tempfile = image.download
     return if tempfile.blank?
 
     converted_image = MiniMagick::Image.read(tempfile)
-    converted_image.resize('512x512')
+    converted_image.resize(size)
     converted_image.strip
 
     converted_image

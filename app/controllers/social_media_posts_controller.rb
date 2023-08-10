@@ -16,9 +16,8 @@ class SocialMediaPostsController < ApplicationController
 
   def create
     @social_media_post = SocialMediaPost.new(post_deal_params)
-    image_url = ApplicationController.helpers.resource_image_url(@social_media_post.self_or_deal_image)
-    caption = @social_media_post.text
-    InstagramService.new.create_photo_post(image_url, caption:)
+
+    return post_to_instagram if params[:post_to_instagram]
 
     if params[:action] != 'post_and_save'
       flash[:success] = 'Deal successfully posted on selected social media accounts.'
@@ -43,6 +42,25 @@ class SocialMediaPostsController < ApplicationController
     InstagramService.new.create_photo_post(image_url, caption:)
   end
 
+  def post_to_instagram
+    if @social_media_post.images.blank?
+      flash.now[:alert] = 'No Photos'
+      return render :new, status: :unprocessable_entity
+    end
+
+    service = InstagramService.new
+
+    service.create_photo_post(*@social_media_post.insta_data)
+    flash.now[:notice] = 'Post gallery sent!'
+    render :new
+  end
+
+  def insta_gallery; end
+
+  # def create_insta_gallery
+
+  # end
+
   def edit; end
 
   def update
@@ -56,7 +74,7 @@ class SocialMediaPostsController < ApplicationController
   private
 
   def set_data
-    @deal = Deal.where(id: params[:deal]).last
+    @deal = Deal.friendly.find(params[:deal]) if params[:deal]
 
     @all_accounts = [
       { platform: 'facebook', name: 'Facebook Account' },
@@ -70,6 +88,6 @@ class SocialMediaPostsController < ApplicationController
   end
 
   def post_deal_params
-    params.require(:social_media_post).permit(:deal_id, :text, :scheduled_at, social_media_accounts: [])
+    params.require(:social_media_post).permit(:deal_id, :text, :scheduled_at, social_media_accounts: [], images: [])
   end
 end

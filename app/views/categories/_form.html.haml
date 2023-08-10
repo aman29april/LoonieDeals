@@ -1,0 +1,26 @@
+= render :partial => 'shared/resource_error', locals: {resource: @category}
+
+= form_for @category, html: { multipart: true, class: "editor-form row gt-3 dropzone" , data: { page: 'main-editor' }, autocomplete: "off" } do |form|
+  .row
+    .col-md-2
+      =render partial: 'shared/dropzone_image', locals: { f: form, image: @category.image, css_class: 'dropbox-small'}
+    .col-md-10
+      .row
+        .col
+          .input-group.mb-3
+            %span.input-group-text Name
+            = form.text_field :name, class: "form-control"
+
+        -# .col
+        -#   .input-group.mb-3
+        -#     %span.input-group-text Description
+        -#     = form.text_area :description, class: 'form-control', :rows => 2
+        .col
+          .input-group.mb-3
+            -# = form.label :category_ids, 'Categories', class: "form-label"
+            = form.select :parent_id, Category.all.by_name.collect { |p| [ p.name, p.id ] }, {include_blank: true}, { prompt: "Select a Catgories", data: {controller: 'slim'}, class: "" , multiple: false, }
+
+  
+  .col-12.mt-4
+    .actions
+      = form.submit 'Save', class: 'btn btn-primary'

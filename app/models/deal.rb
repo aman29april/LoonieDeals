@@ -35,16 +35,18 @@ class Deal < ApplicationRecord
   friendly_id :title, use: :slugged
 
   attr_accessor :auto_create_link, :generated_image, :image_full_with, :store_background, :hide_discount,
-                :enlarge_image_by, :hide_coupon
+                :enlarge_image_by, :hide_coupon, :large_image
 
   belongs_to :store, counter_cache: true
-  belongs_to :category, counter_cache: true
+  # belongs_to :category, counter_cache: true
+  has_and_belongs_to_many :categories, counter_cache: true
 
   delegate :name, to: :store, prefix: true
   delegate :name, to: :category, prefix: true
 
   has_one_attached :image, dependent: :destroy
   has_one :link, dependent: :destroy
+  has_many :recurring_schedules, dependent: :destroy
 
   has_many :taggings, as: :subject, dependent: :destroy
   has_many :tags, through: :taggings
@@ -58,18 +60,31 @@ class Deal < ApplicationRecord
   scope :published, -> { where.not(published_at: nil) }
   scope :featured, -> { where(featured: true) }
   scope :recent, -> { order(created_at: :desc) }
-  scope :active, -> { where(expiration_date: nil) }
-  scope :active_first, -> { order(Deal.arel_table[:expiration_date].desc.nulls_first) }
+  scope :active, -> { where('expiration_date is NULL or expiration_date > ?', Time.zone.now) }
+  scope :active_first, -> { order(Deal.arel_table[:expiration_date].asc.nulls_first) }
+
+  # scope :active_first, -> { order(Arel.sql('expiration_date IS NULL, expiration_date DESC')) }
+
   scope :latest, ->(number) { recent.limit(number) }
   scope :with_attached_image, -> { includes(image_attachment: :blob) }
   scope :with_store, -> { includes(store: [image_attachment: :blob]) }
 
   scope :top_stories, ->(number) { latest(number).order(upvotes: :desc) }
 
+  scope :fetch_active_deals, lambda {
+    where('(expiration_date IS NULL OR expiration_date >= ?) AND (recurring = ? OR recurrence_schedules.day_of_week = ? OR recurrence_schedules.day_of_month = ?)',
+          Time.now, false, Time.now.wday, Time.now.day)
+      .includes(:recurring_schedules)
+  }
+
   has_rich_text :body
 
   before_save :calculate_discount
-  before_save -> { convert_image_to_jpg(image) }
+  before_save do
+    size = '512x512'
+    size = '1020x1020' if large_image == '1'
+    convert_image_to_jpg(image, size)
+  end
 
   before_create :set_short_slug
 
@@ -149,6 +164,13 @@ class Deal < ApplicationRecord
     link.expire! if link.present?
 
     save
+  end
+
+  def renew!
+    self.expiration_date = nil
+    set_short_slug
+    save
+    link.renew! if link.present?
   end
 
   def published?

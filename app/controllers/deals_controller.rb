@@ -5,7 +5,7 @@ class DealsController < ApplicationController
   include Pagy::Backend
 
   before_action :authenticate_user!, except: %i[show index]
-  before_action :set_deal, only: %i[show edit update destroy expire create_link post_to_insta post_to_telegram]
+  before_action :set_deal, only: %i[show edit update destroy expire create_link post_to_insta post_to_telegram renew]
   before_action :set_deal_image, only: %i[post_to_insta post_to_telegram]
 
   def index
@@ -17,10 +17,16 @@ class DealsController < ApplicationController
              end
 
     @pagy, @deals = pagy(@deals.active_first.recent.with_attached_image.with_store)
+    @side_bar = SideBar.new
   end
 
   def show
+    add_breadcrumb 'Home', :root_path
+    add_breadcrumb @deal.store.name, @deal.store
+    # add_breadcrumb @deal.category.name, @deal.category
+
     @deal.increment!(:view_count)
+    @side_bar = SideBar.new(current_deal: @deal)
   end
 
   def new
@@ -107,6 +113,11 @@ class DealsController < ApplicationController
     redirect_to @deal, notice: 'Deal has been expired.'
   end
 
+  def renew
+    @deal.renew!
+    redirect_to @deal, notice: 'Deal has been renewed.'
+  end
+
   private
 
   def set_deal
@@ -118,7 +129,7 @@ class DealsController < ApplicationController
   end
 
   def deal_params
-    params.require(:deal).permit(:title, :description, :price, :retail_price, :discount, :expiration_date, :url,
-                                 :pinned, :image, :store_id, :category_id, :meta_keywords, :meta_description, :body, :all_tags, :coupon, :generated_image, :image_full_with, :store_background, :hide_discount, :enlarge_image_by, :hide_coupon)
+    params.require(:deal).permit(:title, :description, :price, :retail_price, :discount, :expiration_date, :url, :auto_create_link, :large_image,
+                                 :pinned, :image, :store_id, :category_ids, :meta_keywords, :meta_description, :body, :all_tags, :coupon, :generated_image, :image_full_with, :store_background, :hide_discount, :enlarge_image_by, :hide_coupon)
   end
 end

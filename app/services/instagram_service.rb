@@ -25,32 +25,44 @@ class InstagramService
     }
   end
 
-  def create_photo_post(media_file, caption = nil)
+  def create_photo_post(media_files, caption = nil)
+    if media_files.length == 1
+      create_single_photo_post(media_files.first, caption)
+    else
+      create_carousel(media_files, caption)
+    end
+  end
+
+  def create_carousel(media_files, caption = '')
+    # upload carousel_item:
+    children = media_files.map { |media_file| upload(media_file, { caption: 'test', is_carousel_item: true }) }
+
+    # Create carousel container
+    creation_id = create_carousel_container(children, caption)
+    publish_carousel(creation_id)
+  end
+
+  def create_single_photo_post(media_file, caption = nil)
     media_id = upload(media_file, { caption: })
     create_post(media_id, caption)
   end
 
-  alias send_photo create_photo_post
+  alias send_photo create_single_photo_post
 
-  def create_video_post(media_file, caption = nil)
-    media_id = upload(media_file, post_type: 'VIDEO')
-    create_post(media_id, caption)
-  end
+  # def create_video_post(media_file, caption = nil)
+  #   media_id = upload(media_file, post_type: 'VIDEO')
+  #   create_post(media_id, caption)
+  # end
 
-  def upload_story(media_file, sticker_data)
-    media_id = upload(media_file, { media_type: 'STORY' })
-    create_story(media_id, sticker_data)
-  end
+  # def upload_story(media_file, sticker_data)
+  #   media_id = upload(media_file, { media_type: 'STORY' })
+  #   create_story(media_id, sticker_data)
+  # end
 
-  def upload_carousel_story(media_files, sticker_data)
-    media_ids = media_files.map { |media_file| upload_media(media_file) }
-    create_carousel_story(media_ids, sticker_data)
-  end
-
-  def upload_carousel(media_files, captions = [])
-    media_ids = media_files.map { |media_file| upload_media(media_file) }
-    create_carousel(media_ids, captions)
-  end
+  # def upload_carousel_story(media_files, sticker_data)
+  #   media_ids = media_files.map { |media_file| upload_media(media_file) }
+  #   create_carousel_story(media_ids, sticker_data)
+  # end
 
   def upload_reel(media_file, caption = nil)
     media_id = upload_media(media_file)
@@ -128,13 +140,23 @@ class InstagramService
     end
   end
 
-  def create_carousel(media_ids, captions = [])
-    url = "#{BASE_URL}/me/media_publish"
-    children = media_ids.each_with_index.map do |media_id, index|
-      { media_id:, caption: captions[index] }
+  def publish_carousel(creation_id)
+    url = @endpoints[:media_publish]
+    query_params = { access_token: @access_token, creation_id: }
+
+    response = HTTParty.post(url, body: query_params)
+    handle_response(response) do |data|
+      data['id']
     end
-    query_params = { access_token: @access_token, media_type: 'CAROUSEL_ALBUM', children: }
-    HTTParty.post(url, body: query_params)
+  end
+
+  def create_carousel_container(children, caption)
+    url = @endpoints[:media]
+    query_params = { access_token: @access_token, media_type: 'CAROUSEL', children:, caption: }
+    response = HTTParty.post(url, body: query_params)
+    handle_response(response) do |data|
+      data['id']
+    end
   end
 
   def create_reel(media_id, caption = nil)

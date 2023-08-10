@@ -3,6 +3,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
   helper_method :current_user, :signed_in?, :is_admin?
+  helper_method :current_user?
 
   def redirect
     params[:url]
@@ -13,6 +14,10 @@ class ApplicationController < ActionController::Base
   def is_admin?
     user_signed_in?
     # ? current_user.admin : false
+  end
+
+  def current_user?(user)
+    current_user.id == user.id
   end
 
   def fetch_url_info

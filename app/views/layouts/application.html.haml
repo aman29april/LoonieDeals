@@ -24,11 +24,13 @@
     = render 'shared/google_analytics'
     
     =yield :head_link
+    =yield :page_header
   %body.d-flex.flex-column.min-vh-100
     =render 'layouts/header'
     =render partial: 'layouts/alert_messages'
     
     %main.container
+      = render partial: 'shared/breadcrumbs'
       -# .container{style: 'margin-top: 50px'}
       = yield
     = render 'layouts/footer'

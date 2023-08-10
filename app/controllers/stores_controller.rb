@@ -4,6 +4,9 @@ class StoresController < ApplicationController
   before_action :set_store, only: %i[show edit update]
   before_action :authenticate_user!, only: %i[edit update]
 
+  add_breadcrumb 'Home', :root_path
+  add_breadcrumb 'Stores', :stores_path
+
   def index
     @stores = if params[:q].present?
                 Store.where('name LIKE ?', "%#{params[:q]}%").with_attached_image
@@ -14,7 +17,10 @@ class StoresController < ApplicationController
   end
 
   def show
+    add_breadcrumb @store.name, @store
     @deals = @store.deals.active_first.recent.with_attached_image
+
+    @side_bar = SideBar.new
   end
 
   def new
@@ -56,6 +62,7 @@ class StoresController < ApplicationController
   end
 
   def store_params
-    params.require(:store).permit(:name, :description, :website, :image, :featured, :affiliate_id)
+    params.require(:store).permit(:name, :description, :website, :image, :featured, :affiliate_id, :referral,
+                                  category_ids: [])
   end
 end

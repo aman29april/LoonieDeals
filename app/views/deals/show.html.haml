@@ -65,31 +65,11 @@
                         Unfortunately this deal has expired.
 
                     =@deal.body
+                  
           .row
             .card
+            =render partial: 'actions'
 
-        
+    .col
+      =render partial: 'side_bar/side_bar', locals: {side_bar: @side_bar}
 
-- if is_admin?
-  .deal-actions
-    = link_to 'Edit', edit_deal_path(@deal), class: 'btn btn-primary'
-    = link_to 'Social media', new_social_media_post_path(deal: @deal), class: 'btn btn-primary'
-    = button_to 'Expire', expire_deal_path(@deal), method: :patch, class: 'btn btn-warning inline-block'
-    = button_to 'Delete', @deal, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'
-    = link_to 'Generate Image', deal_images_update_path(deal: @deal.id), class: 'btn btn-primary'
-    = link_to 'Back', deals_path, class: 'btn btn-primary'
-
-    = form_with(url: create_link_deal_path(@deal), method: :post, class: 'd-inline') do |f|
-      = f.submit 'Create Link', class: 'btn btn-primary'
-
-    = form_with(url: post_to_telegram_deal_path(@deal.id), method: :post, class: 'd-inline ms-1') do |f|
-      = button_tag type: :submit, class: 'btn btn-primary' do
-        Post to 
-        %i{class: "bi-telegram"}      
-
-    = form_with(url: post_to_insta_deal_path(@deal.id), method: :post, class: 'd-inline ms-2') do |f|
-      = button_tag type: :submit, class: 'btn btn-primary' do
-        Post to 
-        %i{class: "bi-instagram"}        
-
-    

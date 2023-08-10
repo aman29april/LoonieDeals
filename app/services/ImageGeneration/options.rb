@@ -11,7 +11,8 @@ module ImageGeneration
     oswald: 'Oswald-Bold',
     openSans: 'OpenSans-Regular',
     poppins: 'Poppins-ExtraBold',
-    anton: 'Anton-Regular'
+    anton: 'Anton-Regular',
+    gagalin: 'Gagalin Regular'
   }.freeze
 
   COLORS = OpenStruct.new(colors)
@@ -19,7 +20,7 @@ module ImageGeneration
 
   class Options
     DEFAULT_OPTIONS = {
-      title: { size: 70, color: COLORS.blue, y: 190, break_line: true, bold: true, font: FONTS.anton,
+      title: { size: 75, color: COLORS.blue, y: 190, break_line: true, bold: true, font: FONTS.gagalin,
                line_spacing: -25 },
       extra: { size: 50, color: '#01401a', break_line: false, font: FONTS.fjallaOne },
       subheading: { size: 50, color: '#f50c79', break_line: false, y: 335, font: FONTS.fjallaOne },
@@ -65,7 +66,7 @@ module ImageGeneration
       when 'post'
         options = options.deep_merge(POST_OPTIONS)
       end
-      colors = THEMES[theme.to_sym]
+      colors = THEMES[theme.to_sym] || {}
       options.deep_merge(colors)
     end
   end

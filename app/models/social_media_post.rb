@@ -15,8 +15,11 @@
 class SocialMediaPost < ApplicationRecord
   belongs_to :deal, optional: true
 
-  has_one_attached :image, dependent: :destroy
-  before_create :attach_deal_image
+  # has_one_attached :image, dependent: :destroy
+
+  has_many_attached :images, dependent: :destroy
+
+  # before_create :attach_deal_image
 
   after_initialize do |_user|
     attach_deal_image
@@ -32,6 +35,20 @@ class SocialMediaPost < ApplicationRecord
     deal.image if deal.present? && deal.image.attached?
   end
 
+  def insta_data
+    public_photo_urls = ImageUploadService.upload_images(photo_urls)
+    [
+      public_photo_urls,
+      text
+    ]
+  end
+
+  def photo_urls
+    return [deal.image.url] if deal.present? && deal.image.attached?
+
+    images.map(&:url)
+  end
+
   private
 
   def scheduled_at_cannot_be_in_the_past
@@ -43,10 +60,11 @@ class SocialMediaPost < ApplicationRecord
   def attach_deal_image
     return if deal.blank? || !deal.image.attached?
 
-    # image = deal.image
-    # image.file.attach(deal.image.file.blob)
+    deal.image
+    # images.file.attach(deal.image.file.blob)
 
-    # image.attach(io: StringIO.new(deal.image.download),
-    # filename: deal.image.filename, content_type: deal.image.content_type)
+    images.attach(io: StringIO.new(deal.image.download),
+                  filename: deal.image.filename,
+                  content_type: deal.image.content_type)
   end
 end

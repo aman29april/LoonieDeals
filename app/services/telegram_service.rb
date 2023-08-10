@@ -23,6 +23,8 @@ class TelegramService
 
       if ENV['TelegramSendSeparately']
         data.each_value do |value|
+          next if value.delete('`').blank?
+
           bot.api.send_message(chat_id: @chat_id, text: value, parse_mode: 'Markdown', disable_web_page_preview: true)
         end
       end

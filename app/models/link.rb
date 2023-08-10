@@ -53,4 +53,10 @@ class Link < ApplicationRecord
     self.short_slug = nil
     save
   end
+
+  def renew!
+    self.enabled = true
+    self.short_slug = deal.short_slug if deal.present?
+    save
+  end
 end

@@ -1,15 +1,19 @@
-%h4
-  = title "Find Best Deals, Coupons & Promo Codes by Store or Brand in Canada"
-
-- if is_admin?
-  .d-inline
-    = link_to 'New Store', new_store_path
-.container
-  -if @top_stores
-    %h5 Top Stores
-    .row.row-cols-8.row-cols-sm-8.row-cols-md-8.g-3
-      = render @top_stores
-  %h5.mt-4 All Stores
-  .row.row-cols-2.row-cols-sm-3.row-cols-md-6.g-3
-    = render @stores
+.row
+  .col-auto
+    %h4
+      = title "Find Best Deals, Coupons & Promo Codes by Store or Brand in Canada"
+  .col
+    - if is_admin?
+      .d-inline
+        = link_to 'New Store', new_store_path
+  .container
+    -if @top_stores
+      %h5
+        Top Stores
+      .row.row-cols-sm-8.row-cols-md-8.g-3
+        = render @top_stores
+  .container
+    %h5.mt-4 All Stores
+    .row.row-cols-2.row-cols-sm-3.row-cols-md-6.g-3
+      = render @stores
       

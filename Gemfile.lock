@@ -101,6 +101,8 @@ GEM
       debug_inspector (>= 0.0.1)
     bootsnap (1.16.0)
       msgpack (~> 1.2)
+    breadcrumbs_on_rails (4.1.0)
+      railties (>= 5.0)
     builder (3.2.4)
     bullet (7.0.7)
       activesupport (>= 3.0.0)
@@ -456,6 +458,8 @@ GEM
     thor (1.2.2)
     tilt (2.2.0)
     timeout (0.4.0)
+    tinymce-rails (6.6.2)
+      railties (>= 3.1.1)
     turbo-rails (1.0.1)
       actionpack (>= 6.0.0)
       railties (>= 6.0.0)
@@ -499,6 +503,7 @@ DEPENDENCIES
   better_errors
   binding_of_caller
   bootsnap
+  breadcrumbs_on_rails
   bullet
   capybara
   cloudinary
@@ -541,6 +546,7 @@ DEPENDENCIES
   sqlite3 (~> 1.4)
   stimulus-rails
   telegram-bot-ruby
+  tinymce-rails
   turbo-rails (~> 1.0.0)
   tzinfo-data
   web-console

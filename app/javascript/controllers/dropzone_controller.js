@@ -113,8 +113,9 @@ export default class extends Controller {
       dictFileTooBig: controller.dictFileTooBig,
       dictInvalidFileType: controller.dictInvalidFileType,
       acceptedFiles: controller.acceptedFiles,
-      addRemoveLinks: controller.addRemoveLinks,
-      previewsContainer: controller.previewsContainer,
+      addRemoveLinks: true,
+      // addRemoveLinks: controller.addRemoveLinks,
+      // previewsContainer: controller.previewsContainer,
       autoQueue: false,
       init: function () {
         // Handle pasted images
@@ -125,9 +126,7 @@ export default class extends Controller {
           for (const item of items) {
             if (item.type.indexOf("image") !== -1) {
               const blob = item.getAsFile();
-              // const file = new File([blob], "pasted_image.png", {
-              //   type: "image/png",
-              // });
+             
               this.addFile(blob);
             }
           }

@@ -6,10 +6,10 @@ class DealImage
   include MarkdownHelper
 
   AVAILABLE_TYPES = %w[post story].freeze
-  THEMES = %w[light dark].freeze
+  THEMES = %w[light dark simple].freeze
 
   attr_accessor :auto_create_link, :generated_image, :image_full_with, :store_background, :hide_discount,
-                :enlarge_image_by, :hide_coupon, :type, :title, :url, :deal, :hash_tags, :coupon, :extra, :hide_deal_image, :hide_store_logo, :theme, :enlarge_logo_by, :custom_image, :subheading, :sub_as_tag, :image_offset, :title_auto_break
+                :enlarge_image_by, :hide_coupon, :type, :title, :url, :deal, :hash_tags, :coupon, :extra, :hide_deal_image, :theme, :enlarge_logo_by, :custom_image, :subheading, :sub_as_tag, :image_offset, :title_auto_break, :hide_store
 
   delegate :coupon, to: :deal
   DEFAULT_TAGS = '#LoonieDeals #CanadianDeals #canada #cheapfindscanada #canadafreestuff #dealsincanada'
@@ -77,23 +77,23 @@ class DealImage
 
   # photo, caption
   def insta_data
-    public_photo_url = upload_to_cloud
+    public_photo_url = ImageUploadService.upload_image(photo_url)
     [
       public_photo_url,
       title_with_tags
     ]
   end
 
-  def upload_to_cloud
-    response = Cloudinary::Uploader.upload(photo_url,
-                                           folder: 'looniedeals/tmp/',
-                                           public_id: 'instagram_upload',
-                                           overwrite: true,
-                                           resource_type: 'image',
-                                           use_filename: true,
-                                           unique_filename: false)
+  # def upload_to_cloud
+  #   response = Cloudinary::Uploader.upload(photo_url,
+  #                                          folder: 'looniedeals/tmp/',
+  #                                          public_id: 'instagram_upload',
+  #                                          overwrite: true,
+  #                                          resource_type: 'image',
+  #                                          use_filename: true,
+  #                                          unique_filename: false)
 
-    # response['url']
-    response['secure_url']
-  end
+  #   # response['url']
+  #   response['secure_url']
+  # end
 end

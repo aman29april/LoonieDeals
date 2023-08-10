@@ -24,17 +24,20 @@
 #
 class Post < ApplicationRecord
   # validates :user_id, presence: true
+  include ImageConversionConcern
+  before_save -> { convert_image_to_jpg(image) }
+
   validates :title, presence: true,
                     length: { minimum: 5 }, allow_blank: false
   validates :body, presence: true, length: { minimum: 50 }, allow_blank: false
-  validates :all_tags, length: { minimum: 2 }, allow_blank: false, presence: true
+  # validates :all_tags, length: { minimum: 2 }, allow_blank: false, presence: true
 
-  belongs_to :store
+  belongs_to :user
 
   has_many :taggings, as: :subject, dependent: :destroy
   has_many :tags, through: :taggings
 
-  has_many :items, -> { order('sort_rank asc') }, dependent: :destroy
+  # has_many :items, -> { order('sort_rank asc') }, dependent: :destroy
 
   scope :recent, -> { order(created_at: :desc) }
   scope :latest, ->(number) { recent.limit(number) }
@@ -43,19 +46,21 @@ class Post < ApplicationRecord
   scope :drafts, -> { where(published_at: nil) }
   scope :featured, -> { where(featured: true) }
   scope :by_user, ->(user) { where(user:) }
-  delegate :username, to: :user
+  # delegate :username, to: :user
   delegate :full_name, to: :user, prefix: :user
 
   before_save :generate_lead!
 
+  has_one_attached :image, dependent: :destroy
+
   extend FriendlyId
   friendly_id :title, use: %i[slugged history finders]
 
-  has_rich_text :body
+  # has_rich_text :body
 
-  # mount_uploader :picture, PostImageUploader
-
-  # has_rich_text :content
+  def username
+    user.email
+  end
 
   def unpublish
     self.published_at = nil
@@ -72,7 +77,8 @@ class Post < ApplicationRecord
   end
 
   def body_text
-    body.body&.to_plain_text || ''
+    # body&.to_plain_text || ''
+    body
   end
 
   def published?
@@ -104,14 +110,13 @@ class Post < ApplicationRecord
   end
 
   def body_html
-    body.body&.to_html
+    body
   end
 
   def generate_lead!
     body_doc = Nokogiri::HTML::DocumentFragment.parse(body_html) if published?
 
-    add_css_class_to_pre_tags(body_doc)
-    body.body = body_doc.to_html
+    body_doc.to_html
   end
 
   def meta_info
@@ -124,17 +129,8 @@ class Post < ApplicationRecord
 
   private
 
-  def add_css_class_to_pre_tags(doc)
-    doc.search('pre').tap { |ns| ns.add_class("language-#{language}") }
-    doc
-  end
-
   # TODO: Not working. Fix this.
   def set_target_blank(doc)
-    # doc.css('a').each do |link|
-    #   link['target'] = '_blank'
-    # end
-    #
     doc.search('a').tap { |link| link.attr('target', '_blank') }
     doc
   end

@@ -76,7 +76,7 @@ class ImageGenerationService
     msg = @deal_image.subheading
     if @deal_image.sub_as_tag == '1'
       options[:color] = 'white'
-      options[:size] = 30
+      options[:size] = 32
       options[:corner_radius] = 10
       add_text_inside_rounded_rect(msg, options)
     else
@@ -132,6 +132,8 @@ class ImageGenerationService
 
   def overlay_store_logo
     # SET store logo
+    return if @deal_image.hide_store == '1'
+
     store = @deal.store || Store.first
     if store&.image&.attached?
       options = {}

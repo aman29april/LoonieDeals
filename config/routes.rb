@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  get 'uploader/image'
   get 'fetch_url_info', controller: :application
 
   resources :links do
@@ -12,6 +13,7 @@ Rails.application.routes.draw do
     end
   end
   get 'links/index'
+  post 'uploader/image'
 
   default_url_options host: 'http://127.0.0.1:3000'
 
@@ -24,17 +26,20 @@ Rails.application.routes.draw do
   get '/auth/facebook/callback', to: 'facebook_auth#callback'
   get '/auth/facebook', to: 'facebook_auth#new', as: :new_facebook_auth
 
+  resources :posts
   resources :deals do
     member do
       post :upvote
       post :downvote
       patch :expire
+      patch :renew
       post :create_link
       post :post_to_insta
       post :post_to_telegram
     end
   end
 
+  resources :categories
   resources :stores do
     get 'search', on: :collection
   end
@@ -60,6 +65,10 @@ Rails.application.routes.draw do
     member do
       post :post_without_save
     end
+
+    collection do
+      post :create_insta_gallery
+    end
   end
 
   resources :tags, only: [:show]
@@ -75,6 +84,7 @@ Rails.application.routes.draw do
   # get 'post_deal/:deal_id', to: 'social_media#index', as: 'post_deal'
   # post 'post_deal/:deal_id', to: 'social_media#create', as: 'create_post_deal'
 
+  resources :users, only: :show
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
   # devise_for :users

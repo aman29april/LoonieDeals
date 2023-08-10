@@ -4,9 +4,13 @@
   %br
 
 .container
-  .row.row-cols-2.row-cols-sm-1.row-cols-md-4.g-3
-    - @deals.each do |deal|
-      = render partial: 'deal', locals: { deal: deal }
+  .row
+    .col-md-9
+      .row.row-cols-2.row-cols-sm-1.row-cols-md-4.g-3
+        - @deals.each do |deal|
+          = render partial: 'deal', locals: { deal: deal }
+    .col
+      =render partial: 'side_bar/side_bar', locals: {side_bar: @side_bar}
 
   .mt-4
     != pagy_bootstrap_nav(@pagy) if @pagy.pages > 1 

@@ -20,6 +20,8 @@
 class Store < ApplicationRecord
   has_many :deals, dependent: :destroy
   has_many :coupons, dependent: :destroy
+  has_and_belongs_to_many :categories
+
   validates :name, presence: true
 
   has_one_attached :image, dependent: :destroy
@@ -34,6 +36,8 @@ class Store < ApplicationRecord
   scope :by_deals, -> { order(deals_count: :desc) }
   scope :by_name, -> { order(name: :asc) }
   scope :with_attached_image, -> { includes(image_attachment: :blob) }
+
+  scope :top, ->(number) { by_deals.limit(number) }
 
   def validate_image_presence
     # errors.add(:image, 'must be attached') unless image.attached?

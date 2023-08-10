@@ -1,0 +1,45 @@
+-content_for :page_header do
+  = tinymce_assets
+
+= render :partial => 'shared/resource_error', locals: {resource: post}
+
+= form_for post, html: { multipart: true, class: "editor-form row gt-3 dropzone"  , data: { page: 'main-editor' }, autocomplete: "off" } do |f|
+
+  .row
+    .col
+      =render partial: 'shared/dropzone_image', locals: { image: post.image, f: f}
+      #dropzone-previews-container
+  .row
+    .col-12
+      = f.label :title, class: ' form-label'
+      = f.text_field :title, class: 'editor-title form-control' , placeholder: 'Title', autofocus: true, data: { behavior: "autosave" }, onfocus: "this.value = this.value;"
+    -# .col-12.mt-4
+    -#   = f.label :body
+    -#   = f.rich_text_area :body, class: 'medium-editable form-control mt-2'
+
+
+  -# .col-12.mt-4
+  -#   =f.label :lead
+  -#   =f.rich_text_area :lead, autofocus: true
+
+  .col-12.mt-4
+    =f.label :body
+    =f.text_area :body, autofocus: true, class: 'tinymce', rows: 30, style: 'width: 100%'
+    = tinymce
+
+  .col-12.mt-4
+    =f.label :lead
+    =f.text_area :lead, autofocus: true, class: 'tinymce', rows: 30, style: 'width: 100%'
+    = tinymce
+
+     
+
+  .col-12.mt-4
+    = f.label :tags, class: 'form-label'
+    = f.text_field :all_tags, class: 'form-control tagsinput', 'data-role': 'tagsinput', value: tag_from_param(post)
+
+  = render :partial => 'meta_fields', locals: {f: f}
+
+  = render :partial => 'post_buttons', locals: {f: f, resource: post}
+
+= tinymce convert_urls: true, uploadimage: true 

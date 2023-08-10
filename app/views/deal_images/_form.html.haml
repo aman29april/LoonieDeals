@@ -55,6 +55,12 @@
                     .form-check
                       = f.check_box :title_auto_break
                       = f.label :title_auto_break, class: 'form-check-label'
+                  %li
+                    .form-check
+                      = f.check_box :hide_store
+                      = f.label :hide_store, class: 'form-check-label'
+
+                      
 
                       
                       
@@ -101,7 +107,7 @@
           .col-md-12.mt-3
             .actions
               = f.submit 'Generate', class: 'btn btn-success'
-              = f.submit "Reset", type: :reset, class: 'btn btn-primary'
+              = f.submit "Reset", type: :reset, class: 'btn btn-secondary'
 
               = button_tag type: :submit, class: 'btn btn-primary me-1', name: 'post_to_telegram' do
                 Post to 

@@ -16,14 +16,18 @@ module ApplicationHelper
       # tag :link, rel: 'stylesheet', href: 'https://unpkg.com/dropzone@5/dist/min/dropzone.min.css', type: 'text/css'
     end
 
+    max_files = [1, options[:max_files]].compact.max
+
     data = {
       controller: 'dropzone',
       'dropzone-max-file-size' => '8',
-      'dropzone-max-files' => '1',
+      'dropzone-max-files' => max_files.to_s,
       'dropzone-accepted-files' => 'image/jpeg,image/jpg,image/png,image/gif',
       'dropzone-dict-file-too-big' => 'File Size is {{filesize}}, which exceeds the maximum allowed {{maxFilesize}} MB',
       'dropzone-dict-invalid-file-type' => 'Only .jpeg, .jpg, .png  .gif allowed',
-      'dropzone-previews-container' => '#dropzone-previews-container'
+      'dropzone-previews-container' => '#dropzone-previews-container',
+      'dropzone-add-remove-links' => 'true',
+      'dropzone-dict-remove-file' => 'true'
     }
     css_class = ['dropzone dropzone-default dz-clickable', options[:class]].compact.join(' ')
     content_tag(:div, class: css_class, data:, &block)

@@ -1,0 +1,18 @@
+height: 500
+menubar: "insert view format table tools"
+toolbar:
+  - undo redo | blocks | bold italic | alignleft aligncenter alignright | bullist numlist outdent indent | checklist | removeformat | help
+plugins:
+  insertdatetime
+  lists
+  media
+  image
+  table
+  autolink
+  fullscreen
+  help
+  wordcount
+
+
+images_upload_url: '/uploader/image'
+
