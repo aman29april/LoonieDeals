@@ -21,6 +21,7 @@ class Store < ApplicationRecord
   has_many :deals, dependent: :destroy
   has_many :coupons, dependent: :destroy
   has_and_belongs_to_many :categories
+  has_many :referral_codes, dependent: :destroy
 
   validates :name, presence: true
 
@@ -36,6 +37,7 @@ class Store < ApplicationRecord
   scope :by_deals, -> { order(deals_count: :desc) }
   scope :by_name, -> { order(name: :asc) }
   scope :with_attached_image, -> { includes(image_attachment: :blob) }
+  scope :with_referral, -> { where('referral is not null and referral != ?', '') }
 
   scope :top, ->(number) { by_deals.limit(number) }
 

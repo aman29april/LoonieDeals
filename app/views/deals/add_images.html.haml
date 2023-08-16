@@ -1,0 +1,12 @@
+= render :partial => 'shared/resource_error', locals: {resource: @deal}
+
+= form_with url: update_images_deal_path(@deal), model: @deal, method: :post, html: { multipart: true, class: "editor-form row gt-3 dropzone" , data: { page: 'main-editor' }, autocomplete: "off" } do |f|
+  .col-md-12
+    .row
+      =render partial: 'shared/dropzone_image', locals: { image: @deal.secondary_images, f: f, multiple: true, file_field: :secondary_images, max_files: 10}
+
+       
+  .col-12.mt-4
+    .actions
+      = f.submit 'Save', class: 'btn btn-primary'
+      -# = f.submit 'Build Image here', class: 'btn btn-primary', name: 'generate_image'

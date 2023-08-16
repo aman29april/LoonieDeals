@@ -25,6 +25,10 @@ Rails.application.routes.draw do
 
   get '/auth/facebook/callback', to: 'facebook_auth#callback'
   get '/auth/facebook', to: 'facebook_auth#new', as: :new_facebook_auth
+  get 'amazon-search', to: 'amazon_search#index'
+  post 'amazon-search', to: 'amazon_search#build'
+
+  resources :recurring_schedules, only: %i[new create edit update destroy]
 
   resources :posts
   resources :deals do
@@ -36,12 +40,16 @@ Rails.application.routes.draw do
       post :create_link
       post :post_to_insta
       post :post_to_telegram
+      get :add_images
+      post :update_images
     end
   end
 
   resources :categories
   resources :stores do
     get 'search', on: :collection
+
+    resources :referral_codes, only: %i[new create edit update destroy]
   end
 
   resolve('DealImages') { [:deal_images] }
@@ -84,7 +92,7 @@ Rails.application.routes.draw do
   # get 'post_deal/:deal_id', to: 'social_media#index', as: 'post_deal'
   # post 'post_deal/:deal_id', to: 'social_media#create', as: 'create_post_deal'
 
-  resources :users, only: :show
+  # resources :users, only: :show
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
   # devise_for :users

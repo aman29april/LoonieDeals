@@ -35,7 +35,7 @@ class Deal < ApplicationRecord
   friendly_id :title, use: :slugged
 
   attr_accessor :auto_create_link, :generated_image, :image_full_with, :store_background, :hide_discount,
-                :enlarge_image_by, :hide_coupon, :large_image
+                :enlarge_image_by, :hide_coupon, :large_image, :weekly_flyer_deal
 
   belongs_to :store, counter_cache: true
   # belongs_to :category, counter_cache: true
@@ -45,6 +45,7 @@ class Deal < ApplicationRecord
   delegate :name, to: :category, prefix: true
 
   has_one_attached :image, dependent: :destroy
+  has_many_attached :secondary_images, dependent: :destroy
   has_one :link, dependent: :destroy
   has_many :recurring_schedules, dependent: :destroy
 
@@ -56,6 +57,7 @@ class Deal < ApplicationRecord
   validates :retail_price, :discount, numericality: { greater_than_or_equal_to: 0 }, allow_blank: true
   validate :price_less_than_retail_price
   validates :url, format: { with: URI::DEFAULT_PARSER.make_regexp, message: 'must be a valid URL' }, allow_blank: true
+  validates :url, length: { maximum: 250 }
 
   scope :published, -> { where.not(published_at: nil) }
   scope :featured, -> { where(featured: true) }
@@ -80,6 +82,8 @@ class Deal < ApplicationRecord
   has_rich_text :body
 
   before_save :calculate_discount
+  before_save :clean_url
+
   before_save do
     size = '512x512'
     size = '1020x1020' if large_image == '1'
@@ -107,8 +111,8 @@ class Deal < ApplicationRecord
     link = url_or_store_url
     return link if affiliate.blank?
 
-    url_with_affiliate = "#{link}?#{affiliate}"
-    URI.encode(url_with_affiliate)
+    # "#{link}?#{affiliate}"
+    link
   end
 
   def url_or_store_url
@@ -260,5 +264,12 @@ class Deal < ApplicationRecord
 
   def set_short_slug
     self.short_slug = ShortIdUtil.generate_short_slug
+  end
+
+  def clean_url
+    return if store.affiliate_id.blank?
+    return if url.blank?
+
+    self.url = AffiliateUtil.replace_affiliate_tag(url, store.affiliate_id)
   end
 end

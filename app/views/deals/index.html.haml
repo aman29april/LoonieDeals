@@ -1,6 +1,7 @@
 
 -if is_admin?
-  = link_to 'New Deal', new_deal_path
+  = link_to 'New Deal', new_deal_path, class: 'btn'
+  = link_to 'New Weekly Flyer Deal', new_deal_path(category: :grocery, weekly_flyer_deal: true), class: 'btn'
   %br
 
 .container

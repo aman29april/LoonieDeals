@@ -6,12 +6,12 @@ class DealImage
   include MarkdownHelper
 
   AVAILABLE_TYPES = %w[post story].freeze
-  THEMES = %w[light dark simple].freeze
+  THEMES = %w[light dark simple amazon].freeze
 
   attr_accessor :auto_create_link, :generated_image, :image_full_with, :store_background, :hide_discount,
                 :enlarge_image_by, :hide_coupon, :type, :title, :url, :deal, :hash_tags, :coupon, :extra, :hide_deal_image, :theme, :enlarge_logo_by, :custom_image, :subheading, :sub_as_tag, :image_offset, :title_auto_break, :hide_store
 
-  delegate :coupon, to: :deal
+  # delegate :coupon, to: :deal
   DEFAULT_TAGS = '#LoonieDeals #CanadianDeals #canada #cheapfindscanada #canadafreestuff #dealsincanada'
 
   def initialize(deal_id)
@@ -19,6 +19,7 @@ class DealImage
     @title = @deal.title
     @url = @deal.affiliate_url
     @extra = @deal.body_text
+    @coupon = @deal.coupon
     @hash_tags = DEFAULT_TAGS
     @title_auto_break = '1'
     generate!

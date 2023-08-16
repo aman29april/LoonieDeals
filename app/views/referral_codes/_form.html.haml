@@ -1,0 +1,18 @@
+= form_with(model: [ @store, referral_code ], local: true) do |form|
+  .form-group
+    = form.label :code
+    = form.text_field :code, class: 'form-control'
+  .form-group
+    = form.label :link
+    = form.text_field :link, class: 'form-control'
+  .form-group
+    = form.label :text
+    = form.text_field :text, class: 'form-control'
+  .form-group
+    = form.label :position
+    = form.number_field :position, class: 'form-control'
+  .form-check
+    = form.label :enabled, class: 'form-check-label'
+    = form.check_box :enabled, class: 'form-check-input'
+  .actions
+    = form.submit 'Save Referral Code', class: 'btn btn-primary'

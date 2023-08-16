@@ -1,0 +1,4 @@
+- if user_signed_in? && current_user?(post.user)
+  .edit-delete-button-wrapper
+    = link_to "Edit", edit_post_path(post), class: 'button'
+    = link_to "Delete", post_path(post), method: :delete, class: 'button', data: { confirm: 'Are you sure?' }

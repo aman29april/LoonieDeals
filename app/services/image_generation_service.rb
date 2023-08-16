@@ -110,9 +110,9 @@ class ImageGenerationService
   end
 
   def write_coupon
-    return unless @deal.coupon? && @deal_image.hide_coupon != '1'
+    return unless @deal_image.coupon.present? && @deal_image.hide_coupon != '1'
 
-    text = "Coupon: #{@deal.coupon}"
+    text = "Code: #{@deal_image.coupon}"
     @base_image = add_text_inside_rounded_rect(text, @options[:coupon])
   end
 
@@ -180,13 +180,10 @@ class ImageGenerationService
     end
     # Calculate the coordinates to place the text in the center
     metrics = draw.get_multiline_type_metrics(text)
-    metrics.width
-    metrics.height
-
     x = options[:x] || 0
     y = options[:y] || (height - metrics.height) / 2 + metrics.ascent
 
-    draw.annotate(img, width, 90, x, y, text) do |d|
+    draw.annotate(img, width, 100, x, y, text) do |d|
       d.gravity = options[:gravity] || Magick::CenterGravity
       d.fill = options[:color]
       d.pointsize = font_size
@@ -298,6 +295,8 @@ class ImageGenerationService
   end
 
   def overlay_image_in_center(main_img, overlay_img, options = {})
+    return main_img if options[:hidden].present?
+
     main_width = main_img.columns
     main_img.rows
     enlarge_factor = options[:enlarge_image_by] || 0

@@ -17,4 +17,12 @@ class SideBar
     deals = deals.excluding(@current_deal) if @current_deal
     deals
   end
+
+  def top_referral
+    Store.with_referral.limit(5)
+  end
+
+  def top_stories
+    Post.top_stories(5)
+  end
 end

@@ -1,3 +1,14 @@
 
-=link_to "New Post", new_post_path
+-if is_admin? 
+  =link_to "New Post", new_post_path
+
+.row.mb-2
+  =render partial: 'top_post', collection: @top, as: :post
+
+.row.g-5
+  .col-md-8
+    %article.blog-post
+  .col-md-4
+
 =render @posts
+ 

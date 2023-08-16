@@ -43,16 +43,21 @@
                       .col-md-3
                         .input-group.mb-3
                           %span.input-group-text Exp.
-                          = form.date_field :expiration_date, class: "form-control"
+                          = form.datetime_field :expiration_date, class: "form-control"
 
                     .col-md-12 
                       = form.label :body, class: "form-label"
                       = form.rich_text_area :body, class: "form-control medium-editable  mt-2", autofocus: false
+
+                    -# .col-md-12
+                    -#   -if @deal.weekly_flyer_deal
+                    -#     =render partial: 'shared/dropzone_image', locals: { image: @deal.secondary_images, f: form, multiple: true}
+
   .row
     
     .col-md-3
       = form.label :store, class: "form-label"
-      = form.select :store_id, Store.all.by_name.collect { |p| [ p.name, p.id ] }, {include_blank: true}, { prompt: "Select a store", data: {controller: 'slim'}, class: "" }
+      = form.select :store_id, Store.all.by_name.collect { |p| [ p.name, p.id ] }, {include_blank: true}, { prompt: "Select a store", data: {controller: 'slim', stores: Store.all.map { |p| [ p.id.to_s, p.website] }}, class: "" }
       
     .col-md-3
       = form.label :category, class: "form-label"
@@ -103,6 +108,7 @@
   linkInput.addEventListener('blur', () => {
     const url = linkInput.value.trim();
 
+    autoSelectStore(url);
     if (url === '' || titleInput.value.trim() !== '') {
       return;
     }
@@ -156,4 +162,36 @@
         console.error('Error fetching title:', error);
       });
     });
+
+    function autoSelectStore(dealUrl) {
+
+      stores =  JSON.parse(document.getElementById('deal_store_id').dataset.stores);
+      stores.some((store, index) => {
+        storeUrl = store[1];
+        if(storeUrl === null || storeUrl === ''){
+          return false;
+        }
+        storeDomain = getDomainName(storeUrl)
+        if (isDomainInUrl(storeDomain, dealUrl) ){
+          index = store[0];
+          document.getElementById('deal_store_id').slim.setSelected(index)
+          return true;
+        }
+      });
+    };
+
+    function getDomainName(url) {
+      const parsedUrl = new URL(url);
+      return parsedUrl.hostname;
+    }
+
+    // Function to check if a domain name is contained in a URL
+    function isDomainInUrl(domain, url) {
+      if(domain === null || url === null || domain === '' || url === ''){
+        return false
+      }
+      
+      const parsedUrl = new URL(url);
+      return parsedUrl.hostname.includes(domain);
+    }
   });

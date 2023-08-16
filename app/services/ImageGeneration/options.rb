@@ -3,7 +3,8 @@
 module ImageGeneration
   colors = {
     white: 'white',
-    blue: '#063E66'
+    blue: '#063E66',
+    black: 'black'
   }.freeze
 
   fonts = {
@@ -56,18 +57,30 @@ module ImageGeneration
         extra: { color: COLORS.white },
         store_name: { color: COLORS.white }
       },
-      light: {}
+      light: {},
+      amazon: {
+        title: { size: 77, y: 240 },
+        subheading: { size: 50, y: 435 },
+        extra: { size: 50, y: 1100, color: COLORS.blue },
+        price: { size: 150, y: 1450, x: -320, color: COLORS.black, font: FONTS.fjallaOne },
+        store_logo: { hidden: true },
+        retail_price: { size: 40, y: 1450, x: -20 },
+        discount: { size: 66, y: 1630, x: 920 },
+        deal_image: { y: 650, width: 800 },
+        coupon: { size: 50, color: 'black', y: 1600, x: 20, fill: 'transparent', stroke: 'black', corner_radius: 1 }
+      }
     }.freeze
 
-    def self.for(type = 'story', theme = :light)
+    def self.for(type = 'story', theme)
       options = DEFAULT_OPTIONS
       case type
       when 'story'
       when 'post'
         options = options.deep_merge(POST_OPTIONS)
       end
-      colors = THEMES[theme.to_sym] || {}
-      options.deep_merge(colors)
+
+      theme_options = THEMES[theme.to_sym] || {}
+      options.deep_merge(theme_options)
     end
   end
 end

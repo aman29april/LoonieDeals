@@ -1,5 +1,6 @@
 .row{"data-animation" => "fadeInUp-fadeOutDown"}
-  #main-post.col-xs-10.col-md-9.col-md-offset-2.col-xs-offset-1.main-content.card
+  #main-post.col-xs-10.col-md-9.col-md-offset-2.col-xs-offset-1.main-content.card.artile-show
+    =render partial: 'actions', locals: {post: @post}
     .pull-right
       = render partial: 'posts/social_share', locals: { post: @post }
     = render 'post_metadata', post: @post
@@ -14,10 +15,9 @@
     .post-tags
       - @post.tags.each do |tag|
         = link_to tag.name, tag, class: 'tag'
-    - if user_signed_in? && current_user?(@post.user)
-      .edit-delete-button-wrapper
-        = link_to "Edit", edit_post_path(@post), class: 'button'
-        = link_to "Delete", post_path(@post), method: :delete, class: 'button', data: { confirm: 'Are you sure?' }
+    
+    =render partial: 'actions', locals: {post: @post}
+
 .post-show-footer.row{"data-animation" => "fadeInUp-fadeOutDown"}
   - if @related_posts.any?
     .col-xs-10.col-md-6.col-xs-offset-1.col-md-offset-3.main-content.related-stories

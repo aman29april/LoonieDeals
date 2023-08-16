@@ -101,6 +101,7 @@ group :development do
   gem 'bullet'
   gem 'csv'
   gem 'nokogiri'
+  gem 'sitemap_generator'
 end
 
 group :test do

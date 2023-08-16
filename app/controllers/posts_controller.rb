@@ -6,6 +6,7 @@ class PostsController < ApplicationController
   # layout 'editor', only: %i[new edit create update]
 
   def index
+    @top = Post.all.limit(2)
     @posts = Post.all
   end
 

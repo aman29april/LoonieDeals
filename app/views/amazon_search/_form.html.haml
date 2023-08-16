@@ -1,0 +1,94 @@
+%h1 Amazon Deal Finder
+= form_with(url: amazon_search_path, method: :post, target: '_blank') do |f|
+
+  .row
+    .col-3
+      =f.label 'Category', class: 'form-label'
+      -AmazonListingService::LIST.each do |category|
+        -text, id = category
+        .form-check
+          =f.radio_button :department, id, id: "category#{id}", class: 'form-check-input'
+          =f.label :department, text, {class: 'form-check-label', for: "category#{id}"}
+          
+    .col-md-6
+      .row.mb-3
+        .col
+          .input-group
+            %span.input-group-text Keywords
+            = f.text_field :keywords, class: 'form-control'
+          .form-text
+            A keyword is required if searching "All Categories".
+        .col
+          .row
+            .input-group
+              %span.input-group-text Brand
+              = f.text_field :brand, class: 'form-control'
+            .form-text
+              Search multiple brands simultaneously, using "|" between each.
+        
+      .row.mb-3
+        .col
+          .row
+            =f.label 'Min Pct Off', class: 'form-label'
+            =f.select :min_pct_off, options_for_select((5..95).step(5).map { |num| ["#{num}%", num] }), include_blank: '0%', class: 'form-select '
+
+        .col-1
+        .col
+          .row
+            =f.label 'Max Pct Off', class: 'form-label'
+            =f.select :max_pct_off, options_for_select((5..95).step(5).map { |num| ["#{num}%", num] }), class: 'form-select ', include_blank: '0 or More'
+
+      .row.mb-3
+        .col
+          .row
+            =f.label 'Min Price', class: 'form-label'
+            =f.number_field :min_price, class: 'form-control'
+
+        .col-1
+        .col
+          .row
+            =f.label 'Max Price', class: 'form-label'
+            =f.number_field :max_price, class: 'form-control'
+
+      .row.mb-3
+        =f.label 'Filter Price & Pct Off By', class: 'form-label'
+        =f.select :price_by, options_for_select(AmazonListingService::FILTER_PRICE.map{|i| [i.first, i.last]}), class: 'form-select'
+        .form-text
+          Setting the above to "Prices From All Merchants" will base the price range and percent off searches the lowest price available, not just the Amazon price.
+
+      .row
+        .col
+          .row
+            =f.label 'Avg. Customer Review', class: 'form-label'
+            =f.select :ratings, options_for_select(AmazonListingService::AVG_REVIEWS.map{|i| [i.first, i.last]}), class: 'form-select', include_blank: 'View All'
+        .col-1
+        .col
+          .row
+            =f.label 'Sort Results By', class: 'form-label'
+            =f.select :sort, options_for_select(AmazonListingService::SORT_BY.map{|i| [i.first, i.last]}), class: 'form-select'
+
+      .row
+        .col.mt-3
+          %ul{class: 'list-unstyled'}
+            %li
+              .form-check
+                = f.check_box :eligible_for_prime
+                = f.label :eligible_for_prime, class: 'form-check-label'
+            %li
+              .form-check
+                = f.check_box :eligible_for_free_shipping
+                = f.label :eligible_for_free_shipping, class: 'form-check-label'
+            %li
+              .form-check
+                = f.check_box :eligible_for_save_and_subs
+                = f.label :eligible_for_save_and_subs, class: 'form-check-label'
+      .row.mt-3
+        .actions
+          = f.submit "Reset", type: :reset, class: 'btn btn-secondary'
+
+          = f.submit 'Search Amazon', class: 'btn btn-primary'
+
+  .row
+
+  / Add other filter options like price range, discount, customer ratings here
+  

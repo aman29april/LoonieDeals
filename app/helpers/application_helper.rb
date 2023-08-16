@@ -33,6 +33,13 @@ module ApplicationHelper
     content_tag(:div, class: css_class, data:, &block)
   end
 
+
+  def dropzone_container(options = {}, &block)
+    dropzone_controller_div(options) do
+
+    end
+  end
+
   def resource_image(image, options = {})
     url = image.attached? ?  resource_image_url(image) : '/assets/no_image_available.svg'
     image_tag url, options
@@ -42,6 +49,10 @@ module ApplicationHelper
     return unless image.attached?
 
     cloudinary_url(image.attachment.key)
+  end
+
+  def attachment_url(attachment)
+    cloudinary_url(attachment.key)
   end
 
   def format_number(number, zero_as_blank: false, precision: 2)

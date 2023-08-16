@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 20_230_809_152_205) do
+ActiveRecord::Schema[7.0].define(version: 20_230_812_060_517) do
   create_table 'action_text_rich_texts', force: :cascade do |t|
     t.string 'name', null: false
     t.text 'body'
@@ -224,6 +224,18 @@ ActiveRecord::Schema[7.0].define(version: 20_230_809_152_205) do
     t.index ['deal_id'], name: 'index_recurring_schedules_on_deal_id'
   end
 
+  create_table 'referral_codes', force: :cascade do |t|
+    t.string 'referal_link'
+    t.string 'referal_code'
+    t.text 'referal_text'
+    t.integer 'position'
+    t.boolean 'enabled'
+    t.integer 'store_id', null: false
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+    t.index ['store_id'], name: 'index_referral_codes_on_store_id'
+  end
+
   create_table 'site_settings', force: :cascade do |t|
     t.string 'ig_id'
     t.string 'ig_secret_token'
@@ -328,5 +340,6 @@ ActiveRecord::Schema[7.0].define(version: 20_230_809_152_205) do
   add_foreign_key 'deals', 'stores'
   add_foreign_key 'links', 'deals'
   add_foreign_key 'recurring_schedules', 'deals'
+  add_foreign_key 'referral_codes', 'stores'
   add_foreign_key 'social_media_posts', 'deals'
 end

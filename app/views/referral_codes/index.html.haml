@@ -1,0 +1,22 @@
+%h1 Referral Codes
+%table.table
+  %thead
+    %tr
+      %th Code
+      %th Link
+      %th Text
+      %th Position
+      %th Enabled
+      %th{:colspan => "2"}
+  %tbody
+    - @referral_codes.each do |referral_code|
+      %tr
+        %td= referral_code.code
+        %td= referral_code.link
+        %td= referral_code.text
+        %td= referral_code.position
+        %td= referral_code.enabled ? 'Yes' : 'No'
+        %td= link_to 'Edit', edit_store_referral_code_path(@store, referral_code), class: 'btn btn-secondary btn-sm'
+        %td= link_to 'Delete', store_referral_code_path(@store, referral_code), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger btn-sm'
+= link_to 'New Referral Code', new_store_referral_code_path(@store), class: 'btn btn-primary'
+= link_to 'Back', store_path(@store), class: 'btn btn-secondary'

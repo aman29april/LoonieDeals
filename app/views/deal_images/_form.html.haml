@@ -103,6 +103,9 @@
 
           .col-md-12
             .row
+              -if @deal_image.deal.present? && @deal_image.deal.url?
+                =link_to 'Deal link', @deal_image.deal.affiliate_url, target: '_blank'
+
         
           .col-md-12.mt-3
             .actions
@@ -119,5 +122,6 @@
 
               = link_to 'Goto Deal', @deal_image.deal, class: 'btn btn-primary'
               = link_to 'Auth with FB', '/auth/facebook', class: 'btn btn-primary', target: '_blank'
+              = link_to 'New Deal', new_deal_path, class: 'btn btn-primary'
 
 

@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
 class TagsController < ApplicationController
+  include Pagy::Backend
   before_action :set_tag
+
   def show
     @dashboard = Dashboard.new(deals: tagged_deals, tag: @tag, user: current_user)
     @related_tags = @tag.related_tags
@@ -15,6 +17,8 @@ class TagsController < ApplicationController
   end
 
   def tagged_deals
-    @tagged_deals ||= Deal.tagged_with(@tag.name).paginate(page: params[:page]).order(created_at: :desc)
+    @deals = Deal.tagged_with(@tag.name).order(created_at: :desc)
+
+    @pagy, @tagged_deals = pagy(@deals.with_attached_image.with_store)
   end
 end

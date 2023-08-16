@@ -1,7 +1,9 @@
 - if is_admin?
   .deal-actions
     = link_to 'Edit', edit_deal_path(@deal), class: 'btn btn-success'
-    = link_to 'Create Social media post', new_social_media_post_path(deal: @deal.id), class: 'btn btn-primary'
+    -# = link_to 'Create Social media post', new_social_media_post_path(deal: @deal.id), class: 'btn btn-primary'
+
+    = link_to 'Add more images', add_images_deal_path(deal: @deal.id), class: 'btn btn-primary'
     
     = link_to 'Generate Image', deal_images_update_path(deal: @deal.id), class: 'btn btn-info'
     
