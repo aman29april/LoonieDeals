@@ -62,15 +62,22 @@ module ImageGeneration
         title: { size: 77, y: 240 },
         subheading: { size: 50, y: 435 },
         extra: { size: 50, y: 1100, color: COLORS.blue },
-        price: { size: 150, y: 1450, x: -320, color: COLORS.black, font: FONTS.fjallaOne },
+        price: { size: 150, y: 1450, x: -310, color: COLORS.black, font: FONTS.fjallaOne },
         store_logo: { hidden: true },
-        retail_price: { size: 40, y: 1450, x: -20 },
+        retail_price: { size: 40, y: 1450, x: -10 },
         discount: { size: 66, y: 1630, x: 920 },
         deal_image: { y: 650, width: 800 },
         coupon: { size: 50, color: 'black', y: 1600, x: 20, fill: 'transparent', stroke: 'black', corner_radius: 1 }
       }
     }.freeze
 
+    FLYER_OPTIONS = {
+      title: { size: 75, color: COLORS.blue, y: 450, break_line: true, bold: true, font: FONTS.gagalin,
+               line_spacing: -25 },
+      store_name: { size: 50, color: '#063E66', y: 300 },
+      store_logo: { y: 300, height: 170 },
+      short_slug: { size: 40, color: '#01401a', break_line: false, x: 470, y: 930, font: FONTS.oswald }
+    }.freeze
     def self.for(type = 'story', theme)
       options = DEFAULT_OPTIONS
       case type
@@ -81,6 +88,10 @@ module ImageGeneration
 
       theme_options = THEMES[theme.to_sym] || {}
       options.deep_merge(theme_options)
+    end
+
+    def self.flyer(_type = 'flyer_post', _theme)
+      FLYER_OPTIONS
     end
   end
 end

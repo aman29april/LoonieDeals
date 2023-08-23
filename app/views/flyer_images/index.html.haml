@@ -1,0 +1,9 @@
+-# =turbo_frame_tag @flyer_deal do
+.row
+  .col-md-8
+    .row
+      -@flyer_deal.images.each do |image|
+        .col-md-4.flyer-image
+          =image_tag image, class: ' img-thumbnail img-fluid'
+  .col-md-4
+    = render 'form'

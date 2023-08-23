@@ -6,6 +6,11 @@
     = link_to 'Add more images', add_images_deal_path(deal: @deal.id), class: 'btn btn-primary'
     
     = link_to 'Generate Image', deal_images_update_path(deal: @deal.id), class: 'btn btn-info'
+
+    -if @deal.secondary_images.attached?
+      = link_to 'Flyer Images', deal_flyer_images_path(@deal.id), class: 'btn btn-info'
+
+    = link_to 'Schedule', deal_recurring_schedules_path(@deal.id), class: 'btn btn-primary'
     
 
     = form_with(url: create_link_deal_path(@deal), method: :post, class: 'd-inline') do |f|
@@ -26,6 +31,6 @@
 
     -if @deal.expired?
       = button_to 'Renew', renew_deal_path(@deal), method: :patch, class: 'btn btn-warning inline-block'
-    = button_to 'Delete', @deal, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'
+    = button_to 'Delete', @deal, method: :delete, data: { turbo_confirm: 'Are you sure?' }, class: 'btn btn-danger'
 
     = link_to 'Back', deals_path, class: 'btn btn-secondary'

@@ -25,4 +25,8 @@ class SideBar
   def top_stories
     Post.top_stories(5)
   end
+
+  def recurring_deals
+    RecurringSchedule.upcoming_deals
+  end
 end

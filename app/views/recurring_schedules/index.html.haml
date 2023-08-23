@@ -1,0 +1,34 @@
+.container
+  Recurring Schedules for 
+  = link_to @deal.title, @deal
+
+  - if @deal.recurring_schedules.any?
+    %ul.list-group.list-unstyled
+      -@recurring_schedules.each do |resource|
+        
+        %li.list-group-item
+          %strong Type:
+          =resource.recurrence_type
+          %br/
+        %li.list-group-item
+          %strong Day of week
+          =resource.day_of_week
+        %li.list-group-item
+          %strong Day of month
+          =resource.day_of_month
+        %li.list-group-item
+          %strong Start at
+          =resource.starts_at
+        %li.list-group-item
+          %strong Expires at
+          =resource.expires_at
+
+        %li
+          = link_to 'Edit', edit_deal_recurring_schedule_path(@deal, resource), class: 'btn btn-success btn-sm'
+          |
+          = link_to 'Delete', deal_recurring_schedule_path(@deal, resource), data: { turbo: true, turbo_method: :delete, turbo_confirm: 'Are you sure?'}, class: 'btn btn-danger btn-sm'
+  - else
+    %h5
+      No recurring schedules found for this deal.
+    = link_to 'New Recurring Schedule', new_deal_recurring_schedule_path(@deal), class: 'btn btn-success btn-sm'
+    = link_to 'Back to Deal', @deal, class: 'btn btn-success btn-sm'

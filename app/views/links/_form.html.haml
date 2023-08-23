@@ -33,7 +33,7 @@
       = button_tag type: :submit, class: '', title: "Update" do
         %i{class: 'bi bi-cloud-arrow-up-fill'}
 
-      -# =link_to link, method: :delete, data: { confirm: 'Are you sure?' } do
+      -# =link_to link, method: :delete, data: { turbo_confirm: 'Are you sure?' } do
       -#   %i{class: 'bi bi-trash3'}
 
       = button_tag method: :destroy, class: '', title: "Delete" do

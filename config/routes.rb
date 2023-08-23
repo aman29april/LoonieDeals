@@ -28,8 +28,6 @@ Rails.application.routes.draw do
   get 'amazon-search', to: 'amazon_search#index'
   post 'amazon-search', to: 'amazon_search#build'
 
-  resources :recurring_schedules, only: %i[new create edit update destroy]
-
   resources :posts
   resources :deals do
     member do
@@ -42,6 +40,15 @@ Rails.application.routes.draw do
       post :post_to_telegram
       get :add_images
       post :update_images
+    end
+
+    resources :recurring_schedules
+    resources :flyer_images, only: %i[index create] do
+      collection do
+        post :post_to_insta
+        post :post_to_telegram
+        post :attach
+      end
     end
   end
 

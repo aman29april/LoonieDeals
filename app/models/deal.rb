@@ -46,6 +46,7 @@ class Deal < ApplicationRecord
 
   has_one_attached :image, dependent: :destroy
   has_many_attached :secondary_images, dependent: :destroy
+  has_many_attached :generated_flyer_images, dependent: :destroy
   has_one :link, dependent: :destroy
   has_many :recurring_schedules, dependent: :destroy
 

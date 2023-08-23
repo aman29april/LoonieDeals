@@ -65,6 +65,11 @@
                         Unfortunately this deal has expired.
 
                     =@deal.body
+
+                    -if @deal.generated_flyer_images.attached?
+                      -@deal.generated_flyer_images.each do |image|
+                        .col-md-6.flyer-image
+                          = image_tag attachment_url(image), class: 'border img-fluid'
                   
           .row
             .card

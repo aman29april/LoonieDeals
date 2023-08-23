@@ -11,13 +11,30 @@ module ApplicationHelper
     "#{"%0.#{precision}f" % amount}%" unless amount.nil?
   end
 
+  def json_images(images)
+    return [].to_json if images.blank? || !images.attached?
+
+    attachments = images.attachments
+    # images_array = images.is_a?(Array) ? images : images.nil? ? [] : [images]
+    attachments.map do |image|
+      {
+        accepted: true,
+        id: image.id,
+        name: image.blob.filename,
+        url: attachment_url(image),
+
+        size: image.blob.byte_size
+      }
+    end.to_json
+  end
+
+  def dropzone_existing_images(images)
+    json_images(images)
+  end
+
   def dropzone_controller_div(options = {}, &block)
-    content_for :head_link do
-      # tag :link, rel: 'stylesheet', href: 'https://unpkg.com/dropzone@5/dist/min/dropzone.min.css', type: 'text/css'
-    end
-
     max_files = [1, options[:max_files]].compact.max
-
+    existing_images = json_images(options[:existing_images])
     data = {
       controller: 'dropzone',
       'dropzone-max-file-size' => '8',
@@ -27,21 +44,20 @@ module ApplicationHelper
       'dropzone-dict-invalid-file-type' => 'Only .jpeg, .jpg, .png  .gif allowed',
       'dropzone-previews-container' => '#dropzone-previews-container',
       'dropzone-add-remove-links' => 'true',
-      'dropzone-dict-remove-file' => 'true'
+      'dropzone-dict-remove-file' => 'true',
+      'dropzone-existing-files' => existing_images
     }
     css_class = ['dropzone dropzone-default dz-clickable', options[:class]].compact.join(' ')
     content_tag(:div, class: css_class, data:, &block)
   end
 
-
-  def dropzone_container(options = {}, &block)
+  def dropzone_container(options = {})
     dropzone_controller_div(options) do
-
     end
   end
 
   def resource_image(image, options = {})
-    url = image.attached? ?  resource_image_url(image) : '/assets/no_image_available.svg'
+    url = image.attached? ? resource_image_url(image) : '/assets/no_image_available.svg'
     image_tag url, options
   end
 

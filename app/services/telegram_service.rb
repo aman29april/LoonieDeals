@@ -16,10 +16,8 @@ class TelegramService
 
   def send_photo(photo_url, caption = nil, data = {})
     Telegram::Bot::Client.run(@bot_token) do |bot|
-      path_to_photo = File.expand_path(photo_url)
-      file = File.open(path_to_photo)
-      photo_upload = Faraday::UploadIO.new(file, 'image/jpeg')
-      bot.api.send_photo(chat_id: @chat_id, photo: photo_upload, caption:, parse_mode: 'Markdown')
+      upload = photo_upload(photo_url)
+      bot.api.send_photo(chat_id: @chat_id, photo: upload, caption:, parse_mode: 'Markdown')
 
       if ENV['TelegramSendSeparately']
         data.each_value do |value|
@@ -34,5 +32,20 @@ class TelegramService
       #   bot.api.send_message(chat_id:@chat_id, text: line, parse_mode: 'Markdown')
       # end
     end
+  end
+
+  def send_photos(photos, caption = nil)
+    Telegram::Bot::Client.run(@bot_token) do |bot|
+      photos.each do |photo|
+        upload = photo_upload(photo)
+        bot.api.send_photo(chat_id: @chat_id, photo: upload, caption:)
+      end
+    end
+  end
+
+  def photo_upload(photo_url)
+    path_to_photo = File.expand_path(photo_url)
+    file = File.open(path_to_photo)
+    Faraday::UploadIO.new(file, 'image/jpeg')
   end
 end

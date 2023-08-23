@@ -25,9 +25,9 @@ class DealImage
     generate!
   end
 
-  def deal
-    @deal ||= Deal.friendly.find
-  end
+  # def deal
+  #   @deal ||= Deal.friendly.find
+  # end
 
   def generate!
     ImageGenerationService.new(self).generate

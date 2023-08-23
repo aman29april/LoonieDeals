@@ -1,3 +1,5 @@
+= render :partial => 'shared/resource_error', locals: {resource: referral_code}
+
 = form_with(model: [ @store, referral_code ], local: true) do |form|
   .form-group
     = form.label :code

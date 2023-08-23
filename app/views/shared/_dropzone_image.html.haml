@@ -2,17 +2,17 @@
 -multiple = false if local_assigns[:multiple].nil?
 -max_files = 1 if local_assigns[:max_files].nil?
 - file_field = multiple ? :images : :image if local_assigns[:file_field].nil?
-- images = image if multiple
-= dropzone_controller_div({class: css_class, max_files: max_files }) do
+- images = image if multiple || local_assigns[:images].nil?
+= dropzone_controller_div({class: css_class, max_files: max_files, existing_images: images }) do
   = f.file_field file_field, direct_upload: true, multiple: multiple, data: { 'dropzone-target': 'input' }
   .dropzone-msg.dz-message.needsclick.text-gray-600
     #dropzone-previews-container
     -if !multiple && image && image.attached?
-      =resource_image(image, class: 'deal-preview-img img-thumbnail')
+      -# =resource_image(image, class: 'deal-preview-img img-thumbnail')
       .dropzone-previews-container
     -if multiple
-      -images.attachments.each do |attachment|
-        =image_tag attachment_url(attachment), class: 'deal-preview-img img-thumbnail'
+      -# -images.attachments.each do |attachment|
+      -#   =image_tag attachment_url(attachment), class: 'deal-preview-img img-thumbnail'
 
     - else
       %h3.dropzone-msg-title Drag or click here to browse

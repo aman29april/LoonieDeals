@@ -5,7 +5,9 @@ class DealsController < ApplicationController
   include Pagy::Backend
 
   before_action :authenticate_user!, except: %i[show index]
-  before_action :set_deal, only: %i[show edit update destroy expire create_link post_to_insta post_to_telegram renew add_images update_images]
+  before_action :set_deal,
+                only: %i[show edit update destroy expire create_link post_to_insta post_to_telegram renew add_images update_images flyer_images
+                         schedule update_schedule]
   before_action :set_deal_image, only: %i[post_to_insta post_to_telegram]
 
   def index
@@ -116,14 +118,18 @@ class DealsController < ApplicationController
     redirect_to @deal, notice: 'Deal has been renewed.'
   end
 
-  def add_images
-
+  def schedule
+    @schedule = @deal.recurring_schedules.new
   end
+
+  def update_schedule; end
+
+  def add_images; end
 
   def update_images
     params.require(:deal).permit(:secondary_images)
     secondary_images = params[:deal][:secondary_images].compact
-    p = {secondary_images: secondary_images}
+    p = { secondary_images: }
     @deal.assign_attributes(p)
 
     if @deal.save
@@ -131,6 +137,10 @@ class DealsController < ApplicationController
     else
       render :add_images, flash: { error: 'Error in adding images' }
     end
+  end
+
+  def flyer_images
+    @images = FlyerDeal.new(@deal).generate!
   end
 
   private
@@ -151,15 +161,16 @@ class DealsController < ApplicationController
   def new_deal_params
     p = {}
     return p if params[:weekly_flyer_deal] != 'true'
+
     if params[:category].present?
-      category = Category.where("LOWER(name) like ?", "%#{params[:category].downcase}%").first
+      category = Category.where('LOWER(name) like ?', "%#{params[:category].downcase}%").first
       p[:category_ids] = [category.id] if category.present?
     end
     p.merge!({
-      title: 'Weekly picks',
-      expiration_date: DateUtil.end_of_next_wednesday,
-      weekly_flyer_deal: true,
-    })
+               title: 'Weekly picks',
+               expiration_date: DateUtil.end_of_next_wednesday,
+               weekly_flyer_deal: true
+             })
     p
   end
 end

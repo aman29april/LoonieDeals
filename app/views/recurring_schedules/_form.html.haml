@@ -1,0 +1,23 @@
+= render :partial => 'shared/resource_error', locals: {resource: @recurring_schedule}
+
+= form_with(model: [  @deal, @recurring_schedule ]) do |f|
+
+  .form-group
+    =f.label :recurrence_type
+    =f.select :recurrence_type, RecurringSchedule.recurrence_types.keys, prompt: 'Select Type', class: 'form-control', include_blank: true
+  .form-group
+    = f.label :day_of_week
+    = f.select :day_of_week, options_for_select([['Select a day of the week', '']] + Date::DAYNAMES.each_with_index.map { |day, index| [day, index] }, @recurring_schedule.day_of_week) , include_blank: true, class: 'form-control'
+  .form-group
+    = f.label :day_of_month
+    = f.select :day_of_month,options_for_select([['Select day of month']] + (1..30).to_a, @recurring_schedule.day_of_month) , prompt: 'Select a day of the month', class: 'form-control'
+  .form-group
+    = f.label :starts_at
+    = f.date_field :starts_at, class: 'form-control'
+  .form-group
+    = f.label :expires_at
+    = f.date_field :expires_at, class: 'form-control'
+  
+  .actions
+    = f.submit 'Save', class: 'btn btn-primary'
+

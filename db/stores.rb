@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-stores = [
+[
   { name: 'Amazon.ca', logo: 'amazon.ca.png', website: 'https://amazon.ca' },
   { name: 'Dollarama', logo: 'Dollarama.png', website: 'https://www.dollarama.com' },
   { name: 'Sephora', logo: 'Sephora.png', website: 'https://www.sephora.com/ca/en' },
@@ -203,7 +203,6 @@ stores = [
   { name: 'Disney Hotstar', logo: 'Disney Hotstar.png', website: 'https://www.hotstar.com' },
   { name: 'Niagara Parks', logo: 'Niagara Parks.png', website: 'https://www.niagaraparks.com' },
 
-
   { name: 'PRESTO', logo: 'PRESTO.png', website: 'https://www.prestocard.ca' },
   { name: 'SBI Canada Bank', logo: 'SBI Canada Bank.png', website: 'https://ca.statebank' },
   { name: 'The North Face', logo: 'The North Face.png', website: 'https://www.thenorthface.com' },
@@ -239,6 +238,30 @@ stores = [
   { name: 'Merrell', logo: 'Merrell.png', website: '' },
   { name: 'American Eagle', logo: 'American Eagle.png', website: '' },
   { name: 'Dollar Tree', logo: 'Dollar Tree.png', website: '' },
+  { name: 'DJI', logo: 'DJI.png', website: '' },
+  { name: 'Ever New', logo: 'Ever New Canada.png', website: '' },
+  { name: 'Unilever', logo: 'Unilever.png', website: '' },
+  { name: 'Interactive Brokers', logo: 'Interactive Brokers.png', website: 'https://www.interactivebrokers.ca' },
+  { name: 'New Balance', logo: 'New Balance.png', website: '' },
+  { name: 'eBay', logo: 'eBay.png', website: '' },
+  { name: 'Motherhood Maternity', logo: 'Motherhood Maternity.png', website: '' },
+  { name: 'Dare Canada', logo: 'Dare Canada.png', website: '' },
+  { name: 'GLOBO Shoes', logo: 'GLOBO Shoes.png', website: '' },
+  { name: 'Reitmans', logo: 'Reitmans.png', website: '' },
+  { name: 'Boston Pizza', logo: 'Boston Pizza.png', website: '' },
+  { name: 'Air Miles', logo: 'Air Miles.png', website: '' },
+  { name: 'Tbooth Wireless', logo: 'Tbooth Wireless.png', website: '' },
+  { name: 'Asics', logo: 'Asics.png', website: '' },
+  { name: '', logo: '.png', website: '' },
+  { name: '', logo: '.png', website: '' },
+  { name: '', logo: '.png', website: '' },
+  { name: '', logo: '.png', website: '' },
+  { name: '', logo: '.png', website: '' },
+  { name: '', logo: '.png', website: '' },
+  { name: '', logo: '.png', website: '' },
+  { name: '', logo: '.png', website: '' },
+  { name: '', logo: '.png', website: '' },
+  { name: '', logo: '.png', website: '' },
   { name: '', logo: '.png', website: '' },
   { name: '', logo: '.png', website: '' }
 
