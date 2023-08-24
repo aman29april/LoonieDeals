@@ -5,20 +5,26 @@ class FlyerDeal
   include ActiveModel::AttributeAssignment
   include MarkdownHelper
 
-  attr_accessor :images, :image_full_with, :deal, :title,
+  DEFAULT_TAGS = '#LoonieDeals #CanadianDeals #CanadaGroceryDeals #freshcoDeals #canada #GroceryPicksOfTheWeek #dealsincanada'
+
+  attr_accessor :images, :image_full_with, :deal, :title, :extra, :enlarge_logo_by,
                 :enlarge_image_by, :type, :theme, :hash_tags, :hide_store, :image_offset
 
   def initialize(deal)
     @deal = deal
+    @title = @deal.title
+    @hash_tags = DEFAULT_TAGS
+    @enlarge_image_by = 100
+    @extra = "Valid till #{deal.expiration_date.strftime('%b %d')}"
     @images = []
     generate!
   end
 
   def generate!
     @images = []
-    @images << FlyerImageGenerationService.new(@deal).banner_image
+    @images << FlyerImageGenerationService.new(self).banner_image
     @deal.secondary_images.each_with_index do |_image, index|
-      @images << FlyerImageGenerationService.new(@deal, index).generate
+      @images << FlyerImageGenerationService.new(self, index).generate
     end
     @images
   end
@@ -32,6 +38,8 @@ class FlyerDeal
   def title_with_tags
     <<~MESSAGE
       #{title}
+
+      #{extra}
 
       #{hash_tags}
     MESSAGE
@@ -50,6 +58,15 @@ class FlyerDeal
     [
       public_photo_urls,
       title_with_tags
+    ]
+  end
+
+  def video_data
+    [
+      photo_urls,
+      nil,
+      "public/videos/deal_#{@deal.id}.mp4",
+      1.2
     ]
   end
 end

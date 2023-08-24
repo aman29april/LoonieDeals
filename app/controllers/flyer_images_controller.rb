@@ -8,6 +8,9 @@ class FlyerImagesController < ApplicationController
 
   def create
     @flyer_deal.assign_attributes(flyer_deal_params)
+    @flyer_deal.generate!
+
+    render :show
   end
 
   def post_to_telegram
@@ -26,11 +29,17 @@ class FlyerImagesController < ApplicationController
   end
 
   def attach
+    @deal.purge_generated_flyer_images
     @flyer_deal.photo_urls.each_with_index do |image, index|
       @deal.generated_flyer_images.attach(io: File.open(image), filename: "flyer_#{index}")
     end
     @deal.save!
     redirect_to action: :index, notice: 'Images attached on deal'
+  end
+
+  def generate_video
+    VideoService.create_video(*@flyer_deal.video_data)
+    redirect_to action: :index, notice: 'Video created'
   end
 
   private
@@ -44,7 +53,7 @@ class FlyerImagesController < ApplicationController
   end
 
   def flyer_deal_params
-    params.permit(:title, :enlarge_image_by, :type,
-                  :theme, :hash_tags, :hide_store, :enlarge_logo_by, :image_offset)
+    params.require(:flyer_deal).permit(:title, :enlarge_image_by, :type, :extra,
+                                       :theme, :hash_tags, :hide_store, :enlarge_logo_by, :image_offset)
   end
 end

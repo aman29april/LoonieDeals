@@ -150,7 +150,26 @@ module ImageGeneration
 
       overlay_img = add_background_color(overlay_img) if options[:with_background]
 
+      overlay_img = change_image_opacity(overlay_img, options[:opacity].to_f) if options[:opacity].present?
+
       main_img.composite!(overlay_img, x, y, Magick::OverCompositeOp)
+    end
+
+    def change_image_opacity(image, opacity)
+      width = image.columns
+      height = image.rows
+      background_image = Magick::Image.new(width, height) do |img|
+        img.background_color = 'transparent'
+      end
+
+      src_percentage = opacity
+      dst_percentage = 1
+      background_image.dissolve(image, src_percentage, dst_percentage)
+    end
+
+    def overlay_image_tiled(main_img, overlay_img, _options = {})
+      overlay_img = change_image_opacity(overlay_img, 0.1)
+      main_img.composite_tiled!(overlay_img, Magick::OverCompositeOp)
     end
 
     def add_background_color(image, background_color = 'white')

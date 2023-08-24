@@ -212,6 +212,10 @@ class Deal < ApplicationRecord
     [title, url].reject!(&:blank?)&.join(' - ')
   end
 
+  def purge_generated_flyer_images
+    generated_flyer_images.each(:purge)
+  end
+
   private
 
   def create_link

@@ -48,7 +48,11 @@ Rails.application.routes.draw do
         post :post_to_insta
         post :post_to_telegram
         post :attach
+        post :generate_video
       end
+    end
+
+    resources :videos, only: %i[index create] do
     end
   end
 

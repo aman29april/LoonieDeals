@@ -7,6 +7,9 @@
     
     = link_to 'Generate Image', deal_images_update_path(deal: @deal.id), class: 'btn btn-info'
 
+    -if @deal.generated_flyer_images.attached?
+      = link_to 'Generate Video', deal_videos_path(@deal.id), class: 'btn btn-secondary'
+
     -if @deal.secondary_images.attached?
       = link_to 'Flyer Images', deal_flyer_images_path(@deal.id), class: 'btn btn-info'
 

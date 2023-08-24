@@ -1,5 +1,10 @@
 = render :partial => 'shared/resource_error', locals: {resource: @flyer_deal}
 
+.col-md-8
+  .row
+    -@flyer_deal.images.each do |image|
+      .col-md-4.flyer-image
+        =image_tag image, class: 'img-thumbnail img-fluid'
 .col
   .row
     = form_with(model: @flyer_deal, url: deal_flyer_images_path(@flyer_deal.deal.id), html: { class: "row gt-3 dropzone" }) do |f|
@@ -7,6 +12,12 @@
         .input-group.mb-3
           %span.input-group-text Title
           = f.text_area :title, class: "form-control"
+      
+      .col-md-12
+        .input-group.mb-3
+          %span.input-group-text Extra
+          = f.text_area :extra, class: 'form-control', :rows => 1
+
       .col-md-12
         .input-group.mb-3
           %span.input-group-text Tags
@@ -44,8 +55,9 @@
     
       .col-md-12.mt-3
         .actions
-          = f.submit 'Generate', class: 'btn btn-success'
-          = link_to 'Attach', attach_deal_flyer_images_path(@deal.id), class: 'btn btn-primary', data: {turbo_method: :post} 
+          = f.submit 'Generate', class: 'btn btn-success', data: { turbo: false }
+          = link_to 'Attach', attach_deal_flyer_images_path(@deal.id), class: 'btn btn-primary', data: {turbo_method: :post}
+          = link_to 'Generate Video', generate_video_deal_flyer_images_path(@deal.id), class: 'btn btn-primary', data: {turbo_method: :post}
           = f.submit "Reset", type: :reset, class: 'btn btn-secondary'
 
           = link_to post_to_telegram_deal_flyer_images_path(@deal.id), class: 'btn  btn-primary me-1', data: {turbo_method: :post} do

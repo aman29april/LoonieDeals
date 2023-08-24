@@ -1,0 +1,76 @@
+= render :partial => 'shared/resource_error', locals: {resource: @video}
+
+.col-md-8
+  .row
+    .col-md-4.embed-responsive
+      -# =image_tag image, class: 'img-thumbnail img-fluid'
+      = video_tag @video.video_path, type: 'video/mp4', class: '', width: '500', autoplay: true, controls: true
+
+.col
+  .row
+    = form_with(model: @flyer_deal, url: deal_videos_path(@video.deal.id), html: { class: "row gt-3 dropzone" }) do |f|
+      .col-md-12
+        .input-group.mb-3
+          %span.input-group-text Title
+          = f.text_area :title, class: "form-control"
+      
+      .col-md-12
+        .input-group.mb-3
+          %span.input-group-text Extra
+          = f.text_area :extra, class: 'form-control', :rows => 1
+
+      .col-md-12
+        .input-group.mb-3
+          %span.input-group-text Tags
+          = f.text_area :hash_tags, class: 'form-control', :rows => 2
+      
+      .col-md-12
+        .form-group 
+          =f.label :type
+          =f.select :type, DealImage::AVAILABLE_TYPES, prompt: 'Select Type', class: 'form-control' 
+
+      .col-md-12
+        .form-group 
+          =f.label :theme
+          =f.select :theme, DealImage::THEMES, prompt: 'Select Theme', class: 'form-control'
+
+      .col-md-12
+        .input-group.mb-3
+          %span.input-group-text Enlarge
+          = f.number_field :enlarge_image_by, class: 'form-control'
+      .col-md-12
+        .input-group.mb-3
+          %span.input-group-text Enlarge Logo
+          = f.number_field :enlarge_logo_by, class: 'form-control'
+      .col-md-12
+        .input-group.mb-3
+          %span.input-group-text Img Offset
+          = f.number_field :image_offset, class: 'form-control'
+
+
+      .col-md-12
+        .row
+          -if @video.deal.present? && @video.deal.url?
+            =link_to 'Deal link', @video.deal.affiliate_url, target: '_blank'
+
+    
+      .col-md-12.mt-3
+        .actions
+          = f.submit 'Generate', class: 'btn btn-success', data: { turbo: false }
+          = link_to 'Attach', attach_deal_flyer_images_path(@deal.id), class: 'btn btn-primary', data: {turbo_method: :post}
+          = link_to 'Generate Video', generate_video_deal_flyer_images_path(@deal.id), class: 'btn btn-primary', data: {turbo_method: :post}
+          = f.submit "Reset", type: :reset, class: 'btn btn-secondary'
+
+          = link_to post_to_telegram_deal_flyer_images_path(@deal.id), class: 'btn  btn-primary me-1', data: {turbo_method: :post} do
+            Post to 
+            %i{class: "bi-telegram"}
+
+          = link_to post_to_insta_deal_flyer_images_path(@deal.id), class: 'btn  btn-primary me-1', data: {turbo_method: :post} do
+            Post to 
+            %i{class: "bi-instagram"}
+
+          = link_to 'Goto Deal', @video.deal, class: 'btn btn-primary'
+          = link_to 'Auth with FB', '/auth/facebook', class: 'btn btn-primary', target: '_blank'
+          = link_to 'New Deal', new_deal_path, class: 'btn btn-primary'
+
+

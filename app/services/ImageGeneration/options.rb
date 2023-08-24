@@ -72,11 +72,13 @@ module ImageGeneration
     }.freeze
 
     FLYER_OPTIONS = {
-      title: { size: 75, color: COLORS.blue, y: 450, break_line: true, bold: true, font: FONTS.gagalin,
+      title: { size: 80, color: COLORS.blue, y: 480, break_line: true, bold: true, font: FONTS.gagalin,
                line_spacing: -25 },
-      store_name: { size: 50, color: '#063E66', y: 300 },
+      store_name: { size: 55, color: '#063E66', y: 300 },
       store_logo: { y: 300, height: 170 },
-      short_slug: { size: 40, color: '#01401a', break_line: false, x: 470, y: 930, font: FONTS.oswald }
+      short_slug: { size: 40, color: '#01401a', break_line: false, x: 470, y: 930, font: FONTS.oswald },
+      extra: { size: 65, y: 570, color: COLORS.blue, bold: true, font: FONTS.oswald },
+      swipe: { size: 50, y: 670, color: COLORS.black, font: FONTS.anton }
     }.freeze
     def self.for(type = 'story', theme)
       options = DEFAULT_OPTIONS

@@ -12,8 +12,9 @@ class FlyerImageGenerationService
     'story': 'story'
   }.with_indifferent_access.freeze
 
-  def initialize(deal, index = 100)
-    @deal = deal
+  def initialize(flyer_deal, index = 100)
+    @flyer_deal = flyer_deal
+    @deal = flyer_deal.deal
     @index = index
     @image = @deal.secondary_images[index]
     @type = 'flyer_post'
@@ -27,6 +28,8 @@ class FlyerImageGenerationService
 
   def generate
     overlay_main_image
+    overlay_store_logo(y: 900, x: 20, opacity: 0.3, width: 200, height: 150)
+
     write_short_slug
     save_image
   end
@@ -35,6 +38,10 @@ class FlyerImageGenerationService
     override_base_image
     overlay_store_logo
     write_title
+
+    write_extra
+
+    write_swipe_text
 
     write_short_slug
     save_image
@@ -45,11 +52,12 @@ class FlyerImageGenerationService
     @base_image = Image.read(base_image_path).first
   end
 
-  def overlay_store_logo
+  def overlay_store_logo(opts = {})
     store = @deal.store
     if store&.image&.attached?
       options = {}
       options.merge! @options[:store_logo]
+      options.merge! opts
       url = ApplicationController.helpers.cloudinary_url(store.image.attachment.key)
       overlay = Magick::Image.read(url).first
       @base_image = overlay_image_in_center(@base_image, overlay, options)
@@ -59,12 +67,28 @@ class FlyerImageGenerationService
   end
 
   def write_title
-    return if @deal.title.blank?
+    return if @flyer_deal.title.blank?
 
-    title = @deal.title
+    title = @flyer_deal.title
     options = {}
     options.merge!(@options[:title])
     write_text_in_center(@base_image, title, options)
+  end
+
+  def write_extra
+    return if @flyer_deal.extra.blank?
+
+    msg = @flyer_deal.extra
+    options = {}
+    options.merge!(@options[:extra])
+    write_text_in_center(@base_image, msg, options)
+  end
+
+  def write_swipe_text
+    msg = 'Swipe right →'
+    options = {}
+    options.merge!(@options[:swipe])
+    write_text_in_center(@base_image, msg, options)
   end
 
   def save_image
@@ -88,7 +112,7 @@ class FlyerImageGenerationService
     options = {}
     # options.merge! @options[:deal_image]
     # options.merge!(image_full_with: true) if @deal_image.image_full_with == '1'
-    # options.merge!(enlarge_image_by: @deal_image.enlarge_image_by.to_i)
+    options.merge!(enlarge_image_by: @flyer_deal.enlarge_image_by.to_i)
     # options.merge!(y_offset: @deal_image.image_offset.to_i) if @deal_image.image_offset.present?
     overlay = Magick::Image.read(@image.url).first
 
