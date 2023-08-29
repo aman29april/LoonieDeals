@@ -3,7 +3,7 @@
   .card.mb-1.h-100.deal-card.shadow-sm
     =link_to deal_path(deal), class: 'align-middle', title: deal.title do
       .image-container.mh-100.text-center.align-middle.d-flex.justify-content-center.align-items-center
-        =resource_image(deal.image, class: ' deal-image ', alt: deal.title)
+        =resource_image(deal.image_or_generated, class: ' deal-image ', alt: deal.title)
     
     .card-body
       .deal-dsp

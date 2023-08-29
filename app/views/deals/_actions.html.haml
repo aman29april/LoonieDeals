@@ -16,6 +16,8 @@
     = link_to 'Schedule', deal_recurring_schedules_path(@deal.id), class: 'btn btn-primary'
     
 
+    -if @deal.store.dollarama?
+      = link_to 'Generate Images', deal_flyer_images_path(@deal.id), class: 'btn btn-info'
     = form_with(url: create_link_deal_path(@deal), method: :post, class: 'd-inline') do |f|
       = f.submit 'Create Link', class: 'btn btn-primary'
 

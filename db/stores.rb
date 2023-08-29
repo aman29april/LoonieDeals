@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-[
+stores = [
   { name: 'Amazon.ca', logo: 'amazon.ca.png', website: 'https://amazon.ca' },
   { name: 'Dollarama', logo: 'Dollarama.png', website: 'https://www.dollarama.com' },
   { name: 'Sephora', logo: 'Sephora.png', website: 'https://www.sephora.com/ca/en' },
@@ -250,11 +250,11 @@
   { name: 'Reitmans', logo: 'Reitmans.png', website: '' },
   { name: 'Boston Pizza', logo: 'Boston Pizza.png', website: '' },
   { name: 'Air Miles', logo: 'Air Miles.png', website: '' },
-  { name: 'Tbooth Wireless', logo: 'Tbooth Wireless.png', website: '' },
+  { name: 'Tbooth Wireless', logo: 'tbooth.png', website: '' },
   { name: 'Asics', logo: 'Asics.png', website: '' },
-  { name: '', logo: '.png', website: '' },
-  { name: '', logo: '.png', website: '' },
-  { name: '', logo: '.png', website: '' },
+  { name: 'CAT Footwear', logo: 'CAT Footwear.png', website: '' },
+  { name: 'Sampler', logo: 'Sampler.png', website: 'https://app.sampler.io' },
+  { name: 'Natrel', logo: 'Natrel.png', website: 'https://www.natrel.ca' },
   { name: '', logo: '.png', website: '' },
   { name: '', logo: '.png', website: '' },
   { name: '', logo: '.png', website: '' },
@@ -264,5 +264,5 @@
   { name: '', logo: '.png', website: '' },
   { name: '', logo: '.png', website: '' },
   { name: '', logo: '.png', website: '' }
-
+  
 ]

@@ -9,7 +9,7 @@
               .col-md-3
                 .row
                   .col-12.text-center.align-middle.d-flex.justify-content-center.align-items-center
-                    = resource_image(@deal.image, class: 'deal-image rounded-start', alt: @deal.title)
+                    = resource_image(@deal.image_or_generated, class: 'deal-image rounded-start', alt: @deal.title)
                 .row.text-center.mt-3
                   .col-12
                     -# -if @deal.affiliate_url.present?
@@ -67,7 +67,7 @@
                     =@deal.body
 
                     -if @deal.generated_flyer_images.attached?
-                      -@deal.generated_flyer_images.each do |image|
+                      -@deal.generated_flyer_images.drop(1).each do |image|
                         .col-md-6.flyer-image
                           = image_tag attachment_url(image), class: 'border img-fluid'
                   

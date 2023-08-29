@@ -16,7 +16,7 @@ class TelegramService
 
   def send_photo(photo_url, caption = nil, data = {})
     Telegram::Bot::Client.run(@bot_token) do |bot|
-      upload = photo_upload(photo_url)
+      upload = media_upload(photo_url)
       bot.api.send_photo(chat_id: @chat_id, photo: upload, caption:, parse_mode: 'Markdown')
 
       if ENV['TelegramSendSeparately']
@@ -34,18 +34,38 @@ class TelegramService
     end
   end
 
+  def send_video(url, caption = nil, data = {})
+    Telegram::Bot::Client.run(@bot_token) do |bot|
+      upload = media_upload(url, 'video')
+      bot.api.send_video(chat_id: @chat_id, video: upload, caption:, parse_mode: 'Markdown')
+
+      if ENV['TelegramSendSeparately']
+        data.each_value do |value|
+          next if value.delete('`').blank?
+
+          bot.api.send_message(chat_id: @chat_id, text: value, parse_mode: 'Markdown', disable_web_page_preview: true)
+        end
+      end
+    end
+  end
+
   def send_photos(photos, caption = nil)
     Telegram::Bot::Client.run(@bot_token) do |bot|
       photos.each do |photo|
-        upload = photo_upload(photo)
+        upload = media_upload(photo)
         bot.api.send_photo(chat_id: @chat_id, photo: upload, caption:)
       end
     end
   end
 
-  def photo_upload(photo_url)
-    path_to_photo = File.expand_path(photo_url)
-    file = File.open(path_to_photo)
-    Faraday::UploadIO.new(file, 'image/jpeg')
+  def media_upload(url, type = 'image')
+    path = File.expand_path(url)
+    file = File.open(path)
+    upload_type = if type == 'image'
+                    'image/jpeg'
+                  elsif type == 'video'
+                    'video/mp4'
+                  end
+    Faraday::UploadIO.new(file, upload_type)
   end
 end

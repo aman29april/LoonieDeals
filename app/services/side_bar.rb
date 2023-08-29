@@ -29,4 +29,12 @@ class SideBar
   def recurring_deals
     RecurringSchedule.upcoming_deals
   end
+
+  def flyer_deals
+    Deal.flyer_deal.active.last(1)
+  end
+
+  def Freebies
+    Deal.freebies
+  end
 end

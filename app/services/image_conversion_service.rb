@@ -27,4 +27,26 @@ class ImageConversionService
 
     converted_image
   end
+
+  def self.resize(image, _size = '1080x1080')
+    converted_image = Magick::Image.read(image.url).first
+    converted_image.resize_to_fill(1080, 1080)
+  end
+
+  def self.resize_and_save(file, name)
+    image = resize(file)
+    save_image(image, name)
+  end
+
+  def self.save_image(magickImage, file_name = nil)
+    name = file_name
+    name = tmp_name if file_name.blank?
+    composite_image_path = Rails.root.join('public', 'deal_images', name)
+    magickImage.write(composite_image_path)
+    "/deal_images/#{name}"
+  end
+
+  def self.tmp_name
+    Tempfile.new(['', '.jpg']).path.split('/').last
+  end
 end

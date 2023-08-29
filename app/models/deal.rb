@@ -32,7 +32,15 @@ class Deal < ApplicationRecord
   include ImageConversionConcern
   extend FriendlyId
 
-  friendly_id :title, use: :slugged
+  # friendly_id :title, use: :slugged
+  friendly_id :slug_candidates, use: :slugged
+
+  def slug_candidates
+    [
+      %i[title store_name],
+      [:title, :store_name, valid_range]
+    ]
+  end
 
   attr_accessor :auto_create_link, :generated_image, :image_full_with, :store_background, :hide_discount,
                 :enlarge_image_by, :hide_coupon, :large_image, :weekly_flyer_deal
@@ -59,18 +67,23 @@ class Deal < ApplicationRecord
   validate :price_less_than_retail_price
   validates :url, format: { with: URI::DEFAULT_PARSER.make_regexp, message: 'must be a valid URL' }, allow_blank: true
   validates :url, length: { maximum: 250 }
+  validate :starts_at_before_expiration, if: -> { starts_at.present? && expiration_date.present? }
 
   scope :published, -> { where.not(published_at: nil) }
+  scope :freebies, -> { where.not(price: 0) }
   scope :featured, -> { where(featured: true) }
   scope :recent, -> { order(created_at: :desc) }
   scope :active, -> { where('expiration_date is NULL or expiration_date > ?', Time.zone.now) }
-  scope :active_first, -> { order(Deal.arel_table[:expiration_date].asc.nulls_first) }
+
+
+  scope :active_first, -> { active.order(Deal.arel_table[:expiration_date].asc.nulls_last) }
 
   # scope :active_first, -> { order(Arel.sql('expiration_date IS NULL, expiration_date DESC')) }
 
   scope :latest, ->(number) { recent.limit(number) }
-  scope :with_attached_image, -> { includes(image_attachment: :blob) }
+  scope :with_attached_image, -> { includes(image_attachment: :blob).with_geneated_images }
   scope :with_store, -> { includes(store: [image_attachment: :blob]) }
+  scope :with_geneated_images, -> { includes(generated_flyer_images_attachments: :blob) }
 
   scope :top_stories, ->(number) { latest(number).order(upvotes: :desc) }
 
@@ -78,6 +91,13 @@ class Deal < ApplicationRecord
     where('(expiration_date IS NULL OR expiration_date >= ?) AND (recurring = ? OR recurrence_schedules.day_of_week = ? OR recurrence_schedules.day_of_month = ?)',
           Time.now, false, Time.now.wday, Time.now.day)
       .includes(:recurring_schedules)
+  }
+
+  scope :by_kind, ->(type) { where(kind: type) }
+
+  enum kind: {
+    flyer_deal: 'flyer_deal',
+    flyer: 'flyer'
   }
 
   has_rich_text :body
@@ -103,6 +123,12 @@ class Deal < ApplicationRecord
     it.validates :title, presence: true, allow_blank: false
   end
 
+  def starts_at_before_expiration
+    return unless starts_at >= expiration_date
+
+    errors.add(:expiration_date, 'must be greater than start date')
+  end
+
   def free?
     price.zero?
   end
@@ -114,6 +140,20 @@ class Deal < ApplicationRecord
 
     # "#{link}?#{affiliate}"
     link
+  end
+
+  def valid_range
+    val = [
+      starts_at&.strftime('%b %d'),
+      expiration_date&.strftime('%b %d')
+    ].compact.join(' - ')
+    val.empty? ? nil : val
+  end
+
+  def image_or_generated
+    return generated_flyer_images.attachments.first.url if generated_flyer_images.attached?
+
+    image
   end
 
   def url_or_store_url
@@ -213,7 +253,7 @@ class Deal < ApplicationRecord
   end
 
   def purge_generated_flyer_images
-    generated_flyer_images.each(:purge)
+    generated_flyer_images.each(&:purge)
   end
 
   private

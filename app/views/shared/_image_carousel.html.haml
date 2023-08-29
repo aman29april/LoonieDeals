@@ -1,0 +1,11 @@
+#carouselExampleControls.carousel.slide.carousel-fade{"data-bs-ride" => "carousel"}
+  .carousel-inner
+    -images.each_with_index do |image, index|
+      .carousel-item{class: "#{index.zero? ? 'active' : ''}"}
+        =image_tag image, class: "d-block w-100 "
+  %button.carousel-control-prev{"data-bs-slide" => "prev", "data-bs-target" => "#carouselExampleControls", :type => "button"}
+    %span.carousel-control-prev-icon{"aria-hidden" => "true"}
+    %span.visually-hidden Previous
+  %button.carousel-control-next{"data-bs-slide" => "next", "data-bs-target" => "#carouselExampleControls", :type => "button"}
+    %span.carousel-control-next-icon{"aria-hidden" => "true"}
+    %span.visually-hidden Next

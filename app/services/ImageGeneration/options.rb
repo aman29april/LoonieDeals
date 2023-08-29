@@ -66,7 +66,7 @@ module ImageGeneration
         store_logo: { hidden: true },
         retail_price: { size: 40, y: 1450, x: -10 },
         discount: { size: 66, y: 1630, x: 920 },
-        deal_image: { y: 650, width: 800 },
+        deal_image: { y: 540, width: 800 },
         coupon: { size: 50, color: 'black', y: 1600, x: 20, fill: 'transparent', stroke: 'black', corner_radius: 1 }
       }
     }.freeze

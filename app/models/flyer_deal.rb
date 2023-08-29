@@ -8,14 +8,16 @@ class FlyerDeal
   DEFAULT_TAGS = '#LoonieDeals #CanadianDeals #CanadaGroceryDeals #freshcoDeals #canada #GroceryPicksOfTheWeek #dealsincanada'
 
   attr_accessor :images, :image_full_with, :deal, :title, :extra, :enlarge_logo_by,
-                :enlarge_image_by, :type, :theme, :hash_tags, :hide_store, :image_offset
+                :enlarge_image_by, :type, :theme, :hash_tags, :hide_store, :image_offset, :full_image
 
   def initialize(deal)
     @deal = deal
     @title = @deal.title
     @hash_tags = DEFAULT_TAGS
     @enlarge_image_by = 100
-    @extra = "Valid till #{deal.expiration_date.strftime('%b %d')}"
+    @extra = deal.valid_range
+    @full_image = true if @deal.store.dollarama?
+
     @images = []
     generate!
   end
@@ -23,8 +25,13 @@ class FlyerDeal
   def generate!
     @images = []
     @images << FlyerImageGenerationService.new(self).banner_image
-    @deal.secondary_images.each_with_index do |_image, index|
-      @images << FlyerImageGenerationService.new(self, index).generate
+    @deal.secondary_images.each_with_index do |image, index|
+      if @full_image
+        name = "#{@deal.store_name}_#{index}.jpg"
+        @images << ImageConversionService.resize_and_save(image, name)
+      else
+        @images << FlyerImageGenerationService.new(self, index).generate
+      end
     end
     @images
   end
@@ -65,7 +72,7 @@ class FlyerDeal
     [
       photo_urls,
       nil,
-      "public/videos/deal_#{@deal.id}.mp4",
+      "public/videos/#{@deal.id}_deal.mp4",
       1.2
     ]
   end

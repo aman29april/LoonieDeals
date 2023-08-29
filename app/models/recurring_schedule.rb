@@ -24,6 +24,7 @@ class RecurringSchedule < ApplicationRecord
 
   scope :by_day_of_week, -> { order(day_of_week: :asc) }
   scope :for_today, -> { where(day_of_week: Date.current.wday) }
+  scope :with_geneated_images, -> { includes(deal: [:generated_flyer_images_attachments]) }
 
   scope :valid, lambda {
     start_of_week = Time.now.beginning_of_week

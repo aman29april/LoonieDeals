@@ -1,0 +1,4 @@
+%h5 Flyer Deals
+
+-bar.flyer_deals.each do |deal|
+  =render partial: 'shared/image_carousel', locals: {images: deal.generated_flyer_images.map(&:url)}

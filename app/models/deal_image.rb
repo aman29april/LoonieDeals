@@ -22,6 +22,7 @@ class DealImage
     @coupon = @deal.coupon
     @hash_tags = DEFAULT_TAGS
     @title_auto_break = '1'
+    @theme = 'amazon' if @deal.store.amazon?
     generate!
   end
 

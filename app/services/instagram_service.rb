@@ -35,7 +35,7 @@ class InstagramService
 
   def create_carousel(media_files, caption = '')
     # upload carousel_item:
-    children = media_files.map { |media_file| upload(media_file, { caption: 'test', is_carousel_item: true }) }
+    children = media_files.map { |media_file| upload(media_file, { caption: '', is_carousel_item: true }) }
 
     # Create carousel container
     creation_id = create_carousel_container(children, caption)
@@ -49,10 +49,12 @@ class InstagramService
 
   alias send_photo create_single_photo_post
 
-  # def create_video_post(media_file, caption = nil)
-  #   media_id = upload(media_file, post_type: 'VIDEO')
-  #   create_post(media_id, caption)
-  # end
+  def create_video_post(media_file, caption = nil)
+    media_id = upload(media_file, { caption:, post_type: 'VIDEO' })
+    create_post(media_id, caption)
+  end
+
+  alias send_video create_video_post
 
   # def upload_story(media_file, sticker_data)
   #   media_id = upload(media_file, { media_type: 'STORY' })
@@ -75,9 +77,12 @@ class InstagramService
     validate_params(options)
     params =  { access_token: @access_token }.merge(options).compact.except(:post_type)
 
-    post_type = options[:post_type] || 'PHOTO'
+    post_type = options[:post_type]
+    post_type = 'VIDEO' if url.split('.').last.downcase == 'mp4'
+    post_type = 'PHOTO' if post_type.blank?
     url_key = post_type == 'PHOTO' ? :image_url : :video_url
     params[url_key] = url
+    params[:media_type] = post_type if post_type.present? && post_type != 'PHOTO'
 
     endpoint = @endpoints[:media]
     response = HTTParty.post(endpoint, query: params)
@@ -95,8 +100,8 @@ class InstagramService
     post_type = options[:post_type]
 
     raise "#{media_type} is Invalid Media Type" if media_type.present? && !%w[VIDEO REEL
-                                                                              STORIES].includes?(media_type)
-    raise "#{post_type} is Invalid Post Type" if post_type.present? && !%w[PHOTO VIDEO].includes?(media_type)
+                                                                              STORIES].include?(media_type)
+    raise "#{post_type} is Invalid Post Type" if post_type.present? && !%w[PHOTO VIDEO].include?(post_type)
   end
 
   def upload_media(params)

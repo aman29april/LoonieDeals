@@ -1,6 +1,6 @@
 = render :partial => 'shared/resource_error', locals: {resource: @deal}
 
-= form_for @deal, html: { multipart: true, class: "editor-form row gt-3 dropzone" , data: { page: 'main-editor' }, autocomplete: "off" } do |form|
+= form_for @deal, html: { multipart: true, class: "editor-form row gt-3 dropzone" , data: { page: 'main-editor' }, autocomplete: "off", turbo: false } do |form|
   .col-md-12
     .row
       .col-md-2
@@ -42,6 +42,10 @@
                           = form.number_field :discount, class: "form-control", step: :any
                       .col-md-3
                         .input-group.mb-3
+                          %span.input-group-text Start
+                          = form.datetime_field :starts_at, class: "form-control"
+                      .col-md-3
+                        .input-group.mb-3
                           %span.input-group-text Exp.
                           = form.datetime_field :expiration_date, class: "form-control"
 
@@ -61,7 +65,7 @@
       
     .col-md-3
       = form.label :category, class: "form-label"
-      = form.select :category_ids,Category.all.by_name.collect { |p| [ p.name, p.id ] }, {include_blank: false}, { prompt: "Select Category", data: {controller: 'slim'}, class: "" , multiple: true}
+      = form.select :category_ids, Category.all.by_name.collect { |p| [ p.name, p.id ] }, {include_blank: false}, { prompt: "Select Category", data: {controller: 'slim'}, class: "" , multiple: true}
 
     .col-md-6
       = form.label :tags, class: 'form-label'
@@ -78,6 +82,16 @@
       .form-check
         = form.check_box :large_image
         = form.label :large_image, class: 'form-check-label'
+
+      .col-md-3
+        = form.label :type, class: "form-label"
+        = form.select :kind, Deal.kinds.keys.map { |type| [type.humanize, type] }, {include_blank: true}, { prompt: "Select Type" }
+
+      .col-md-3
+        .input-group.mb-3
+          %span.input-group-text Slug
+          = form.text_field :slug, class: "form-control"
+
 
   = render 'meta_fields', f: form
 
@@ -98,20 +112,23 @@
   =image_tag @deal.generated_image, class: 'image'
 
 
-=render partial: 'shared/image_crop', locals: {deal: @deal}
+- if @deal.image.attached?
+  =render partial: 'shared/image_crop', locals: {deal: @deal}
+
+  -# document.addEventListener('DOMContentLoaded', () => {
 
 :javascript
   document.addEventListener('DOMContentLoaded', () => {
-  const linkInput = document.getElementById('deal_url');
-  const titleInput = document.getElementById('deal_title');
+    const linkInput = document.getElementById('deal_url');
+    const titleInput = document.getElementById('deal_title');
 
-  linkInput.addEventListener('blur', () => {
-    const url = linkInput.value.trim();
+    linkInput.addEventListener('blur', () => {
+      const url = linkInput.value.trim();
 
-    autoSelectStore(url);
-    if (url === '' || titleInput.value.trim() !== '') {
-      return;
-    }
+      autoSelectStore(url);
+      if (url === '' || titleInput.value.trim() !== '') {
+        return;
+      }
 
     async function addImageToDropzone(url){
       const response = await fetch(url)

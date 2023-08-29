@@ -44,4 +44,12 @@ class Store < ApplicationRecord
   def validate_image_presence
     # errors.add(:image, 'must be attached') unless image.attached?
   end
+
+  def amazon?
+    name == 'Amazon.ca'
+  end
+
+  def dollarama?
+    name == 'Dollarama'
+  end
 end

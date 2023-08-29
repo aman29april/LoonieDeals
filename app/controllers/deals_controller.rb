@@ -71,6 +71,7 @@ class DealsController < ApplicationController
 
   def update
     @deal.assign_attributes(deal_params)
+    @deal.slug = nil if @deal.slug.blank?
     return generate_image if params[:generate_image]
     return post_to_telegram if params[:post_to_telegram]
 
@@ -146,7 +147,7 @@ class DealsController < ApplicationController
   private
 
   def set_deal
-    @deal = Deal.friendly.find(params[:id])
+    @deal = Deal.friendly.with_attached_image.find(params[:id])
   end
 
   def set_deal_image
@@ -154,8 +155,8 @@ class DealsController < ApplicationController
   end
 
   def deal_params
-    params.require(:deal).permit(:title, :description, :price, :retail_price, :discount, :expiration_date, :url, :auto_create_link, :large_image, :secondary_images, :weekly_flyer_deal,
-                                 :pinned, :image, :store_id, :category_ids, :meta_keywords, :meta_description, :body, :all_tags, :coupon, :generated_image, :image_full_with, :store_background, :hide_discount, :enlarge_image_by, :hide_coupon)
+    params.require(:deal).permit(:title, :description, :price, :retail_price, :discount, :expiration_date, :url, :auto_create_link, :large_image, :secondary_images, :weekly_flyer_deal, :kind, :slug, :starts_at,
+                                 :pinned, :image, :store_id, :meta_keywords, :meta_description, :body, :all_tags, :coupon, :generated_image, :image_full_with, :store_background, :hide_discount, :enlarge_image_by, :hide_coupon, category_ids: [])
   end
 
   def new_deal_params

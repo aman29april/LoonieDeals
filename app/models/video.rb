@@ -42,15 +42,16 @@ class Video
 
   def telegram_data
     [
-      @images,
+      ouput_path,
       'Weekly deals'
     ]
   end
 
   # photo, caption
   def insta_data
+    public_url = ImageUploadService.upload_video(ouput_path)
     [
-      public_photo_urls,
+      public_url,
       title_with_tags
     ]
   end

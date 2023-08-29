@@ -34,7 +34,7 @@ module ApplicationHelper
 
   def dropzone_controller_div(options = {}, &block)
     max_files = [1, options[:max_files]].compact.max
-    existing_images = json_images(options[:existing_images])
+    json_images(options[:existing_images])
     data = {
       controller: 'dropzone',
       'dropzone-max-file-size' => '8',
@@ -44,8 +44,8 @@ module ApplicationHelper
       'dropzone-dict-invalid-file-type' => 'Only .jpeg, .jpg, .png  .gif allowed',
       'dropzone-previews-container' => '#dropzone-previews-container',
       'dropzone-add-remove-links' => 'true',
-      'dropzone-dict-remove-file' => 'true',
-      'dropzone-existing-files' => existing_images
+      'dropzone-dict-remove-file' => 'true'
+      # 'dropzone-existing-files' => existing_images
     }
     css_class = ['dropzone dropzone-default dz-clickable', options[:class]].compact.join(' ')
     content_tag(:div, class: css_class, data:, &block)
@@ -57,6 +57,8 @@ module ApplicationHelper
   end
 
   def resource_image(image, options = {})
+    return image_tag(image, options) if image.instance_of?(String)
+
     url = image.attached? ? resource_image_url(image) : '/assets/no_image_available.svg'
     image_tag url, options
   end

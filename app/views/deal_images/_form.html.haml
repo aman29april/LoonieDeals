@@ -105,7 +105,7 @@
         
           .col-md-12.mt-3
             .actions
-              = f.submit 'Generate', class: 'btn btn-success'
+              = f.submit 'Generate', class: 'btn btn-success', data: { turbo: false }
               = f.submit "Reset", type: :reset, class: 'btn btn-secondary'
 
               = button_tag type: :submit, class: 'btn btn-primary me-1', name: 'post_to_telegram' do

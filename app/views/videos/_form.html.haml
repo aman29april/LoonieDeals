@@ -8,7 +8,7 @@
 
 .col
   .row
-    = form_with(model: @flyer_deal, url: deal_videos_path(@video.deal.id), html: { class: "row gt-3 dropzone" }) do |f|
+    = form_with(model: @video, url: deal_videos_path(@video.deal.id), html: { class: "row gt-3 dropzone" }) do |f|
       .col-md-12
         .input-group.mb-3
           %span.input-group-text Title
@@ -57,15 +57,15 @@
       .col-md-12.mt-3
         .actions
           = f.submit 'Generate', class: 'btn btn-success', data: { turbo: false }
-          = link_to 'Attach', attach_deal_flyer_images_path(@deal.id), class: 'btn btn-primary', data: {turbo_method: :post}
-          = link_to 'Generate Video', generate_video_deal_flyer_images_path(@deal.id), class: 'btn btn-primary', data: {turbo_method: :post}
+          -# = link_to 'Attach', attach_deal_videos_path(@deal.id), class: 'btn btn-primary', data: {turbo_method: :post}
+          = link_to 'Generate Video', generate_video_deal_videos_path(@deal.id), class: 'btn btn-primary', data: {turbo_method: :post}
           = f.submit "Reset", type: :reset, class: 'btn btn-secondary'
 
-          = link_to post_to_telegram_deal_flyer_images_path(@deal.id), class: 'btn  btn-primary me-1', data: {turbo_method: :post} do
+          = link_to post_to_telegram_deal_videos_path(@deal.id), class: 'btn  btn-primary me-1', data: {turbo_method: :post} do
             Post to 
             %i{class: "bi-telegram"}
 
-          = link_to post_to_insta_deal_flyer_images_path(@deal.id), class: 'btn  btn-primary me-1', data: {turbo_method: :post} do
+          = link_to post_to_insta_deal_videos_path(@deal.id), class: 'btn  btn-primary me-1', data: {turbo_method: :post} do
             Post to 
             %i{class: "bi-instagram"}
 

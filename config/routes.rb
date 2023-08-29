@@ -53,6 +53,12 @@ Rails.application.routes.draw do
     end
 
     resources :videos, only: %i[index create] do
+      collection do
+        post :post_to_insta
+        post :post_to_telegram
+        post :attach
+        post :generate_video
+      end
     end
   end
 

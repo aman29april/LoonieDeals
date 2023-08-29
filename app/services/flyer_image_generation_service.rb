@@ -41,14 +41,18 @@ class FlyerImageGenerationService
 
     write_extra
 
-    write_swipe_text
+    # write_swipe_text
 
     write_short_slug
     save_image
   end
 
   def override_base_image
-    base_image_path = Rails.root.join('app', 'assets', 'images', 'templates', 'flyer_banner_light.png')
+    return if @deal.store.dollarama?
+
+    name = 'flyer_banner_light.png'
+    # name = 'dollarama.png' if @deal.store.dollarama?
+    base_image_path = Rails.root.join('app', 'assets', 'images', 'templates', name)
     @base_image = Image.read(base_image_path).first
   end
 
