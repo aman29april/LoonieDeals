@@ -141,7 +141,7 @@ class DealsController < ApplicationController
   end
 
   def flyer_images
-    @images = FlyerDeal.new(@deal).generate!
+    @images = FlyerImage.new(@deal).generate!
   end
 
   private

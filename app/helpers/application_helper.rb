@@ -131,4 +131,9 @@ module ApplicationHelper
       website: '/'
     }
   end
+
+  def to_human_hashtag(input_string)
+    capitalized_words = input_string.split.map(&:capitalize)
+    "##{capitalized_words.join}"
+  end
 end

@@ -12,9 +12,9 @@ class FlyerImageGenerationService
     'story': 'story'
   }.with_indifferent_access.freeze
 
-  def initialize(flyer_deal, index = 100)
-    @flyer_deal = flyer_deal
-    @deal = flyer_deal.deal
+  def initialize(flyer_image, index = 100)
+    @flyer_image = flyer_image
+    @deal = flyer_image.deal
     @index = index
     @image = @deal.secondary_images[index]
     @type = 'flyer_post'
@@ -28,10 +28,23 @@ class FlyerImageGenerationService
 
   def generate
     overlay_main_image
-    overlay_store_logo(y: 900, x: 20, opacity: 0.3, width: 200, height: 150)
+    overlay_store_logo(y: 900, x: 20, opacity: 0.9, width: 200, height: 150)
 
     write_short_slug
     save_image
+  end
+
+  def collage
+    images = @deal.secondary_images.map(&:url)
+
+    banner = "public#{banner_image}"
+    images.insert(4, banner)
+    images *= 2
+    ImageGeneration::Collage.in_grid(images, @flyer_image.image_size)
+  end
+
+  def banner_or_collage
+    @flyer_image.collage ? collage : banner_image
   end
 
   def banner_image
@@ -71,18 +84,18 @@ class FlyerImageGenerationService
   end
 
   def write_title
-    return if @flyer_deal.title.blank?
+    return if @flyer_image.title.blank?
 
-    title = @flyer_deal.title
+    title = @flyer_image.title
     options = {}
     options.merge!(@options[:title])
     write_text_in_center(@base_image, title, options)
   end
 
   def write_extra
-    return if @flyer_deal.extra.blank?
+    return if @flyer_image.extra.blank?
 
-    msg = @flyer_deal.extra
+    msg = @flyer_image.extra
     options = {}
     options.merge!(@options[:extra])
     write_text_in_center(@base_image, msg, options)
@@ -116,7 +129,7 @@ class FlyerImageGenerationService
     options = {}
     # options.merge! @options[:deal_image]
     # options.merge!(image_full_with: true) if @deal_image.image_full_with == '1'
-    options.merge!(enlarge_image_by: @flyer_deal.enlarge_image_by.to_i)
+    options.merge!(enlarge_image_by: @flyer_image.enlarge_image_by.to_i)
     # options.merge!(y_offset: @deal_image.image_offset.to_i) if @deal_image.image_offset.present?
     overlay = Magick::Image.read(@image.url).first
 

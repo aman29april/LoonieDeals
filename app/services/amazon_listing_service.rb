@@ -53,4 +53,11 @@ class AmazonListingService
     'Amazon Prices Only': 1,
     'Prices From All Merchants': 0
   }.freeze
+
+  PRICE_OPTIOINS = {
+    "Under $10": 698_503_011,
+    "$20 to $30": 698_505_011,
+    "$30 to $50": 698_506_011,
+    "$50 & Above": 698_507_011
+  }.freeze
 end

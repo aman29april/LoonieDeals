@@ -31,7 +31,7 @@ class SideBar
   end
 
   def flyer_deals
-    Deal.flyer_deal.active.last(1)
+    Deal.flyer_deal.with_attached_image.active.last(1)
   end
 
   def Freebies

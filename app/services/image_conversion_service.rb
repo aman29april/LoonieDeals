@@ -28,13 +28,13 @@ class ImageConversionService
     converted_image
   end
 
-  def self.resize(image, _size = '1080x1080')
+  def self.resize(image, image_size)
     converted_image = Magick::Image.read(image.url).first
-    converted_image.resize_to_fill(1080, 1080)
+    converted_image.resize_to_fill(image_size.width, image_size.height)
   end
 
-  def self.resize_and_save(file, name)
-    image = resize(file)
+  def self.resize_and_save(file, name, image_size)
+    image = resize(file, image_size)
     save_image(image, name)
   end
 

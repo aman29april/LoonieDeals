@@ -16,5 +16,9 @@
       .col-md-9
         .row.row-cols-sm-1.row-cols-md-4.row-cols-lg-4.g-3.gy-4
           =render @deals
+        .row.mt-5
+          %h5 Expired Deals
+          .row.row-cols-sm-1.row-cols-md-4.row-cols-lg-4.g-3.gy-4
+            =render @expired_deals
       .col
         =render partial: 'side_bar/side_bar', locals: {side_bar: @side_bar}

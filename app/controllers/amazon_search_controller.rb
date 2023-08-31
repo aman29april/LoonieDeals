@@ -19,6 +19,7 @@ class AmazonSearchController < ApplicationController
     rh << 'p_85:5690392011' if params[:eligible_for_prime] == '1'
     rh << 'p_76:2308284011' if params[:eligible_for_free_shipping] == '1'
     rh << 'p_n_is_sns_available:8526117011' if params[:eligible_for_save_and_subs] == '1'
+    rh << "p_36:#{params[:price_option]}" if params[:price_option].present?
 
     query_params[:rh] = rh.join(',') if rh.present?
 

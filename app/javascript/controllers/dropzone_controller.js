@@ -246,7 +246,6 @@ export default class extends Controller {
 
 class DirectUploadController {
   constructor(source, file) {
-    debugger
     this.directUpload = this.createDirectUpload(file, source.url, this);
     this.source = source;
     this.file = file;

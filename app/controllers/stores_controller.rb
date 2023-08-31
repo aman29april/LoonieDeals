@@ -20,6 +20,7 @@ class StoresController < ApplicationController
     add_breadcrumb @store.name, @store
     @deals = @store.deals.active_first.recent.with_attached_image
 
+    @expired_deals = @store.deals.with_attached_image.expired.recent.limit(4)
     @side_bar = SideBar.new
   end
 

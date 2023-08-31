@@ -1,13 +1,13 @@
-= render :partial => 'shared/resource_error', locals: {resource: @flyer_deal}
+= render :partial => 'shared/resource_error', locals: {resource: @flyer_image}
 
 .col-md-8
   .row
-    -@flyer_deal.images.each do |image|
+    -@flyer_image.images.each do |image|
       .col-md-4.flyer-image
         =image_tag image, class: 'img-thumbnail img-fluid'
 .col
   .row
-    = form_with(model: @flyer_deal, url: deal_flyer_images_path(@flyer_deal.deal.id), html: { class: "row gt-3 dropzone" }) do |f|
+    = form_with(model: @flyer_image, url: deal_flyer_images_path(@flyer_image.deal.id), html: { class: "row gt-3 dropzone" }) do |f|
       .col-md-12
         .input-group.mb-3
           %span.input-group-text Title
@@ -49,8 +49,8 @@
 
       .col-md-12
         .row
-          -if @flyer_deal.deal.present? && @flyer_deal.deal.url?
-            =link_to 'Deal link', @flyer_deal.deal.affiliate_url, target: '_blank'
+          -if @flyer_image.deal.present? && @flyer_image.deal.url?
+            =link_to 'Deal link', @flyer_image.deal.affiliate_url, target: '_blank'
 
     
       .col-md-12.mt-3
@@ -68,7 +68,7 @@
             Post to 
             %i{class: "bi-instagram"}
 
-          = link_to 'Goto Deal', @flyer_deal.deal, class: 'btn btn-primary'
+          = link_to 'Goto Deal', @flyer_image.deal, class: 'btn btn-primary'
           = link_to 'Auth with FB', '/auth/facebook', class: 'btn btn-primary', target: '_blank'
           = link_to 'New Deal', new_deal_path, class: 'btn btn-primary'
 

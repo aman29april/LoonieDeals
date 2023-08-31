@@ -255,14 +255,27 @@ stores = [
   { name: 'CAT Footwear', logo: 'CAT Footwear.png', website: '' },
   { name: 'Sampler', logo: 'Sampler.png', website: 'https://app.sampler.io' },
   { name: 'Natrel', logo: 'Natrel.png', website: 'https://www.natrel.ca' },
-  { name: '', logo: '.png', website: '' },
-  { name: '', logo: '.png', website: '' },
-  { name: '', logo: '.png', website: '' },
-  { name: '', logo: '.png', website: '' },
-  { name: '', logo: '.png', website: '' },
+  { name: '2001 Audio Video', logo: '2001 Audio Video.png', website: 'https://www.2001audiovideo.com' },
+  { name: 'Clifton Hill', logo: 'Clifton Hill.png', website: 'https://www.cliftonhill.com' },
+  { name: 'CAA', logo: 'CAA.png', website: '' },
+  { name: 'Canadian Tire', logo: 'Canadian Tire.png', website: 'https://www.canadiantire.ca' },
+  { name: 'iGO', logo: 'iGO.png', website: 'https://igoelectric.ca' },
+  { name: 'Farm Boy', logo: 'Farm Boy.png', website: '' },
+  { name: 'Sobeys', logo: 'Sobeys.png', website: '' },
+  { name: 'Joe Fresh', logo: 'Joe Fresh.png', website: '' },
+  { name: 'Hello Fresh', logo: 'Hello Fresh.png', website: '' },
+  { name: 'Flipp', logo: 'Flipp.png', website: '' },
+  { name: 'Iqbal Halal Foods', logo: 'Iqbal Halal Foods.png', website: 'https://iqbalfoods.ca' },
+  { name: 'Giant Tiger', logo: 'Giant Tiger.png', website: '' },
+  { name: 'Longos', logo: 'Longos.png', website: '' },
+  { name: 'Factory Direct', logo: 'Factory Direct.png', website: 'https://www.factorydirect.ca' },
+  { name: 'Vistek', logo: 'Vistek.png', website: 'https://www.vistek.ca' },
+  { name: 'JYSK', logo: 'JYSK.jpg', website: 'https://www.jysk.ca' },
   { name: '', logo: '.png', website: '' },
   { name: '', logo: '.png', website: '' },
   { name: '', logo: '.png', website: '' },
   { name: '', logo: '.png', website: '' }
-  
+
 ]
+
+puts stores

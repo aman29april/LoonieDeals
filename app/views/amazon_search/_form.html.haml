@@ -51,6 +51,12 @@
             =f.number_field :max_price, class: 'form-control'
 
       .row.mb-3
+        .col
+          .row
+            =f.label 'Price Options', class: 'form-label'
+            =f.select :price_option, options_for_select(AmazonListingService::PRICE_OPTIOINS.map{|i| [i.first, i.last]}), class: 'form-select', include_blank: 'View All'
+
+      .row.mb-3
         =f.label 'Filter Price & Pct Off By', class: 'form-label'
         =f.select :price_by, options_for_select(AmazonListingService::FILTER_PRICE.map{|i| [i.first, i.last]}), class: 'form-select'
         .form-text

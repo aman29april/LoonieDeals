@@ -74,7 +74,7 @@ class Deal < ApplicationRecord
   scope :featured, -> { where(featured: true) }
   scope :recent, -> { order(created_at: :desc) }
   scope :active, -> { where('expiration_date is NULL or expiration_date > ?', Time.zone.now) }
-
+  scope :expired, -> { where('expiration_date < ?', Time.zone.now) }
 
   scope :active_first, -> { active.order(Deal.arel_table[:expiration_date].asc.nulls_last) }
 

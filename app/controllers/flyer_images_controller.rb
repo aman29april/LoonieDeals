@@ -2,19 +2,19 @@
 
 class FlyerImagesController < ApplicationController
   before_action :authenticate_user!, except: %i[show index]
-  before_action :set_deal, :set_flyer_deal
+  before_action :set_deal, :set_flyer_image
 
   def index; end
 
   def create
-    @flyer_deal.assign_attributes(flyer_deal_params)
-    @flyer_deal.generate!
+    @flyer_image.assign_attributes(flyer_deal_params)
+    @flyer_image.generate!
 
     render :show
   end
 
   def post_to_telegram
-    TelegramService.new.send_photos(*@flyer_deal.telegram_data)
+    TelegramService.new.send_photos(*@flyer_image.telegram_data)
     # respond_to do |format|
     #   format.html { redirect_to action: :index, notice: "Player was successfully created." }
     #   format.turbo_stream { flash.now[:notice] = "Quote was successfully destroyed." }
@@ -24,13 +24,13 @@ class FlyerImagesController < ApplicationController
   end
 
   def post_to_insta
-    InstagramService.new.create_photo_post(*@flyer_deal.insta_data)
+    InstagramService.new.create_photo_post(*@flyer_image.insta_data)
     redirect_to action: :index, notice: 'Posted to Instagram!'
   end
 
   def attach
     @deal.purge_generated_flyer_images
-    @flyer_deal.photo_urls.each_with_index do |image, index|
+    @flyer_image.photo_urls.each_with_index do |image, index|
       @deal.generated_flyer_images.attach(io: File.open(image), filename: "flyer_#{index}")
     end
     @deal.save!
@@ -38,14 +38,14 @@ class FlyerImagesController < ApplicationController
   end
 
   def generate_video
-    VideoService.create_video(*@flyer_deal.video_data)
+    VideoService.create_video(*@flyer_image.video_data)
     redirect_to action: :index, notice: 'Video created'
   end
 
   private
 
-  def set_flyer_deal
-    @flyer_deal = FlyerDeal.new(@deal)
+  def set_flyer_image
+    @flyer_image = FlyerImage.new(@deal)
   end
 
   def set_deal
@@ -53,7 +53,7 @@ class FlyerImagesController < ApplicationController
   end
 
   def flyer_deal_params
-    params.require(:flyer_deal).permit(:title, :enlarge_image_by, :type, :extra,
-                                       :theme, :hash_tags, :hide_store, :enlarge_logo_by, :image_offset)
+    params.require(:flyer_image).permit(:title, :enlarge_image_by, :type, :extra,
+                                        :theme, :hash_tags, :hide_store, :enlarge_logo_by, :image_offset)
   end
 end
