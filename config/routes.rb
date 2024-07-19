@@ -101,7 +101,11 @@ Rails.application.routes.draw do
   get 'links', to: 'links#index'
 
   resources :links, only: %i[index]
-  resources :site_settings, only: %i[edit update]
+  resources :site_settings, only: %i[edit update] do
+    collection do
+      post :create_flyer_deals
+    end
+  end
 
   get '/facebook_callback', to: 'sessions#facebook_callback', as: :facebook_callback,
                             constraints: { host: 'localhost', port: 3000 }

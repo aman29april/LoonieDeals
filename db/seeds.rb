@@ -95,7 +95,7 @@ deals = [
     store: Store.find_by_name('Amazon.ca'),
     price: 25.99,
     retail_price: 79.99,
-    url: 'https://www.amazon.ca/fire-tv-stick-4k-max-with-alexa-voice-remote/dp/B08MR2C1T7?crid=183LMCE4K6PAQ&keywords=fire+stick&qid=1690694153&sprefix=fire+stick%2Caps%2C97&sr=8-2&linkCode=ll1&tag=looniedeals01-20&linkId=878bc4876945c23f38005f1b46682cfe&language=en_CA&ref_=as_li_ss_tl',
+    url: 'https://www.amazon.ca/fire-tv-stick-4k-max-with-alexa-voice-remote/dp/B08MR2C1T7?crid=183LMCE4K6PAQ&keywords=fire+stick&qid=1690694153&sprefix=fire+stick%2Caps%2C97&sr=8-2&linkCode=ll1&tag=looniedeals08-20&linkId=878bc4876945c23f38005f1b46682cfe&language=en_CA&ref_=as_li_ss_tl',
     category: Category.find_by_name('Tech & Electronics'),
     image: 'fire stick.jpg'
   },

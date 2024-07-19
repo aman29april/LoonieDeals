@@ -9,7 +9,7 @@ class DealImage
   THEMES = %w[light dark simple amazon].freeze
 
   attr_accessor :auto_create_link, :generated_image, :image_full_with, :store_background, :hide_discount,
-                :enlarge_image_by, :hide_coupon, :type, :title, :url, :deal, :hash_tags, :coupon, :extra, :hide_deal_image, :theme, :enlarge_logo_by, :custom_image, :subheading, :sub_as_tag, :image_offset, :title_auto_break, :hide_store
+                :enlarge_image_by, :hide_coupon, :type, :title, :url, :deal, :hash_tags, :coupon, :extra, :hide_deal_image, :theme, :enlarge_logo_by, :custom_image, :subheading, :sub_as_tag, :image_offset, :title_auto_break, :hide_store, :only_deal_image
 
   # delegate :coupon, to: :deal
   DEFAULT_TAGS = '#LoonieDeals #CanadianDeals #canada #cheapfindscanada #canadafreestuff #dealsincanada'
@@ -22,7 +22,7 @@ class DealImage
     @coupon = @deal.coupon
     @hash_tags = DEFAULT_TAGS
     @title_auto_break = '1'
-    @theme = 'amazon' if @deal.store.amazon?
+    @theme = 'amazon' if @deal.store.top_store?
     generate!
   end
 

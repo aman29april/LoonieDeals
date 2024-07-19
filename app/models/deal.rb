@@ -46,7 +46,7 @@ class Deal < ApplicationRecord
                 :enlarge_image_by, :hide_coupon, :large_image, :weekly_flyer_deal
 
   belongs_to :store, counter_cache: true
-  # belongs_to :category, counter_cache: true
+  belongs_to :category, counter_cache: true
   has_and_belongs_to_many :categories, counter_cache: true
 
   delegate :name, to: :store, prefix: true
@@ -86,6 +86,10 @@ class Deal < ApplicationRecord
   scope :with_geneated_images, -> { includes(generated_flyer_images_attachments: :blob) }
 
   scope :top_stories, ->(number) { latest(number).order(upvotes: :desc) }
+
+  scope :created_within, ->(days) { where("created_at >= ?", days.ago) }
+  scope :amazon, -> { where(store: Store.amazon) }
+  scope :with_url_pattern, ->(pattern) { where("url LIKE ?", "%#{pattern}%") }
 
   scope :fetch_active_deals, lambda {
     where('(expiration_date IS NULL OR expiration_date >= ?) AND (recurring = ? OR recurrence_schedules.day_of_week = ? OR recurrence_schedules.day_of_month = ?)',
@@ -256,6 +260,10 @@ class Deal < ApplicationRecord
     generated_flyer_images.each(&:purge)
   end
 
+  def update_url_with_affiliate!
+    clean_url && save!
+  end
+
   private
 
   def create_link
@@ -317,4 +325,6 @@ class Deal < ApplicationRecord
 
     self.url = AffiliateUtil.replace_affiliate_tag(url, store.affiliate_id)
   end
+
+
 end

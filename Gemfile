@@ -68,12 +68,16 @@ gem 'meta-tags'
 gem 'pagy'
 gem 'rest-client'
 gem 'telegram-bot-ruby'
+gem 'feedjira'
 
 gem 'cloudinary'
 gem 'httparty'
 gem 'omniauth-facebook'
 gem 'rack-cors'
 gem 'tinymce-rails'
+
+gem 'watir'
+gem 'webdrivers'
 
 group :development, :test do
   gem 'dotenv-rails'

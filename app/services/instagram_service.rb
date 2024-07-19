@@ -199,7 +199,7 @@ class InstagramService
     else
       error_message = response['error']['message'] if response['error']
 
-      refresh_access_token if response['error']['code'] == 190
+      # refresh_access_token if response['error']['code'] == 190
       raise "Instagram API Error: #{error_message || response.code}"
     end
   rescue StandardError => e

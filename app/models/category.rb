@@ -26,4 +26,16 @@ class Category < ApplicationRecord
 
   scope :by_deals, -> { order(deals_count: :desc) }
   scope :by_name, -> { order(name: :asc) }
+
+  def self.search(query)
+    where("LOWER(name) LIKE ?", "%#{query.downcase}%")
+  end
+
+  def self.grocery
+    Category.find_by(name: 'Grocery')
+  end
+
+  def self.other
+    Category.find_by(name: 'Other')
+  end
 end

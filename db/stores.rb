@@ -271,10 +271,23 @@ stores = [
   { name: 'Factory Direct', logo: 'Factory Direct.png', website: 'https://www.factorydirect.ca' },
   { name: 'Vistek', logo: 'Vistek.png', website: 'https://www.vistek.ca' },
   { name: 'JYSK', logo: 'JYSK.jpg', website: 'https://www.jysk.ca' },
+  { name: 'Airalo', logo: 'airalo.png', website: 'https://www.airalo.com' },
+  { name: 'Ashley Home', logo: 'Ashley Home.png', website: '' },
+  { name: 'Saucony', logo: 'Saucony.png', website: '' },
+  { name: 'Clearly', logo: 'Clearly.png', website: 'https://www.clearly.ca' },
+  { name: 'Dairy Queen', logo: 'Dairy Queen.png', website: 'https://www.dairyqueen.com' },
+  { name: 'Tip Top', logo: 'tiptop.png', website: 'https://www.tiptop.ca' },
+  { name: 'Abercrombie & Fitch', logo: 'Abercrombie.png', website: 'https://www.abercrombie.com' },
+  { name: 'Bodum', logo: 'Bodum.png', website: 'https://www.bodum.com' },
+  { name: 'Dyson', logo: 'Dyson.png', website: 'https://www.dysoncanada.ca' },
+  { name: 'Sherwin Williams', logo: 'Sherwin Williams.png', website: 'https://www.sherwin-williams.com' },
+  { name: 'Nespresso', logo: '.png', website: '' },
   { name: '', logo: '.png', website: '' },
   { name: '', logo: '.png', website: '' },
   { name: '', logo: '.png', website: '' },
-  { name: '', logo: '.png', website: '' }
+  { name: '', logo: '.png', website: '' },
+  { name: '', logo: '.png', website: '' },
+  { name: '', logo: '.png', website: '' },
 
 ]
 

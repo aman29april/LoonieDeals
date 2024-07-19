@@ -41,15 +41,35 @@ class Store < ApplicationRecord
 
   scope :top, ->(number) { by_deals.limit(number) }
 
+  def self.search(query)
+    where("LOWER(name) LIKE ?", "%#{query.downcase}%")
+  end
+
   def validate_image_presence
     # errors.add(:image, 'must be attached') unless image.attached?
+  end
+
+  def top_store?
+    amazon? || walmart?
   end
 
   def amazon?
     name == 'Amazon.ca'
   end
 
+  def walmart?
+    name == 'Walmart'
+  end
+
   def dollarama?
     name == 'Dollarama'
+  end
+
+  def self.other
+    Store.find_by(name: 'No Store')
+  end
+
+  def self.amazon
+    Store.find_by(name: 'Amazon.ca')
   end
 end

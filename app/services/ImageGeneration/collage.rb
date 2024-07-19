@@ -35,8 +35,8 @@ module ImageGeneration
         collage.push(row.append(false))
       end
 
-      collage.append(true)
-      collage.resize_to_fill(width, height)
+      collage = collage.append(true)
+      collage = collage.resize_to_fill(width, height)
 
       name = 'collage.jpg'
       composite_image_path = Rails.root.join('public', 'deal_images', name)

@@ -43,7 +43,8 @@ class ScrapWebPageService
                  image: get_product_image,
                  current_price:,
                  retail_price:,
-                 store_id: Store.find_by_name('Amazon.ca').id.to_s
+                 store_id: Store.find_by_name('Amazon.ca').id.to_s,
+                 url: @url
                })
   end
 

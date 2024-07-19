@@ -12,6 +12,10 @@ class ImageGenerationService
     'story': 'story'
   }.with_indifferent_access.freeze
 
+  MAX_TITLE_LENGTH = 120
+  MAX_SUBHEADING_LENGTH = 50
+  MAX_EXTRA_LENGTH = 50
+
   def initialize(deal_image)
     @deal_image = deal_image
     @deal = @deal_image.deal
@@ -31,6 +35,11 @@ class ImageGenerationService
   end
 
   def generate
+    if @deal_image.only_deal_image == '1'
+      @base_image = Magick::Image.read(@deal.image.url).first
+      save_image
+      return
+    end
     overlay_deal_image
     overlay_store_logo
     write_title
@@ -53,10 +62,13 @@ class ImageGenerationService
     @deal_image.generated_image = "/deal_images/#{name}"
   end
 
+  def truncate_params
+    {omission: '', separator: ' '}
+  end
   def write_title
     return if @deal_image.title.blank?
 
-    title = @deal_image.title
+    title = @deal_image.title.truncate(MAX_TITLE_LENGTH, truncate_params)
     options = {}
     options.merge!(@options[:title])
     options[:break_line] = (@deal_image.title_auto_break == '1')
@@ -66,7 +78,7 @@ class ImageGenerationService
   def write_extra
     return if @deal_image.extra.blank?
 
-    msg = @deal_image.extra
+    msg = @deal_image.extra.truncate(MAX_EXTRA_LENGTH, truncate_params)
     write_text_in_center(@base_image, msg, @options[:extra])
   end
 
@@ -75,7 +87,7 @@ class ImageGenerationService
 
     options = {}
     options.merge!(@options[:subheading])
-    msg = @deal_image.subheading
+    msg = @deal_image.subheading.truncate(MAX_SUBHEADING_LENGTH, truncate_params)
     if @deal_image.sub_as_tag == '1'
       options[:color] = 'white'
       options[:size] = 32
