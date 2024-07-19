@@ -1,15 +1,17 @@
 # syntax = docker/dockerfile:1
 
 # Make sure RUBY_VERSION matches the Ruby version in .ruby-version and Gemfile
-ARG RUBY_VERSION=3.2.2
+ARG RUBY_VERSION=3.3.3
 FROM ruby:$RUBY_VERSION-slim as base
 
 # Rails app lives here
 WORKDIR /rails
+FROM build
 
 # Set production environment
 ENV RAILS_ENV="development" \
-    BUNDLE_DEPLOYMENT="1"
+    BUNDLE_DEPLOYMENT="1" \
+    BUNDLE_PATH="/usr/local/bundle"
 
 # Update gems and bundler
 RUN gem update --system --no-document && \
@@ -19,7 +21,7 @@ RUN gem update --system --no-document && \
 RUN --mount=type=cache,id=dev-apt-cache,sharing=locked,target=/var/cache/apt \
     --mount=type=cache,id=dev-apt-lib,sharing=locked,target=/var/lib/apt \
     apt-get update -qq && \
-    apt-get install --no-install-recommends -y curl
+    apt-get install --no-install-recommends -y curl 
 
 # Install Node.js
 ARG NODE_VERSION=20.4.0
@@ -45,71 +47,52 @@ FROM prebuild as node
 ARG YARN_VERSION=1.22.17
 RUN npm install -g yarn@$YARN_VERSION
 
-# Install node modules
-COPY --link package.json yarn.lock ./
-RUN yarn install --check-files
-
-
-FROM prebuild as build
-
-# Build options
-ENV PATH="/usr/local/node/bin:$PATH"
-
-# Install application gems
-COPY --link Gemfile Gemfile.lock ./
-RUN --mount=type=cache,id=bld-gem-cache,sharing=locked,target=/srv/vendor \
-    bundle config set app_config .bundle && \
-    bundle config set path /srv/vendor && \
-    bundle install && \
-    bundle exec bootsnap precompile --gemfile && \
-    bundle clean && \
-    mkdir -p vendor && \
-    bundle config set path vendor && \
-    cp -ar /srv/vendor .
-
-# Copy node modules
-COPY --from=node /rails/node_modules /rails/node_modules
-COPY --from=node /usr/local/node /usr/local/node
-ENV PATH=/usr/local/node/bin:$PATH
-
-# Copy application code
-COPY --link . .
-
-# Precompile bootsnap code for faster boot times
-RUN bundle exec bootsnap precompile app/ lib/
-
-# Precompiling assets for production without requiring secret RAILS_MASTER_KEY
-# RUN SECRET_KEY_BASE=DUMMY ./bin/rails assets:precompile
-ENV RAILS_MASTER_KEY=79747573b8965e75ce01e5f48d172361
-RUN ./bin/rails assets:precompile
-
-
-# Final stage for app image
-FROM base
-
-# Install packages needed for deployment
-RUN --mount=type=cache,id=dev-apt-cache,sharing=locked,target=/var/cache/apt \
-    --mount=type=cache,id=dev-apt-lib,sharing=locked,target=/var/lib/apt \
-    apt-get update -qq && \
+FROM prebuild as postgres
+# Install PostgreSQL
+RUN apt-get update -qq && \
     apt-get install -yq --no-install-recommends \
-    curl \
-    imagemagick \
-    libsqlite3-0 \
-    libvips \
-    ghostscript
+    postgresql-client && \
+    rm -rf /var/lib/apt/lists /var/cache/apt/archives
+
+# Add PostgreSQL configuration
+COPY --chown=ruby:rails config/database.yml /rails/config/database.yml
+# Copy built artifacts: gems, application
+COPY  "${BUNDLE_PATH}" "${BUNDLE_PATH}"
+COPY . /rails
+# RUN chown -R ruby:rails /rails
+
+# COPY --chown=rails:rails config/database.yml.postgres /rails/config/database.yml
+# libvips \
+#     ghostscript
 
 # Copy built artifacts: gems, application
-COPY --from=build /usr/local/bundle /usr/local/bundle
-COPY --from=build /rails /rails
+# COPY  "${BUNDLE_PATH}" "${BUNDLE_PATH}"
+# COPY  "/rails" "/rails"
+COPY --chown=ruby:ruby Gemfile* ./
+
+COPY --chown=ruby:ruby package.json *yarn* ./
+
+COPY --chown=ruby . .
+
+
 
 # Run and own only the runtime files as a non-root user for security
-ARG UID=1000 \
-    GID=1000
-RUN groupadd -f -g $GID rails && \
-    useradd -u $UID -g $GID rails --create-home --shell /bin/bash && \
-    mkdir /data && \
-    chown -R rails:rails db log storage tmp /data public/deal_images
-USER rails:rails
+# ARG UID=1000 \
+#     GID=1000
+# RUN groupadd -f -g $GID rails && \
+#     useradd -u $UID -g $GID rails --create-home --shell /bin/bash && \
+#     mkdir /data && \
+#     chown -R rails:rails db log storage tmp /data public/deal_images
+
+# Create the 'rails' group if it doesn't already exist
+RUN getent group rails || groupadd rails
+
+# Create the 'ruby' user if it doesn't already exist, and add it to the 'rails' group
+RUN id -u ruby &>/dev/null || useradd -m -g rails ruby
+
+
+USER ruby:rails
+# User ruby
 
 # Deployment options
 # ENV DATABASE_URL="sqlite3:///db/production.sqlite3" \

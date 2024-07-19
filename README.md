@@ -2,6 +2,8 @@
 
 https://looniedeals.onrender.com/
 
+http://looniedeals.ca
+
 This README would normally document whatever steps are necessary to get the
 application up and running.
 
@@ -49,11 +51,20 @@ dokku postgres:create dealsdatabase
 dokku postgres:link dealsdatabase looniedeals
 
 
+dokku certs:add looniedeals server.crt server.key
+
 dokku config:set --no-restart looniedeals 
 DOKKU_LETSENCRYPT_EMAIL=aman29april@gmail.com
 
 dokku letsencrypt looniedeals
 
 
+dokku domains:add looniedeals looniedeals.ca
+
 git remote add dokku dokku@looniedeals.ca:looniedeals
 git push dokku main
+
+
+# Secrets
+
+rails credentials:edit --environment production
