@@ -46,7 +46,7 @@ categories.each do |name|
   Category.find_or_create_by!(name: name.strip)
 end
 
-include 'stores'
+require_relative 'stores'
 stores.each do |store_data|
   next if store_data[:name].blank?
 

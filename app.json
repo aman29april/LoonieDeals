@@ -1,0 +1,12 @@
+{
+  "name": "Loonie Deals",
+  "description": "Ruby on Rails preparation",
+  "keywords": [],
+  "scripts": {
+    "dokku": {
+      "predeploy": "rake assets:clobber && rake assets:precompile",
+      "postdeploy": "bundle exec rake db:migrate"
+    },
+    "postdeploy": "rake db:seed"
+  }
+}

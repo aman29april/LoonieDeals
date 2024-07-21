@@ -6,13 +6,12 @@ FROM ruby:$RUBY_VERSION-slim as base
 
 # Rails app lives here
 WORKDIR /rails
-FROM build
 
 # Set production environment
-ENV RAILS_ENV="production" \
+ENV BUNDLE_DEPLOYMENT="1" \
+  BUNDLE_PATH="/usr/local/bundle" \
   BUNDLE_WITHOUT="development:test" \
-  BUNDLE_DEPLOYMENT="1" \
-  BUNDLE_PATH="/usr/local/bundle"
+  RAILS_ENV="production"
 
 # Update gems and bundler
 RUN gem update --system --no-document && \
@@ -39,25 +38,20 @@ FROM base as prebuild
 RUN --mount=type=cache,id=dev-apt-cache,sharing=locked,target=/var/cache/apt \
   --mount=type=cache,id=dev-apt-lib,sharing=locked,target=/var/lib/apt \
   apt-get update -qq && \
-  apt-get install --no-install-recommends -y build-essential libmagickwand-dev libvips node-gyp pkg-config python-is-python3
-
-FROM prebuild as postgres
-# Install PostgreSQL
-RUN apt-get update -qq && \
-  apt-get install -yq --no-install-recommends \
-  postgresql-client && \
-  rm -rf /var/lib/apt/lists /var/cache/apt/archives
+  apt-get install --no-install-recommends -y build-essential libmagickwand-dev libmagickcore-dev libpq-dev libvips node-gyp pkg-config python-is-python3
 
 
 FROM prebuild as node
 
 # Install yarn
-ARG YARN_VERSION=1.22.17
-RUN npm install -g yarn@$YARN_VERSION
+ARG YARN_VERSION=3.5.0
+RUN corepack enable && \
+  corepack prepare yarn@$YARN_VERSION --activate
 
 # Install node modules
 COPY --link package.json yarn.lock ./
-RUN yarn install --check-files
+RUN --mount=type=cache,id=bld-yarn-cache,target=/root/.yarn \
+  YARN_CACHE_FOLDER=/root/.yarn yarn install --immutable
 
 
 FROM prebuild as build
@@ -89,9 +83,7 @@ COPY --link . .
 RUN bundle exec bootsnap precompile app/ lib/
 
 # Precompiling assets for production without requiring secret RAILS_MASTER_KEY
-# RUN SECRET_KEY_BASE=DUMMY ./bin/rails assets:precompile
-ENV RAILS_MASTER_KEY=79747573b8965e75ce01e5f48d172361
-RUN SECRET_KEY_BASE=79747573b8965e75ce01e5f48d172361 ./bin/rails assets:precompile
+RUN SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile
 
 
 # Final stage for app image
@@ -101,41 +93,66 @@ FROM base
 RUN --mount=type=cache,id=dev-apt-cache,sharing=locked,target=/var/cache/apt \
   --mount=type=cache,id=dev-apt-lib,sharing=locked,target=/var/lib/apt \
   apt-get update -qq && \
-  apt-get install -yq --no-install-recommends \
-  curl \
-  imagemagick \
-  libsqlite3-0 \
-  libvips \
-  ghostscript
+  apt-get install --no-install-recommends -y curl ghostscript imagemagick libsqlite3-0 libvips nginx package postgresql-client ruby-foreman
+
+# configure nginx
+RUN gem install foreman && \
+  sed -i 's|pid /run|pid /rails/tmp/pids|' /etc/nginx/nginx.conf && \
+  sed -i 's/access_log\s.*;/access_log \/dev\/stdout;/' /etc/nginx/nginx.conf && \
+  sed -i 's/error_log\s.*;/error_log \/dev\/stderr info;/' /etc/nginx/nginx.conf
+
+COPY <<-"EOF" /etc/nginx/sites-available/default
+server {
+  listen 3000 default_server;
+  listen [::]:3000 default_server;
+  access_log /dev/stdout;
+
+  root /rails/public;
+
+  location /cable {
+    proxy_pass http://localhost:8082/cable;
+    proxy_http_version 1.1;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection "Upgrade";
+    proxy_set_header Host $host;
+  }
+
+  location / {
+    try_files $uri @backend;
+  }
+
+  location @backend {
+    proxy_pass http://localhost:3001;
+    proxy_set_header Host $http_host;
+  }
+}
+EOF
 
 # Copy built artifacts: gems, application
-COPY "${BUNDLE_PATH}" "${BUNDLE_PATH}"
-# COPY --from=build /rails /rails
+COPY --from=build "${BUNDLE_PATH}" "${BUNDLE_PATH}"
+COPY --from=build /rails /rails
 
 # Run and own only the runtime files as a non-root user for security
 ARG UID=1000 \
   GID=1000
 RUN groupadd -f -g $GID rails && \
   useradd -u $UID -g $GID rails --create-home --shell /bin/bash && \
-  mkdir /data && \
-  chown -R rails:rails db log storage tmp /data public/deal_images
+  chown rails:rails /var/lib/nginx /var/log/nginx/* && \
+  chown -R rails:rails db log storage tmp
 USER rails:rails
 
 # Deployment options
-# ENV DATABASE_URL="sqlite3:///db/production.sqlite3" \
-#     RAILS_LOG_TO_STDOUT="1" \
-#     RAILS_SERVE_STATIC_FILES="true"
-
-# ENV DATABASE_URL="sqlite3://./db/production.sqlite3"
-ENV RAILS_LOG_TO_STDOUT="1" \
-  RAILS_SERVE_STATIC_FILES="true"
+ENV PORT="3001"
 
 # Entrypoint prepares the database.
 ENTRYPOINT ["/rails/bin/docker-entrypoint"]
 
-# RUN chown -R /rails/public/
+# Build a Procfile for production use
+COPY <<-"EOF" /rails/Procfile.prod
+nginx: /usr/sbin/nginx -g "daemon off;"
+rails: ./bin/rails server -p 3001
+EOF
 
 # Start the server by default, this can be overwritten at runtime
 EXPOSE 3000
-VOLUME /data
-CMD ["./bin/rails", "server"]
+CMD ["foreman", "start", "--procfile=Procfile.prod"]

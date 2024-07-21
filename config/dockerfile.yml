@@ -4,9 +4,16 @@
 options:
   cache: true
   compose: true
+  nginx: true
   parallel: true
+  postgresql: true
   sqlite3: true
+  sentry: true
   packages:
     deploy:
-    - package
     - imagemagick
+    - curl
+    - libvips
+    - ghostscript
+    - libmagickwand-dev
+    - libmagickcore-dev

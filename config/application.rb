@@ -33,5 +33,7 @@ module LoonieDeals
     # config.eager_load_paths << Rails.root.join("extras")
 
     # config.active_job.queue_adapter = :sidekiq
+
+    config.assets.css_compressor = nil
   end
 end

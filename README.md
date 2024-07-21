@@ -42,27 +42,32 @@ External::Smartcanucks::Amazon.new
 ```
 
 
+# SSH
+
+```
+ssh -i ~/.ssh/hetzner root@5.161.244.251
+```
+
+# Dokku Commands
+
+```dokku apps:create looniedeals```
+
+`dokku postgres:create dealsdatabase`
+`dokku postgres:link dealsdatabase looniedeals`
 
 
+`dokku certs:add looniedeals server.crt server.key`
 
-dokku apps:create looniedeals
+`dokku config:set --no-restart looniedeals `
+`DOKKU_LETSENCRYPT_EMAIL=aman29april@gmail.com`
 
-dokku postgres:create dealsdatabase
-dokku postgres:link dealsdatabase looniedeals
-
-
-dokku certs:add looniedeals server.crt server.key
-
-dokku config:set --no-restart looniedeals 
-DOKKU_LETSENCRYPT_EMAIL=aman29april@gmail.com
-
-dokku letsencrypt looniedeals
+`dokku letsencrypt looniedeals`
 
 
-dokku domains:add looniedeals looniedeals.ca
+`dokku domains:add looniedeals looniedeals.ca`
 
-git remote add dokku dokku@looniedeals.ca:looniedeals
-git push dokku main
+`git remote add dokku dokku@looniedeals.ca:looniedeals`
+`git push dokku main`
 
 
 # Secrets

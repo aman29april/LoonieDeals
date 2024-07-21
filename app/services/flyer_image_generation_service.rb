@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'rmagick'
+# require 'rmagick'
 include Magick
 require 'open-uri'
 

@@ -106,7 +106,6 @@ group :development do
   gem 'annotate'
   gem 'better_errors'
 
-  gem 'bullet'
   gem 'csv'
   gem 'nokogiri'
   gem 'sitemap_generator'
@@ -129,3 +128,7 @@ gem 'react-rails'
 
 gem 'breadcrumbs_on_rails'
 gem 'dockerfile-rails', '>= 1.5', group: :development
+
+gem "sentry-ruby", "~> 5.18"
+
+gem "sentry-rails", "~> 5.18"
